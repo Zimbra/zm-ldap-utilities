@@ -2333,7 +2333,8 @@ objectclass ( zimbraCOS
 		zimbraPrefForwardIncludeOriginalText $
 		zimbraPrefForwardReplyPrefixChar $
 		zimbraPrefAutoAddAddressEnabled $
-		zimbraPrefUseKeyboardShortcuts 
+		zimbraPrefUseKeyboardShortcuts $
+		zimbraZimletAvailableZimlets
 	) )
 
 ################
