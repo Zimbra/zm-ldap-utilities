@@ -102,10 +102,6 @@
 
 <attr name="zimbraCalendarCompatibilityMode" type="enum" value="standard,exchange"/>
 
-<attr name="zimbraCertAuthorityCertSelfSigned" type="string" max="2048"/>
-
-<attr name="zimbraCertAuthorityKeySelfSigned" type="string" max="2048"/>
-
 <attr name="zimbraComponentAvailable" type="string" max="64"/>
 
 <attr name="zimbraCOSId" type="id"/> <!-- type "cosId" and check for valid COS id? -->
@@ -356,13 +352,7 @@
 
 <attr name="zimbraPrefCalendarFirstDayOfWeek" type="integer" min="0" max="6"/>
 
-<attr name="zimbraPrefCalendarUseQuickAdd" type="boolean"/>
-
-<attr name="zimbraPrefCalendarAlwaysShowMiniCal" type="boolean"/>
-
 <attr name="zimbraPrefCalendarInitialView" type="enum" value="day,week,workWeek,month,schedule"/>
-
-<attr name="zimbraPrefCalendarInitialCheckedCalendars" type="string" max="512"/>
 
 <attr name="zimbraPrefCalendarNotifyDelegatedChanges" type="boolean"/>
 
@@ -461,10 +451,6 @@
 <attr name="zimbraSpellCheckURL" type="string" max="256"/>
 
 <attr name="zimbraSshPublicKey" type="string" max="1024"/>
-
-<attr name="zimbraSslCaCert" type="string" max="2048"/>
-
-<attr name="zimbraSslCaKey" type="string" max="2048"/>
 
 <attr name="zimbraTableMaintenanceGrowthFactor" type="integer" min="0"/>
 

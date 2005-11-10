@@ -47,8 +47,6 @@ zimbraAccountClientAttr: zimbraFeatureConversationsEnabled
 zimbraAccountClientAttr: zimbraFeatureChangePasswordEnabled
 zimbraAccountClientAttr: zimbraFeatureInitialSearchPreferenceEnabled
 zimbraAccountClientAttr: zimbraFeatureFiltersEnabled
-zimbraAccountClientAttr: zimbraPasswordMinLength
-zimbraAccountClientAttr: zimbraPasswordMaxLength
 zimbraAccountClientAttr: zimbraId
 zimbraCalendarCompatibilityMode: standard
 zimbraCOSInheritedAttr: zimbraAttachmentsBlocked
@@ -79,8 +77,6 @@ zimbraCOSInheritedAttr: zimbraPrefUseTimeZoneListInCalendar
 zimbraCOSInheritedAttr: zimbraPrefComposeInNewWindow
 zimbraCOSInheritedAttr: zimbraPrefCalendarFirstDayOfWeek
 zimbraCOSInheritedAttr: zimbraPrefCalendarInitialView
-zimbraCOSInheritedAttr: zimbraPrefCalendarUseQuickAdd
-zimbraCOSInheritedAttr: zimbraPrefCalendarAlwaysShowMiniCal
 zimbraCOSInheritedAttr: zimbraPrefCalendarNotifyDelegatedChanges
 zimbraCOSInheritedAttr: zimbraPrefContactsInitialView
 zimbraCOSInheritedAttr: zimbraPrefShowFragments
@@ -150,7 +146,7 @@ zimbraLmtpBindOnStartup: FALSE
 zimbraLogRawLifetime: 31d
 zimbraLogSummaryLifetime: 730d
 zimbraImapServerEnabled: TRUE
-zimbraImapNumThreads: 200
+zimbraImapNumThreads: 10
 zimbraImapBindPort: 7143
 zimbraImapBindOnStartup: TRUE
 zimbraImapSSLBindPort: 7993
@@ -196,7 +192,7 @@ zimbraMtaRestriction: reject_non_fqdn_hostname
 zimbraMtaRestriction: reject_non_fqdn_sender
 zimbraMtaTlsAuthOnly: TRUE
 zimbraPop3CleartextLoginEnabled: FALSE
-zimbraPop3NumThreads: 20
+zimbraPop3NumThreads: 10
 zimbraPop3BindPort: 7110
 zimbraPop3BindOnStartup: TRUE
 zimbraPop3ServerEnabled: TRUE
@@ -335,8 +331,6 @@ zimbraPrefSentMailFolder: sent
 zimbraPrefComposeInNewWindow: FALSE
 zimbraPrefCalendarFirstDayOfWeek: 0
 zimbraPrefCalendarInitialView: workWeek
-zimbraPrefCalendarUseQuickAdd: TRUE
-zimbraPrefCalendarAlwaysShowMiniCal: TRUE
 zimbraPrefCalendarNotifyDelegatedChanges: FALSE
 zimbraPrefContactsInitialView: list
 zimbraPrefHtmlEditorDefaultFontFamily: Times New Roman
