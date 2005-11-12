@@ -276,49 +276,12 @@ zimbraVirusWarnAdmin: TRUE
 zimbraVirusBlockEncryptedArchive: TRUE
 zimbraVirusDefinitionsUpdateFrequency: 2h
 
-# for storing object config info
+# zimlets
 
-dn: cn=object,cn=config,cn=zimbra
+dn: cn=zimlets,cn=zimbra
 objectclass: organizationalRole
-cn: object
-description: for storing object configuration
-
-dn: cn=url,cn=object,cn=config,cn=zimbra
-zimbraObjectType: url
-cn: url
-objectclass: zimbraObjectEntry
-zimbraObjectIndexingEnabled: TRUE
-zimbraObjectStoreMatched: FALSE
-zimbraObjectHandlerClass: URLHandler
-description: URLs
-
-dn: cn=phone,cn=object,cn=config,cn=zimbra
-zimbraObjectType: phone
-cn: phone
-objectclass: zimbraObjectEntry
-zimbraObjectIndexingEnabled: TRUE
-zimbraObjectStoreMatched: FALSE
-zimbraObjectHandlerClass: NANPHandler
-description: Phone Number
-
-dn: cn=tracking,cn=object,cn=config,cn=zimbra
-zimbraObjectType: tracking
-cn: tracking
-objectclass: zimbraObjectEntry
-zimbraObjectIndexingEnabled: TRUE
-zimbraObjectStoreMatched: FALSE
-zimbraObjectHandlerClass: TrackingHandler
-description: Shipping Tracking Number
-
-dn: cn=po,cn=object,cn=config,cn=zimbra
-zimbraObjectType: po
-cn: po
-objectclass: zimbraObjectEntry
-zimbraObjectIndexingEnabled: TRUE
-zimbraObjectStoreMatched: FALSE
-zimbraObjectHandlerClass: RegexHandler
-zimbraObjectHandlerConfig: GR\w{6}\-\w{5}
-description: Zimbra Purchase Order
+cn: zimlets
+description: for storing Zimlet configuration
 
 # for storing class-of-service config
 dn: cn=cos,cn=zimbra
@@ -400,6 +363,10 @@ zimbraNewMailNotificationSubject: New message received at ${RECIPIENT_ADDRESS}
 zimbraNewMailNotificationBody: New message received at ${RECIPIENT_ADDRESS}.${NEWLINE}
  Sender: ${SENDER_ADDRESS}${NEWLINE}
  Subject: ${SUBJECT}
+zimbraZimletAvailableZimlets: phone
+zimbraZimletAvailableZimlets: url
+zimbraZimletAvailableZimlets: tracking
+zimbraZimletAvailableZimlets: po
 
 # for storing server info
 dn: cn=servers,cn=zimbra
