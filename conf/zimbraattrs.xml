@@ -116,10 +116,6 @@
 
 <attr name="zimbraDefaultDomainName" type="string" max="256"/>
 
-<attr name="zimbraDomainDefaultCOSId" type="id"/> <!-- type "cosId" and check for valid COS id? -->
-
-<attr name="zimbraDomainAdminModifiableAttr" type="string" immutable="1"/>
-
 <attr name="zimbraDomainInheritedAttr" type="string" immutable="1"/>
 
 <attr name="zimbraDomainName" type="string" immutable="1"/>
@@ -147,8 +143,6 @@
 <attr name="zimbraFeatureSavedSearchesEnabled" type="boolean"/>
 
 <attr name="zimbraFeatureTaggingEnabled" type="boolean"/>
-
-<attr name="zimbraForeignPrincipal" type="string"/>
 
 <attr name="zimbraGalLdapAttrMap" type="string" immutable="1"/>
 
@@ -195,8 +189,6 @@
 <attr name="zimbraImapServerEnabled" type="boolean"/>
 
 <attr name="zimbraIsAdminAccount" type="boolean"/>
-
-<attr name="zimbraIsDomainAdminAccount" type="boolean"/>
 
 <attr name="zimbraIsMonitorHost" type="boolean"/>
 
@@ -261,8 +253,6 @@
 <attr name="zimbraMailStatus" type="enum" value="enabled,disabled"/>
 
 <attr name="zimbraMailTrashLifetime" type="duration"/>
-
-<attr name="zimbraMessageCacheSize" type="integer"/>
 
 <attr name="zimbraMimeFileExtension" type="string"/> 
 
@@ -497,38 +487,6 @@
 <attr name="zimbraVirusDefinitionsUpdateFrequency" type="duration"/>
 
 <attr name="zimbraReplicationProvider" type="string" max="256"/>
-
-<attr name="zimbraZimletStoreMatched" type="boolean"/>
-
-<attr name="zimbraZimletIndexingEnabled" type="boolean"/>
-
-<attr name="zimbraZimletKeyword" type="string" max="256"/>
-
-<attr name="zimbraZimletDescription" type="string" max="256"/>
-
-<attr name="zimbraZimletVersion" type="string" max="256"/>
-
-<attr name="zimbraZimletIndexingEnabled" type="string" max="256"/>
-
-<attr name="zimbraZimletKeyword" type="string" max="256"/>
-
-<attr name="zimbraZimletHandlerClass" type="string" max="256"/>
-
-<attr name="zimbraZimletHandlerConfig" type="string" max="10240"/>
-
-<attr name="zimbraZimletContentObject" type="string" max="10240"/>
-
-<attr name="zimbraZimletPanelItem" type="string" max="10240"/>
-
-<attr name="zimbraZimletScript" type="string" max="256"/>
-
-<attr name="zimbraZimletAvailableZimlets" type="string" max="256"/>
-
-<attr name="zimbraZimletServerIndexRegex" type="string" max="256"/>
-
-<attr name="zimbraProxyAllowedDomains" type="string" max="256"/>
-
-<attr name="zimbraZimletUserProperties" type="string" max="1024"/>
 
 <attr name="c" type="string"/>
 

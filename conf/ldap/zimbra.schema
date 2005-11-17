@@ -268,26 +268,6 @@ objectIdentifier zimbraSslCaCert ZimbraAttrType:277
 objectIdentifier zimbraSslCaKey ZimbraAttrType:278
 objectIdentifier zimbraCertAuthorityKeySelfSigned ZimbraAttrType:279
 objectIdentifier zimbraCertAuthorityCertSelfSigned ZimbraAttrType:280
-objectIdentifier zimbraZimletKeyword ZimbraAttrType:281
-objectIdentifier zimbraZimletVersion ZimbraAttrType:282
-objectIdentifier zimbraZimletDescription ZimbraAttrType:283
-objectIdentifier zimbraZimletIndexingEnabled ZimbraAttrType:284
-objectIdentifier zimbraZimletStoreMatched ZimbraAttrType:285
-objectIdentifier zimbraZimletHandlerClass ZimbraAttrType:286
-objectIdentifier zimbraZimletHandlerConfig ZimbraAttrType:287
-objectIdentifier zimbraZimletContentObject ZimbraAttrType:288
-objectIdentifier zimbraZimletPanelItem ZimbraAttrType:289
-objectIdentifier zimbraZimletScript ZimbraAttrType:290
-objectIdentifier zimbraZimletAvailableZimlets ZimbraAttrType:291
-objectIdentifier zimbraZimletServerIndexRegex ZimbraAttrType:292
-objectIdentifier zimbraMimeHandlerExtension ZimbraAttrType:293
-objectIdentifier zimbraProxyAllowedDomains ZimbraAttrType:294
-objectIdentifier zimbraForeignPrincipal ZimbraAttrType:295
-objectIdentifier zimbraZimletUserProperties ZimbraAttrType:296
-objectIdentifier zimbraMessageCacheSize ZimbraAttrType:297
-objectIdentifier zimbraIsDomainAdminAccount ZimbraAttrType:298
-objectIdentifier zimbraDomainDefaultCOSId ZimbraAttrType:299
-objectIdentifier zimbraDomainAdminModifiableAttr ZimbraAttrType:300
 
 #################################################################
 # object class OIDs
@@ -310,7 +290,6 @@ objectIdentifier zimbraAlias ZimbraObjectClass:11
 objectIdentifier zimbraMimeEntry ZimbraObjectClass:12
 objectIdentifier zimbraObjectEntry ZimbraObjectClass:13
 objectIdentifier zimbraTimeZone ZimbraObjectClass:14
-objectIdentifier zimbraZimletEntry ZimbraObjectClass:15
 
 # break glass in case of emergency
 #
@@ -555,22 +534,6 @@ attributetype ( zimbraCOSInheritedAttr
 	EQUALITY caseIgnoreMatch
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-	
-attributetype ( zimbraDomainDefaultCOSId
-	NAME ( 'zimbraDomainDefaultCOSId' )
-	DESC 'COS zimbraID'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} 
-	SINGLE-VALUE )
-
-
-attributetype ( zimbraDomainAdminModifiableAttr
-	NAME 'zimbraDomainAdminModifiableAttr'
-	DESC 'account attributes that a domain administrator is allowed to modify'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
 
 attributetype ( zimbraDomainInheritedAttr
 	NAME 'zimbraDomainInheritedAttr'
@@ -678,14 +641,6 @@ attributetype ( zimbraFeatureHtmlComposeEnabled
 	DESC 'enabled html composing'
 	EQUALITY booleanMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-
-attributetype ( zimbraForeignPrincipal
-	NAME ( 'zimbraForeignPrincipal' )
-	DESC 'mapping to foreign principal identifier'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} 
 	SINGLE-VALUE )
 
 attributetype ( zimbraGalLdapBindDn
@@ -855,13 +810,6 @@ attributetype ( zimbraImapCleartextLoginEnabled
 attributetype ( zimbraIsAdminAccount
 	NAME 'zimbraIsAdminAccount'
 	DESC 'set to true for admin accounts'
-	EQUALITY booleanMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-
-attributetype ( zimbraIsDomainAdminAccount
-	NAME 'zimbraIsDomainAdminAccount'
-	DESC 'set to true for domain admin accounts'
 	EQUALITY booleanMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )
@@ -1233,13 +1181,6 @@ attributetype ( zimbraMemberOf
 	EQUALITY caseIgnoreMatch
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
-
-attributetype ( zimbraMessageCacheSize
-	NAME 'zimbraMessageCacheSize'
-	DESC 'Size limit in number of bytes on the message cache.'
-	EQUALITY integerMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
-	SINGLE-VALUE )	
 
 attributetype ( zimbraMtaAuthEnabled
 	NAME 'zimbraMtaAuthEnabled'
@@ -1628,13 +1569,6 @@ attributetype ( zimbraPrefUseKeyboardShortcuts
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )	
 
-attributetype ( zimbraProxyAllowedDomains
-	NAME 'zimbraProxyAllowedDomains'
-	DESC 'Allowed domains for Proxy servlet'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
-
 attributetype ( zimbraRedoLogArchiveDir
 	NAME 'zimbraRedoLogArchiveDir'
 	DESC 'redolog rollover destination'
@@ -1905,14 +1839,6 @@ attributetype ( zimbraMimeHandlerClass
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
 	SINGLE-VALUE )	
 
-attributetype ( zimbraMimeHandlerExtension
-	NAME ( 'zimbraMimeHandlerExtension' )
-	DESC 'the name of the zimbra extension where the handler class for the mime type lives'
-	EQUALITY caseExactMatch
-	SUBSTR caseExactSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-	SINGLE-VALUE )	
-
 attributetype ( zimbraMimeIndexingEnabled
 	NAME 'zimbraMimeIndexingEnabled'
 	DESC 'whether or not indexing is enabled for this type'
@@ -2086,101 +2012,6 @@ attributetype ( zimbraSpellCheckURL
 	EQUALITY caseIgnoreIA5Match
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
 
-# Zimlet stuff
-attributetype ( zimbraZimletKeyword
-	NAME 'zimbraZimletKeyword'
-	DESC 'Server side object keyword used for indexing and search for this Zimlet'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256}
-	SINGLE-VALUE )
-
-attributetype ( zimbraZimletVersion
-	NAME 'zimbraZimletVersion'
-	DESC 'Version of the Zimlet'
-	EQUALITY caseIgnoreMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256}
-	SINGLE-VALUE )
-
-attributetype ( zimbraZimletDescription
-	NAME 'zimbraZimletDescription'
-	DESC 'Zimlet description'
-	EQUALITY caseIgnoreMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256}
-	SINGLE-VALUE )
-
-attributetype ( zimbraZimletIndexingEnabled
-	NAME 'zimbraZimletIndexingEnabled'
-	DESC 'Whether server side keyword indexing enabled'
-	EQUALITY booleanMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-
-attributetype ( zimbraZimletStoreMatched
-	NAME 'zimbraZimletStoreMatched'
-	DESC 'Whether store is matched for this type'
-	EQUALITY booleanMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-	
-attributetype ( zimbraZimletHandlerClass
-	NAME ( 'zimbraZimletHandlerClass' )
-	DESC 'The handler class for server side Zimlet extension'
-	EQUALITY caseExactMatch
-	SUBSTR caseExactSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
-	SINGLE-VALUE )	
-
-attributetype ( zimbraZimletHandlerConfig
-	NAME 'zimbraZimletHandlerConfig'
-	DESC 'The global config for the Zimlet'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{10240} )
-
-attributetype ( zimbraZimletContentObject
-	NAME 'zimbraZimletContentObject'
-	DESC 'The content object section in the Zimlet description'
-	EQUALITY caseIgnoreMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{10240}
-	SINGLE-VALUE )
-
-attributetype ( zimbraZimletPanelItem
-	NAME 'zimbraZimletPanelItem'
-	DESC 'The panel item section in the Zimlet description'
-	EQUALITY caseIgnoreMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{10240}
-	SINGLE-VALUE )
-
-attributetype ( zimbraZimletScript
-	NAME 'zimbraZimletScript'
-	DESC 'URL of extra scripts used by the Zimlet'
-	EQUALITY caseExactMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
-
-attributetype ( zimbraZimletAvailableZimlets
-	NAME 'zimbraZimletAvailableZimlets'
-	DESC 'List of Zimlets available to this COS'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
-
-attributetype ( zimbraZimletServerIndexRegex
-	NAME 'zimbraZimletServerIndexRegex'
-	DESC 'Regex of content object'
-	EQUALITY caseExactMatch
-	SUBSTR caseExactSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} 
-	SINGLE-VALUE )
-
-attributetype ( zimbraZimletUserProperties
-	NAME 'zimbraZimletUserProperties'
-	DESC 'User properties for Zimlets'
-	EQUALITY caseExactMatch
-	SUBSTR caseExactSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
-
-
 
 #################################################################
 # object class definitions
@@ -2278,10 +2109,8 @@ objectclass ( zimbraAccount
 		zimbraFeatureChangePasswordEnabled $
 		zimbraFeatureInitialSearchPreferenceEnabled $
 		zimbraFeatureFiltersEnabled $
-		zimbraForeignPrincipal $
 		zimbraImapEnabled $
 		zimbraIsAdminAccount $ 
-		zimbraIsDomainAdminAccount $
 		zimbraLastLogonTimestamp $
 		zimbraMailIdleSessionTimeout $
 		zimbraMailMessageLifetime $
@@ -2346,9 +2175,6 @@ objectclass ( zimbraAccount
 		zimbraPrefSaveToSent $
 		zimbraPrefSentMailFolder $
 		zimbraPrefUseKeyboardShortcuts $
-		zimbraProxyAllowedDomains $
-		zimbraZimletAvailableZimlets $
-		zimbraZimletUserProperties $
 		zimbraMemberOf $
 		mail $
 		o $
@@ -2487,9 +2313,7 @@ objectclass ( zimbraCOS
 		zimbraPrefForwardIncludeOriginalText $
 		zimbraPrefForwardReplyPrefixChar $
 		zimbraPrefAutoAddAddressEnabled $
-		zimbraPrefUseKeyboardShortcuts $
-		zimbraZimletAvailableZimlets $
-		zimbraProxyAllowedDomains
+		zimbraPrefUseKeyboardShortcuts 
 	) )
 
 ################
@@ -2511,8 +2335,7 @@ objectclass ( zimbraGlobalConfig
 		zimbraCertAuthorityKeySelfSigned $
 		zimbraComponentAvailable $
 		zimbraCOSInheritedAttr $
-		zimbraDefaultDomainName $
-		zimbraDomainAdminModifiableAttr $
+		zimbraDefaultDomainName $		
 		zimbraDomainInheritedAttr $
 		zimbraGalLdapFilterDef $
 		zimbraGalLdapAttrMap $
@@ -2533,7 +2356,6 @@ objectclass ( zimbraGlobalConfig
 		zimbraLogHostname $
 		zimbraLogRawLifetime $
 		zimbraLogSummaryLifetime $
-		zimbraMessageCacheSize $
 		zimbraMtaAuthEnabled $
 		zimbraMtaBlockedExtension $
 		zimbraMtaCommonBlockedExtension $
@@ -2614,7 +2436,6 @@ objectclass ( zimbraDomain
 		zimbraAuthLdapSearchFilter $
 		zimbraAuthMech $
 		zimbraAuthFallbackToLocal	$
-		zimbraDomainDefaultCOSId $
 		zimbraGalMaxResults $
 		zimbraGalMode $
 		zimbraGalLdapURL $
@@ -2674,7 +2495,6 @@ objectclass ( zimbraServer
 		zimbraImapSSLBindOnStartup $
 		zimbraImapSSLServerEnabled $
 		zimbraImapCleartextLoginEnabled $
-                zimbraMessageCacheSize $
 		zimbraMtaAuthEnabled $
 		zimbraMtaDnsLookupsEnabled $
 		zimbraMtaRelayHost $
@@ -2733,8 +2553,7 @@ objectclass ( zimbraMimeEntry
 		zimbraMimeIndexingEnabled)
 	MAY (description $
 		zimbraMimeFileExtension $
-		zimbraMimeHandlerClass $
-		zimbraMimeHandlerExtension)
+		zimbraMimeHandlerClass)
 	))
 
 ################
@@ -2775,30 +2594,3 @@ objectclass ( zimbraTimeZone
 		zimbraTimeZoneDaylightOffset $
 		zimbraTimeZoneDaylightRRule
 	))
-
- 
-################
-# zimbraZimletEntry is used to represent Zimlets
-#
-#
-################
-objectclass ( zimbraZimletEntry
-	NAME 'zimbraZimletEntry'
-	DESC 'Zimlet info'
-	SUP top STRUCTURAL
-	MUST (
-		cn $
-		zimbraZimletVersion
-		)
-	MAY (
-		zimbraZimletKeyword $ 
-		zimbraZimletIndexingEnabled $
-		zimbraZimletDescription $
-		zimbraZimletContentObject $
-		zimbraZimletPanelItem $
-		zimbraZimletScript $
-		zimbraZimletHandlerConfig $
-		zimbraZimletHandlerClass $
-		zimbraZimletServerIndexRegex
-		)
-	)	
