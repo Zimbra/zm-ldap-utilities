@@ -15,7 +15,7 @@ use strict;
 
 $enable_ldap = 1;
 $default_ldap = {
-	hostname      => '@@ldap_host@@',
+	hostname      => '@@ldap_url@@',
 	timeout       => 30,
 	tls           => 0,
 	query_filter  => '(&(objectClass=amavisAccount)(mail=%m))',
@@ -23,7 +23,7 @@ $default_ldap = {
 	bind_password => '@@zimbra_ldap_password@@',
 };
 
-$max_servers = 5;            # number of pre-forked children (2..15 is common)
+$max_servers = 10;            # number of pre-forked children (2..15 is common)
 $daemon_user  = 'zimbra';     # (no default;  customary: vscan or amavis)
 $daemon_group = 'zimbra';     # (no default;  customary: vscan or amavis)
 
@@ -47,7 +47,7 @@ $lock_file = "$MYHOME/var/amavisd.lock";
 # @mynetworks = qw( 127.0.0.0/8 [::1] [FE80::]/10 [FEC0::]/10
 #                   10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 );
 
-$log_level = 3;              # verbosity 0..5
+$log_level = 1;              # verbosity 0..5 - 1 is the minimum for msg tracing
 $log_recip_templ = undef;    # disable by-recipient level-0 log entries
 $DO_SYSLOG = 1;              # log via syslogd (preferred)
 $SYSLOG_LEVEL = 'local0.info';
@@ -70,7 +70,7 @@ $sa_kill_level_deflt = %%range VAR:zimbraSpamKillPercent 0 20%%; # triggers spam
 $sa_dsn_cutoff_level = %%range VAR:zimbraSpamKillPercent 0 20%%;    # spam level beyond which a DSN is not sent
 $sa_quarantine_cutoff_level = %%range VAR:zimbraSpamKillPercent 0 20%%;  # spam level beyond which quarantine is off
 
-$sa_mail_body_size_limit = 200*1024; # don't waste time on SA if mail is larger
+$sa_mail_body_size_limit = 32767; # don't waste time on SA if mail is larger
 $sa_local_tests_only = 0;    # only tests which do not require internet access?
 $sa_auto_whitelist = 1;      # turn on AWL in SA 2.63 or older (irrelevant
                              # for SA 3.0, cf option is 'use_auto_whitelist')
@@ -110,7 +110,7 @@ $defang_banned = 1;  # MIME-wrap passed mail containing banned name
 
 # OTHER MORE COMMON SETTINGS (defaults may suffice):
 
-# $myhostname = 'host.example.com';  # must be a fully-qualified domain name!
+ $myhostname = '@@zimbra_server_hostname@@';  # must be a fully-qualified domain name!
 
 # $notify_method  = 'smtp:[127.0.0.1]:10025';
 # $forward_method = 'smtp:[127.0.0.1]:10025';  # set to undef with milter!

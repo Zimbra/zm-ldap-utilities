@@ -50,7 +50,7 @@
     
 -->
 
-<attr name="zimbraAccountClientAttr" type="string" immutable="1"/>
+<attr name="zimbraAccountClientAttr" type="string"/>
 
 <attr name="zimbraAccountStatus" type="enum" value="active,maintenance,locked,closed" callback="AccountStatus"/>
 
@@ -102,17 +102,25 @@
 
 <attr name="zimbraCalendarCompatibilityMode" type="enum" value="standard,exchange"/>
 
+<attr name="zimbraCertAuthorityCertSelfSigned" type="string" max="2048"/>
+
+<attr name="zimbraCertAuthorityKeySelfSigned" type="string" max="2048"/>
+
 <attr name="zimbraComponentAvailable" type="string" max="64"/>
 
 <attr name="zimbraCOSId" type="id"/> <!-- type "cosId" and check for valid COS id? -->
 
-<attr name="zimbraCOSInheritedAttr" type="string" immutable="1" />
+<attr name="zimbraCOSInheritedAttr" type="string"/>
 
 <attr name="zimbraContactMaxNumEntries" type="integer" min="0"/>
 
 <attr name="zimbraDefaultDomainName" type="string" max="256"/>
 
-<attr name="zimbraDomainInheritedAttr" type="string" immutable="1"/>
+<attr name="zimbraDomainDefaultCOSId" type="id"/> <!-- type "cosId" and check for valid COS id? -->
+
+<attr name="zimbraDomainAdminModifiableAttr" type="string"/>
+
+<attr name="zimbraDomainInheritedAttr" type="string"/>
 
 <attr name="zimbraDomainName" type="string" immutable="1"/>
 
@@ -123,6 +131,8 @@
 <attr name="zimbraFeatureHtmlComposeEnabled" type="boolean"/>
 
 <attr name="zimbraFeatureCalendarEnabled" type="boolean"/>
+
+<attr name="zimbraFeatureIMEnabled" type="boolean"/>
 
 <attr name="zimbraFeatureChangePasswordEnabled" type="boolean"/>
 
@@ -140,7 +150,9 @@
 
 <attr name="zimbraFeatureTaggingEnabled" type="boolean"/>
 
-<attr name="zimbraGalLdapAttrMap" type="string" immutable="1"/>
+<attr name="zimbraForeignPrincipal" type="string"/>
+
+<attr name="zimbraGalLdapAttrMap" type="string"/>
 
 <attr name="zimbraGalLdapBindDn" type="string" max="256"/>
 
@@ -148,7 +160,7 @@
 
 <attr name="zimbraGalLdapFilter" type="string" max="4096"/>
 
-<attr name="zimbraGalLdapFilterDef" type="string" immutable="1"/>
+<attr name="zimbraGalLdapFilterDef" type="string"/>
 
 <attr name="zimbraGalLdapSearchBase"  type="string" max="256"/>
 
@@ -185,6 +197,8 @@
 <attr name="zimbraImapServerEnabled" type="boolean"/>
 
 <attr name="zimbraIsAdminAccount" type="boolean"/>
+
+<attr name="zimbraIsDomainAdminAccount" type="boolean"/>
 
 <attr name="zimbraIsMonitorHost" type="boolean"/>
 
@@ -226,7 +240,7 @@
 
 <attr name="zimbraMailHost" type="string" max="256" callback="MailHost"/>
 
-<attr name="zimbraMailHostPool" type="id"/>
+<attr name="zimbraMailHostPool" type="id" callback="MailHostPool"/>
 
 <attr name="zimbraMailTransport" type="string" max="320" immutable="1"/>
 
@@ -242,6 +256,8 @@
 
 <attr name="zimbraMailSSLPort" type="port"/>
 
+<attr name="zimbraMailMode" type="enum" value="http,https,both,mixed"/>
+
 <attr name="zimbraMailSieveScript" type="string"/>
 
 <attr name="zimbraMailSpamLifetime" type="duration"/>
@@ -249,6 +265,8 @@
 <attr name="zimbraMailStatus" type="enum" value="enabled,disabled"/>
 
 <attr name="zimbraMailTrashLifetime" type="duration"/>
+
+<attr name="zimbraMessageCacheSize" type="integer"/>
 
 <attr name="zimbraMimeFileExtension" type="string"/> 
 
@@ -260,6 +278,10 @@
 
 <attr name="zimbraMtaAuthEnabled" type="boolean"/>
 
+<attr name="zimbraMtaAuthHost" type="string" max="256" callback="MtaAuthHost"/>
+
+<attr name="zimbraMtaAuthURL" type="string" max="256" immutable="1"/>
+
 <attr name="zimbraMtaBlockedExtension" type="string" max="64"/>
 
 <attr name="zimbraMtaCommonBlockedExtension" type="string" max="64"/>
@@ -267,6 +289,8 @@
 <attr name="zimbraMtaDnsLookupsEnabled" type="boolean"/>
 
 <attr name="zimbraMtaMaxMessageSize" type="integer" min="0"/>
+
+<attr name="zimbraMtaRecipientDelimiter" type="string" max="256"/>
 
 <attr name="zimbraMtaRelayHost" type="string" max="256"/>
 
@@ -334,6 +358,8 @@
 
 <attr name="zimbraPop3ServerEnabled" type="boolean"/>
 
+<attr name="zimbraPreAuthKey" type="string"/>
+
 <attr name="zimbraPrefAutoAddAddressEnabled" type="boolean"/>
 
 <attr name="zimbraPrefHtmlEditorDefaultFontFamily" type="string" max="64"/>
@@ -352,7 +378,13 @@
 
 <attr name="zimbraPrefCalendarFirstDayOfWeek" type="integer" min="0" max="6"/>
 
+<attr name="zimbraPrefCalendarUseQuickAdd" type="boolean"/>
+
+<attr name="zimbraPrefCalendarAlwaysShowMiniCal" type="boolean"/>
+
 <attr name="zimbraPrefCalendarInitialView" type="enum" value="day,week,workWeek,month,schedule"/>
+
+<attr name="zimbraPrefCalendarInitialCheckedCalendars" type="string" max="512"/>
 
 <attr name="zimbraPrefCalendarNotifyDelegatedChanges" type="boolean"/>
 
@@ -420,7 +452,7 @@
 
 <attr name="zimbraServerHostname" type="string" max="256"/>
 
-<attr name="zimbraServerInheritedAttr" type="string" immutable="1"/>
+<attr name="zimbraServerInheritedAttr" type="string"/>
 
 <attr name="zimbraServiceEnabled" type="string" max="256"/>
 
@@ -451,6 +483,10 @@
 <attr name="zimbraSpellCheckURL" type="string" max="256"/>
 
 <attr name="zimbraSshPublicKey" type="string" max="1024"/>
+
+<attr name="zimbraSslCaCert" type="string" max="2048"/>
+
+<attr name="zimbraSslCaKey" type="string" max="2048"/>
 
 <attr name="zimbraTableMaintenanceGrowthFactor" type="integer" min="0"/>
 
@@ -484,10 +520,6 @@
 
 <attr name="zimbraZimletVersion" type="string" max="256"/>
 
-<attr name="zimbraZimletIndexingEnabled" type="string" max="256"/>
-
-<attr name="zimbraZimletKeyword" type="string" max="256"/>
-
 <attr name="zimbraZimletHandlerClass" type="string" max="256"/>
 
 <attr name="zimbraZimletHandlerConfig" type="string" max="10240"/>
@@ -496,11 +528,23 @@
 
 <attr name="zimbraZimletPanelItem" type="string" max="10240"/>
 
+<attr name="zimbraZimletPriority" type="integer" min="0"/>
+
 <attr name="zimbraZimletScript" type="string" max="256"/>
 
 <attr name="zimbraZimletAvailableZimlets" type="string" max="256"/>
 
 <attr name="zimbraZimletServerIndexRegex" type="string" max="256"/>
+
+<attr name="zimbraProxyAllowedDomains" type="string" max="256"/>
+
+<attr name="zimbraProxyCacheableContentTypes" type="string" max="256"/>
+
+<attr name="zimbraZimletUserProperties" type="string" max="1024"/>
+
+<attr name="zimbraZimletEnabled" type="boolean"/>
+
+<attr name="zimbraZimletIsExtension" type="boolean"/>
 
 <attr name="c" type="string"/>
 

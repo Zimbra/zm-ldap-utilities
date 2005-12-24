@@ -261,18 +261,43 @@ objectIdentifier zimbraLmtpBindOnStartup ZimbraAttrType:270
 objectIdentifier zimbraPop3BindOnStartup ZimbraAttrType:271
 objectIdentifier zimbraPop3SSLBindOnStartup ZimbraAttrType:272
 objectIdentifier zimbraPrefCalendarNotifyDelegatedChanges ZimbraAttrType:273
-objectIdentifier zimbraZimletKeyword ZimbraAttrType:274
-objectIdentifier zimbraZimletVersion ZimbraAttrType:275
-objectIdentifier zimbraZimletDescription ZimbraAttrType:276
-objectIdentifier zimbraZimletIndexingEnabled ZimbraAttrType:277
-objectIdentifier zimbraZimletStoreMatched ZimbraAttrType:278
-objectIdentifier zimbraZimletHandlerClass ZimbraAttrType:279
-objectIdentifier zimbraZimletHandlerConfig ZimbraAttrType:280
-objectIdentifier zimbraZimletContentObject ZimbraAttrType:281
-objectIdentifier zimbraZimletPanelItem ZimbraAttrType:282
-objectIdentifier zimbraZimletScript ZimbraAttrType:283
-objectIdentifier zimbraZimletAvailableZimlets ZimbraAttrType:284
-objectIdentifier zimbraZimletServerIndexRegex ZimbraAttrType:285
+objectIdentifier zimbraPrefCalendarUseQuickAdd ZimbraAttrType:274
+objectIdentifier zimbraPrefCalendarInitialCheckedCalendars ZimbraAttrType:275
+objectIdentifier zimbraPrefCalendarAlwaysShowMiniCal ZimbraAttrType:276
+objectIdentifier zimbraSslCaCert ZimbraAttrType:277
+objectIdentifier zimbraSslCaKey ZimbraAttrType:278
+objectIdentifier zimbraCertAuthorityKeySelfSigned ZimbraAttrType:279
+objectIdentifier zimbraCertAuthorityCertSelfSigned ZimbraAttrType:280
+objectIdentifier zimbraZimletKeyword ZimbraAttrType:281
+objectIdentifier zimbraZimletVersion ZimbraAttrType:282
+objectIdentifier zimbraZimletDescription ZimbraAttrType:283
+objectIdentifier zimbraZimletIndexingEnabled ZimbraAttrType:284
+objectIdentifier zimbraZimletStoreMatched ZimbraAttrType:285
+objectIdentifier zimbraZimletHandlerClass ZimbraAttrType:286
+objectIdentifier zimbraZimletHandlerConfig ZimbraAttrType:287
+objectIdentifier zimbraZimletContentObject ZimbraAttrType:288
+objectIdentifier zimbraZimletPanelItem ZimbraAttrType:289
+objectIdentifier zimbraZimletScript ZimbraAttrType:290
+objectIdentifier zimbraZimletAvailableZimlets ZimbraAttrType:291
+objectIdentifier zimbraZimletServerIndexRegex ZimbraAttrType:292
+objectIdentifier zimbraMimeHandlerExtension ZimbraAttrType:293
+objectIdentifier zimbraProxyAllowedDomains ZimbraAttrType:294
+objectIdentifier zimbraForeignPrincipal ZimbraAttrType:295
+objectIdentifier zimbraZimletUserProperties ZimbraAttrType:296
+objectIdentifier zimbraMessageCacheSize ZimbraAttrType:297
+objectIdentifier zimbraIsDomainAdminAccount ZimbraAttrType:298
+objectIdentifier zimbraDomainDefaultCOSId ZimbraAttrType:299
+objectIdentifier zimbraDomainAdminModifiableAttr ZimbraAttrType:300
+objectIdentifier zimbraZimletEnabled ZimbraAttrType:301
+objectIdentifier zimbraZimletPriority ZimbraAttrType:302
+objectIdentifier zimbraProxyCacheableContentTypes ZimbraAttrType:303
+objectIdentifier zimbraZimletIsExtension ZimbraAttrType:304
+objectIdentifier zimbraFeatureIMEnabled ZimbraAttrType:305
+objectIdentifier zimbraMtaRecipientDelimiter ZimbraAttrType:306
+objectIdentifier zimbraPreAuthKey ZimbraAttrType:307
+objectIdentifier zimbraMailMode ZimbraAttrType:308
+objectIdentifier zimbraMtaAuthHost ZimbraAttrType:309
+objectIdentifier zimbraMtaAuthURL ZimbraAttrType:310
 
 #################################################################
 # object class OIDs
@@ -540,6 +565,22 @@ attributetype ( zimbraCOSInheritedAttr
 	EQUALITY caseIgnoreMatch
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+	
+attributetype ( zimbraDomainDefaultCOSId
+	NAME ( 'zimbraDomainDefaultCOSId' )
+	DESC 'COS zimbraID'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} 
+	SINGLE-VALUE )
+
+
+attributetype ( zimbraDomainAdminModifiableAttr
+	NAME 'zimbraDomainAdminModifiableAttr'
+	DESC 'account attributes that a domain administrator is allowed to modify'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
 
 attributetype ( zimbraDomainInheritedAttr
 	NAME 'zimbraDomainInheritedAttr'
@@ -592,6 +633,14 @@ attributetype ( zimbraFeatureCalendarEnabled
 	EQUALITY booleanMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )
+
+attributetype ( zimbraFeatureIMEnabled
+	NAME 'zimbraFeatureIMEnabled'
+	DESC 'IM features'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
 
 attributetype ( zimbraFeatureTaggingEnabled
 	NAME 'zimbraFeatureTaggingEnabled'
@@ -648,6 +697,14 @@ attributetype ( zimbraFeatureHtmlComposeEnabled
 	EQUALITY booleanMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )
+
+attributetype ( zimbraForeignPrincipal
+	NAME ( 'zimbraForeignPrincipal' )
+	DESC 'mapping to foreign principal identifier'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} 
+	)
 
 attributetype ( zimbraGalLdapBindDn
 	NAME 'zimbraGalLdapBindDn'
@@ -820,6 +877,13 @@ attributetype ( zimbraIsAdminAccount
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )
 
+attributetype ( zimbraIsDomainAdminAccount
+	NAME 'zimbraIsDomainAdminAccount'
+	DESC 'set to true for domain admin accounts'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
 attributetype ( zimbraIsMonitorHost
 	NAME 'zimbraIsMonitorHost'
 	DESC 'true if this server is the monitor host'
@@ -918,6 +982,13 @@ attributetype ( zimbraMailIdleSessionTimeout
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{32}
 	SINGLE-VALUE )
 
+attributetype ( zimbraPreAuthKey
+	NAME 'zimbraPreAuthKey'
+	DESC 'preauth secret key'
+	EQUALITY octetStringMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.40{128}
+	SINGLE-VALUE )
+
 attributetype ( zimbraPrefAutoAddAddressEnabled
 	NAME 'zimbraPrefAutoAddAddressEnabled'
 	DESC 'whether or not new address in outgoing email are auto added to address book'
@@ -930,6 +1001,27 @@ attributetype ( zimbraPrefCalendarFirstDayOfWeek
 	DESC 'first day of week to show in calendar (0=sunday, 6=saturday)'
 	EQUALITY integerMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE )
+
+attributetype ( zimbraPrefCalendarUseQuickAdd
+	NAME 'zimbraPrefCalendarUseQuickAdd'
+	DESC 'whether or not use quick add dialog or go into full appt edit view'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
+attributetype ( zimbraPrefCalendarAlwaysShowMiniCal
+	NAME 'zimbraPrefCalendarAlwaysShowMiniCal'
+	DESC 'always show the mini calendar'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
+attributetype ( zimbraPrefCalendarInitialCheckedCalendars
+	NAME 'zimbraPrefCalendarInitialCheckedCalendars'
+	DESC 'comma-sep list of calendars that are initially checked'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{512}	
 	SINGLE-VALUE )
 
 attributetype ( zimbraPrefComposeFormat
@@ -1080,8 +1172,7 @@ attributetype ( zimbraMailCatchAllAddress
 	DESC 'Address to catch all messages to specified domain'
 	EQUALITY caseIgnoreIA5Match
 	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} 
-	SINGLE-VALUE )
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
 
 attributetype ( zimbraMailCatchAllForwardingAddress
 	NAME 'zimbraMailCatchAllForwardingAddress'
@@ -1168,6 +1259,13 @@ attributetype ( zimbraMemberOf
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
 
+attributetype ( zimbraMessageCacheSize
+	NAME 'zimbraMessageCacheSize'
+	DESC 'Size limit in number of bytes on the message cache.'
+	EQUALITY integerMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE )	
+
 attributetype ( zimbraMtaAuthEnabled
 	NAME 'zimbraMtaAuthEnabled'
 	DESC 'Value for postconf smtpd_use_tls'
@@ -1203,6 +1301,14 @@ attributetype ( zimbraMtaMaxMessageSize
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
 	SINGLE-VALUE )	
 
+attributetype ( zimbraMtaRecipientDelimiter
+	NAME 'zimbraMtaRecipientDelimiter'
+	DESC 'Value for postconf recipient_delimiter.  Also used by ZCS LMTP
+	      server to check if it should accept messages to addresses with
+	      extensions.'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+
 attributetype ( zimbraMtaRelayHost
 	NAME 'zimbraMtaRelayHost'
 	DESC 'Value for postconf relayhost'
@@ -1222,6 +1328,18 @@ attributetype ( zimbraMtaTlsAuthOnly
 	EQUALITY booleanMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )
+
+attributetype ( zimbraMtaAuthURL
+	NAME 'zimbraMtaAuthURL'
+	DESC 'URL at which this MTA (via zimbra saslauthd) should authenticate.  Set by setting zimbraMtaAuthHost.'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+
+attributetype ( zimbraMtaAuthHost
+	NAME 'zimbraMtaAuthHost'
+	DESC 'Host running SOAP service for use by MTA auth.  Setting this sets zimbraMtaAuthURL via attr callback mechanism.'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
 
 attributetype ( zimbraNotes 
 	NAME 'zimbraNotes'
@@ -1555,6 +1673,20 @@ attributetype ( zimbraPrefUseKeyboardShortcuts
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )	
 
+attributetype ( zimbraProxyAllowedDomains
+	NAME 'zimbraProxyAllowedDomains'
+	DESC 'Allowed domains for Proxy servlet'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
+
+attributetype ( zimbraProxyCacheableContentTypes
+	NAME 'zimbraProxyCacheableContentTypes'
+	DESC 'Content types that can be cached by proxy servlet'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
+
 attributetype ( zimbraRedoLogArchiveDir
 	NAME 'zimbraRedoLogArchiveDir'
 	DESC 'redolog rollover destination'
@@ -1706,6 +1838,46 @@ attributetype ( zimbraSshPublicKey
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024}
 	SINGLE-VALUE )
 
+attributetype ( zimbraSslCaCert
+	NAME 'zimbraSslCaCert'
+	DESC 'CA Cert used to sign all self signed certs'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{2048}
+	SINGLE-VALUE )
+
+attributetype ( zimbraSslCaKey
+	NAME 'zimbraSslCaKey'
+	DESC 'CA Key used to sign all self signed certs'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{2048}
+	SINGLE-VALUE )
+
+attributetype ( zimbraCertAuthorityCertSelfSigned
+	NAME 'zimbraCertAuthorityCertSelfSigned'
+	DESC 'When creating self-signed SSL certs during an install,
+              we also create a local Certificate Authority (CA) to
+              sign these SSL certs.  This local CA-s own cert is then
+              added to different applications "trusted CA-s"
+              list/store.  This attribute should not be used in a
+              system with real certs issued by well known CAs.'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{2048}
+	SINGLE-VALUE )
+
+attributetype ( zimbraCertAuthorityKeySelfSigned
+	NAME 'zimbraCertAuthorityKeySelfSigned'
+	DESC 'Please see the documentation for the attribute
+              zimbraCertAuthorityCertSelfSigned.  In addition, please
+              note that this attribute is provided at install for
+              convenience during a test install without real certs
+              issued by well known CAs.  If you choose to create your
+              own CA for your production uses, please note that it is
+              a bad idea to store your CA-s private key in LDAP, as this
+              data maybe read from zimbraGlobalConfig in the clear.'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{2048}
+	SINGLE-VALUE )
+
 attributetype ( zimbraSpamIsSpamAccount
 	NAME 'zimbraSpamIsSpamAccount'
 	DESC 'When user classifies a message as spam forward message via SMTP to this account'
@@ -1741,6 +1913,14 @@ attributetype ( zimbraMailSSLPort
 	DESC 'SSL port for end-user UI'
 	EQUALITY integerMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE )	
+
+attributetype ( zimbraMailMode
+	NAME 'zimbraMailMode'
+	DESC 'whether to run HTTP or HTTPS or both or mixed mode.  See also related attributes zimbraMailPort and zimbraMailSSLPort'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64}
 	SINGLE-VALUE )	
 
 attributetype ( zimbraAdminPort
@@ -1780,6 +1960,14 @@ attributetype ( zimbraMimeType
 attributetype ( zimbraMimeHandlerClass
 	NAME ( 'zimbraMimeHandlerClass' )
 	DESC 'the handler class for the mime type'
+	EQUALITY caseExactMatch
+	SUBSTR caseExactSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+	SINGLE-VALUE )	
+
+attributetype ( zimbraMimeHandlerExtension
+	NAME ( 'zimbraMimeHandlerExtension' )
+	DESC 'the name of the zimbra extension where the handler class for the mime type lives'
 	EQUALITY caseExactMatch
 	SUBSTR caseExactSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
@@ -1959,6 +2147,13 @@ attributetype ( zimbraSpellCheckURL
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
 
 # Zimlet stuff
+attributetype ( zimbraZimletEnabled
+	NAME 'zimbraZimletEnabled'
+	DESC 'whether this Zimlet is enabled'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
 attributetype ( zimbraZimletKeyword
 	NAME 'zimbraZimletKeyword'
 	DESC 'Server side object keyword used for indexing and search for this Zimlet'
@@ -2024,6 +2219,13 @@ attributetype ( zimbraZimletPanelItem
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{10240}
 	SINGLE-VALUE )
 
+attributetype ( zimbraZimletPriority
+	NAME 'zimbraZimletPriority'
+	DESC 'Object match priority'
+	EQUALITY integerMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE )
+
 attributetype ( zimbraZimletScript
 	NAME 'zimbraZimletScript'
 	DESC 'URL of extra scripts used by the Zimlet'
@@ -2042,8 +2244,22 @@ attributetype ( zimbraZimletServerIndexRegex
 	DESC 'Regex of content object'
 	EQUALITY caseExactMatch
 	SUBSTR caseExactSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} )
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} 
+	SINGLE-VALUE )
 
+attributetype ( zimbraZimletUserProperties
+	NAME 'zimbraZimletUserProperties'
+	DESC 'User properties for Zimlets'
+	EQUALITY caseExactMatch
+	SUBSTR caseExactSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+
+attributetype ( zimbraZimletIsExtension
+	NAME 'zimbraZimletIsExtension'
+	DESC 'Whether this zimlet is an extension'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
 
 
 #################################################################
@@ -2135,6 +2351,7 @@ objectclass ( zimbraAccount
 		zimbraFeatureGalEnabled $	
 		zimbraFeatureHtmlComposeEnabled $
 		zimbraFeatureCalendarEnabled $
+		zimbraFeatureIMEnabled $		
 		zimbraFeatureTaggingEnabled $
 		zimbraFeatureAdvancedSearchEnabled $
 		zimbraFeatureSavedSearchesEnabled $
@@ -2142,8 +2359,10 @@ objectclass ( zimbraAccount
 		zimbraFeatureChangePasswordEnabled $
 		zimbraFeatureInitialSearchPreferenceEnabled $
 		zimbraFeatureFiltersEnabled $
+		zimbraForeignPrincipal $
 		zimbraImapEnabled $
 		zimbraIsAdminAccount $ 
+		zimbraIsDomainAdminAccount $
 		zimbraLastLogonTimestamp $
 		zimbraMailIdleSessionTimeout $
 		zimbraMailMessageLifetime $
@@ -2179,7 +2398,10 @@ objectclass ( zimbraAccount
 		zimbraPrefShowSearchString $
 		zimbraPrefCalendarFirstDayOfWeek $
 		zimbraPrefCalendarInitialView $
-                zimbraPrefCalendarNotifyDelegatedChanges $
+		zimbraPrefCalendarInitialCheckedCalendars $
+		zimbraPrefCalendarUseQuickAdd $		
+		zimbraPrefCalendarAlwaysShowMiniCal $
+        zimbraPrefCalendarNotifyDelegatedChanges $
 		zimbraPrefContactsInitialView $
 		zimbraPrefDedupeMessagesSentToSelf $
 		zimbraPrefForwardIncludeOriginalText $
@@ -2205,6 +2427,9 @@ objectclass ( zimbraAccount
 		zimbraPrefSaveToSent $
 		zimbraPrefSentMailFolder $
 		zimbraPrefUseKeyboardShortcuts $
+		zimbraProxyAllowedDomains $
+		zimbraZimletAvailableZimlets $
+		zimbraZimletUserProperties $
 		zimbraMemberOf $
 		mail $
 		o $
@@ -2283,6 +2508,7 @@ objectclass ( zimbraCOS
 		zimbraFeatureContactsEnabled $
 		zimbraFeatureGalEnabled $
 		zimbraFeatureCalendarEnabled $
+		zimbraFeatureIMEnabled $		
 		zimbraFeatureHtmlComposeEnabled $
 		zimbraFeatureTaggingEnabled $
 		zimbraFeatureAdvancedSearchEnabled $
@@ -2319,7 +2545,9 @@ objectclass ( zimbraCOS
 		zimbraPrefShowSearchString $
 		zimbraPrefCalendarFirstDayOfWeek $
 		zimbraPrefCalendarInitialView $
-                zimbraPrefCalendarNotifyDelegatedChanges $
+		zimbraPrefCalendarUseQuickAdd $		
+		zimbraPrefCalendarAlwaysShowMiniCal $
+		zimbraPrefCalendarNotifyDelegatedChanges $
 		zimbraPrefComposeInNewWindow $
 		zimbraPrefComposeFormat $
 		zimbraPrefContactsInitialView $
@@ -2342,7 +2570,9 @@ objectclass ( zimbraCOS
 		zimbraPrefForwardReplyPrefixChar $
 		zimbraPrefAutoAddAddressEnabled $
 		zimbraPrefUseKeyboardShortcuts $
-		zimbraZimletAvailableZimlets
+		zimbraZimletAvailableZimlets $
+		zimbraProxyAllowedDomains $
+		zimbraProxyCacheableContentTypes
 	) )
 
 ################
@@ -2354,15 +2584,18 @@ objectclass ( zimbraGlobalConfig
 	SUP top AUXILIARY
 	MAY (
 		zimbraAttachmentsBlocked $
-        zimbraAttachmentsScanEnabled $
-        zimbraAttachmentsScanClass $
-        zimbraAttachmentsScanURL $
+		zimbraAttachmentsScanEnabled $
+		zimbraAttachmentsScanClass $
+		zimbraAttachmentsScanURL $
 		zimbraAttachmentsViewInHtmlOnly $
 		zimbraAccountClientAttr $
 		zimbraCalendarCompatibilityMode $
+		zimbraCertAuthorityCertSelfSigned $
+		zimbraCertAuthorityKeySelfSigned $
 		zimbraComponentAvailable $
 		zimbraCOSInheritedAttr $
-		zimbraDefaultDomainName $		
+		zimbraDefaultDomainName $
+		zimbraDomainAdminModifiableAttr $
 		zimbraDomainInheritedAttr $
 		zimbraGalLdapFilterDef $
 		zimbraGalLdapAttrMap $
@@ -2383,11 +2616,15 @@ objectclass ( zimbraGlobalConfig
 		zimbraLogHostname $
 		zimbraLogRawLifetime $
 		zimbraLogSummaryLifetime $
+		zimbraMessageCacheSize $
 		zimbraMtaAuthEnabled $
+		zimbraMtaAuthHost $
+		zimbraMtaAuthURL $
 		zimbraMtaBlockedExtension $
 		zimbraMtaCommonBlockedExtension $
 		zimbraMtaDnsLookupsEnabled $
 		zimbraMtaMaxMessageSize $
+		zimbraMtaRecipientDelimiter $
 		zimbraMtaRelayHost $
 		zimbraMtaRestriction $
 		zimbraMtaTlsAuthOnly $
@@ -2419,6 +2656,8 @@ objectclass ( zimbraGlobalConfig
 		zimbraSpamIsSpamAccount $
 		zimbraSpamIsNotSpamAccount $
 		zimbraSpellCheckURL $
+		zimbraSslCaCert $
+		zimbraSslCaKey $
 		zimbraTableMaintenanceGrowthFactor $
 		zimbraTableMaintenanceMinRows $
 		zimbraTableMaintenanceMaxRows $
@@ -2426,6 +2665,7 @@ objectclass ( zimbraGlobalConfig
 		zimbraAuthTokenKey $
 		zimbraMailPort $
 		zimbraMailSSLPort $
+		zimbraMailMode $
 		zimbraAdminPort $
 		zimbraVirusBlockEncryptedArchive $
 		zimbraVirusCheckEnabled $
@@ -2461,6 +2701,7 @@ objectclass ( zimbraDomain
 		zimbraAuthLdapSearchFilter $
 		zimbraAuthMech $
 		zimbraAuthFallbackToLocal	$
+		zimbraDomainDefaultCOSId $
 		zimbraGalMaxResults $
 		zimbraGalMode $
 		zimbraGalLdapURL $
@@ -2468,7 +2709,8 @@ objectclass ( zimbraDomain
 		zimbraGalLdapBindDn $
 		zimbraGalLdapBindPassword $
 		zimbraGalLdapAttrMap $
-		zimbraGalLdapFilter
+		zimbraGalLdapFilter $
+		zimbraPreAuthKey
 		))
 
 ################
@@ -2501,7 +2743,7 @@ objectclass ( zimbraServer
 	MUST (zimbraId $ cn)
 	MAY (
 		description $
-                zimbraAttachmentsScanURL $
+		zimbraAttachmentsScanURL $
 		zimbraFileUploadMaxSize $
 		zimbraIsMonitorHost $
 		zimbraLmtpAdvertisedName $
@@ -2520,7 +2762,10 @@ objectclass ( zimbraServer
 		zimbraImapSSLBindOnStartup $
 		zimbraImapSSLServerEnabled $
 		zimbraImapCleartextLoginEnabled $
+		zimbraMessageCacheSize $
 		zimbraMtaAuthEnabled $
+		zimbraMtaAuthHost $
+		zimbraMtaAuthURL $
 		zimbraMtaDnsLookupsEnabled $
 		zimbraMtaRelayHost $
 		zimbraMtaTlsAuthOnly $
@@ -2559,6 +2804,7 @@ objectclass ( zimbraServer
 		zimbraVirusDefinitionsUpdateFrequency $		
 		zimbraMailPort $
 		zimbraMailSSLPort $
+		zimbraMailMode $
 		zimbraAdminPort $
 		zimbraRedoLogProvider
 	))
@@ -2578,7 +2824,8 @@ objectclass ( zimbraMimeEntry
 		zimbraMimeIndexingEnabled)
 	MAY (description $
 		zimbraMimeFileExtension $
-		zimbraMimeHandlerClass)
+		zimbraMimeHandlerClass $
+		zimbraMimeHandlerExtension)
 	))
 
 ################
@@ -2632,17 +2879,18 @@ objectclass ( zimbraZimletEntry
 	SUP top STRUCTURAL
 	MUST (
 		cn $
+		zimbraZimletEnabled $
 		zimbraZimletVersion
 		)
 	MAY (
-		zimbraZimletKeyword $ 
-		zimbraZimletIndexingEnabled $
 		zimbraZimletDescription $
-		zimbraZimletContentObject $
-		zimbraZimletPanelItem $
-		zimbraZimletScript $
-		zimbraZimletHandlerConfig $
 		zimbraZimletHandlerClass $
+		zimbraZimletHandlerConfig $
+		zimbraZimletIndexingEnabled $
+		zimbraZimletIsExtension $
+		zimbraZimletKeyword $ 
+		zimbraZimletPriority $
+		zimbraZimletScript $
 		zimbraZimletServerIndexRegex
 		)
 	)	
