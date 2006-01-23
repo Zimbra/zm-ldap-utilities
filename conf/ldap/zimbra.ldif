@@ -281,7 +281,7 @@ zimbraMtaCommonBlockedExtension: dll
 zimbraMtaCommonBlockedExtension: do
 zimbraMtaCommonBlockedExtension: exe
 zimbraMtaCommonBlockedExtension: hlp
-zimbraMtaCommonBlockedExtension: hta
+zimbraMtaCommonBlockedExtension: hta 
 zimbraMtaCommonBlockedExtension: js
 zimbraMtaCommonBlockedExtension: jse
 zimbraMtaCommonBlockedExtension: lnk
