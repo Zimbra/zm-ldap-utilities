@@ -281,7 +281,7 @@ zimbraMtaCommonBlockedExtension: dll
 zimbraMtaCommonBlockedExtension: do
 zimbraMtaCommonBlockedExtension: exe
 zimbraMtaCommonBlockedExtension: hlp
-zimbraMtaCommonBlockedExtension: hta 
+zimbraMtaCommonBlockedExtension: hta
 zimbraMtaCommonBlockedExtension: js
 zimbraMtaCommonBlockedExtension: jse
 zimbraMtaCommonBlockedExtension: lnk
@@ -308,10 +308,6 @@ zimbraMtaMaxMessageSize: 10240000
 zimbraMtaRestriction: reject_invalid_hostname
 zimbraMtaRestriction: reject_non_fqdn_sender
 zimbraMtaTlsAuthOnly: TRUE
-zimbraNotifyServerEnabled: TRUE
-zimbraNotifyBindPort: 7035
-zimbraNotifySSLServerEnabled: TRUE
-zimbraNotifySSLBindPort: 7036
 zimbraPop3CleartextLoginEnabled: FALSE
 zimbraPop3NumThreads: 20
 zimbraPop3BindPort: 7110
@@ -363,12 +359,6 @@ zimbraServerInheritedAttr: zimbraMtaDnsLookupsEnabled
 zimbraServerInheritedAttr: zimbraMtaMyNetworks
 zimbraServerInheritedAttr: zimbraMtaRelayHost
 zimbraServerInheritedAttr: zimbraMtaTlsAuthOnly
-zimbraServerInheritedAttr: zimbraNotifyServerEnabled
-zimbraServerInheritedAttr: zimbraNotifyBindAddress
-zimbraServerInheritedAttr: zimbraNotifyBindPort
-zimbraServerInheritedAttr: zimbraNotifySSLServerEnabled
-zimbraServerInheritedAttr: zimbraNotifySSLBindAddress
-zimbraServerInheritedAttr: zimbraNotifySSLBindPort
 zimbraServerInheritedAttr: zimbraPop3ServerEnabled
 zimbraServerInheritedAttr: zimbraPop3NumThreads
 zimbraServerInheritedAttr: zimbraPop3BindPort

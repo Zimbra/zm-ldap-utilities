@@ -13,7 +13,7 @@
   The AttributeManager is invoked when entries are created/modified. 
   
   <attr name="{name}"
-  [class="account,config,cos,domain,server,distributionList,calendarResource"]
+  [class="account,config,cos,domain,server,distributionList"]
   [immutable="*0|1"]
   [type="{type-of-attr}"]
   [value="..."]
@@ -310,18 +310,6 @@
 
 <attr name="zimbraNotes" type="string"/>
 
-<attr name="zimbraNotifyServerEnabled" type="boolean"/>
-
-<attr name="zimbraNotifyBindAddress" type="string" max="128"/>
-
-<attr name="zimbraNotifyBindPort" type="integer"/>
-
-<attr name="zimbraNotifySSLServerEnabled" type="boolean"/>
-
-<attr name="zimbraNotifySSLBindAddress" type="string" max="128"/>
-
-<attr name="zimbraNotifySSLBindPort" type="integer"/>
-
 <attr name="zimbraObjectHandlerClass" type="string"/>
 
 <attr name="zimbraObjectHandlerConfig" type="string"/>
@@ -607,11 +595,5 @@
 <attr name="uid" type="string" immutable="1"/>
 
 <attr name="userPassword" type="string" immutable="1"/>
-
-<attr name="zimbraAccountCalendarUserType" type="enum" value="USER,RESOURCE"/>
-
-<attr name="zimbraCalResType" type="enum" value="ROOM"/>
-
-<attr name="zimbraCalResAutoAcceptDecline" type="boolean"/>
 
 </attrs>
