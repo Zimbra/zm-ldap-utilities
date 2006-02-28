@@ -1,0 +1,118 @@
+#!/usr/bin/perl
+# 
+# ***** BEGIN LICENSE BLOCK *****
+# Version: MPL 1.1
+# 
+# The contents of this file are subject to the Mozilla Public License
+# Version 1.1 ("License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http://www.zimbra.com/license
+# 
+# Software distributed under the License is distributed on an "AS IS"
+# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+# the License for the specific language governing rights and limitations
+# under the License.
+# 
+# The Original Code is: Zimbra Collaboration Suite Server.
+# 
+# The Initial Developer of the Original Code is Zimbra, Inc.
+# Portions created by Zimbra are Copyright (C) 2005 Zimbra, Inc.
+# All Rights Reserved.
+# 
+# Contributor(s):
+# 
+# ***** END LICENSE BLOCK *****
+# 
+
+#use strict;
+
+use strict;
+
+use lib "/opt/zimbra/zimbramon/lib/zimbrapm";
+use lib "/opt/zimbra/zimbramon/lib/zimbrapm/SOAP";
+use lib "/opt/zimbra/zimbramon/lib";
+
+use Getopt::Std;
+
+use POSIX ":sys_wait_h";
+use LWP::UserAgent;
+
+use Zimbra::SOAP::XmlElement;
+use Zimbra::SOAP::XmlDoc;
+use Zimbra::SOAP::Soap;
+
+use Time::Local;
+
+# Exit if software-only node.
+exit(0) unless (-f '/opt/zimbra/conf/localconfig.xml');
+
+my $ACCTNS = "urn:zimbraAccount";
+my $MAILNS = "urn:zimbraMail";
+my $ADMINNS = "urn:zimbraAdmin";
+my $SOAP = $Zimbra::SOAP::Soap::Soap12;
+
+my $authToken;
+my $START;
+my $END;
+my $PERIOD;
+
+our %GlobalOpts;
+
+sub usage { exit 1; }
+
+sub run_maint_command {
+
+	my $h = "localhost";
+
+	my $url = "https://$h:7071/service/admin/soap/";
+
+	my $context = $SOAP->zimbraContext($authToken, "");
+
+	my $d = new Zimbra::SOAP::XmlDoc;
+	$d->start('MaintainTablesRequest', $ADMINNS);
+	$d->end();
+
+	my $serverResponse = $SOAP->invoke($url, $d->root(), $context);
+
+	print $serverResponse->to_string("pretty"),"\n";
+
+}
+
+sub get_auth_token {
+	my $host = "localhost";
+	my $user = "zimbra";
+	my $pass = `zmlocalconfig -s -m nokey zimbra_ldap_password`;
+	chomp $pass;
+
+	# print "Authenticating to $host as $user/$pass\n";
+
+	my $url = "https://$host:7071/service/admin/soap/";
+
+	my $d = new Zimbra::SOAP::XmlDoc;
+	$d->start('AuthRequest', $ADMINNS);
+	$d->add('name', undef, { by => "name"}, "$user");
+	$d->add('password', undef, undef, "$pass");
+	$d->end();
+
+	my $authResponse;
+	eval {
+		$authResponse = $SOAP->invoke($url, $d->root());
+	};
+
+	if (!$authResponse) {return undef;}
+	my $authToken = $authResponse->find_child('authToken')->content;
+
+	# print "authToken($authToken)\n";
+
+	return $authToken;
+
+}
+
+$authToken = get_auth_token();
+
+if (!defined ($authToken)) {
+	print STDERR "AUTH FAILED\n\n";
+	exit (1);
+}
+
+run_maint_command();
