@@ -148,6 +148,8 @@
 
 <attr name="zimbraFeatureSavedSearchesEnabled" type="boolean"/>
 
+<attr name="zimbraFeatureSharingEnabled" type="boolean"/>
+
 <attr name="zimbraFeatureTaggingEnabled" type="boolean"/>
 
 <attr name="zimbraFeatureViewInHtmlEnabled" type="boolean"/>
@@ -589,6 +591,10 @@
 <attr name="sn" type="string"/>
 
 <attr name="st" type="string"/>
+
+<attr name="street" type="string"/>
+
+<attr name="streetAddress" type="string"/>
 
 <attr name="telphoneNumber" type="string"/>
 
