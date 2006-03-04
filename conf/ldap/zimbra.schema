@@ -2863,7 +2863,7 @@ objectclass ( zimbraMimeEntry
 	MAY (description $
 		zimbraMimeFileExtension $
 		zimbraMimeHandlerClass $
-		zimbraMimeHandlerExtension)
+		zimbraMimeHandlerExtension
 	))
 
 ################
@@ -2882,8 +2882,8 @@ objectclass ( zimbraObjectEntry
 		zimbraObjectStoreMatched)
 	MAY (description $
 		zimbraObjectHandlerConfig $
-		zimbraObjectHandlerClass)
-	))	
+		zimbraObjectHandlerClass
+	))
 
 ################
 # zimbraTimeZone is used to define a timezone with daylight savings time
