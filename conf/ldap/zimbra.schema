@@ -42,6 +42,7 @@ objectIdentifier zimbraMailAddress ZimbraAttrType:3
 objectIdentifier zimbraMailHost ZimbraAttrType:4
 #objectIdentifier zimbraAttr ZimbraAttrType:8
 objectIdentifier zimbraNotes ZimbraAttrType:9
+objectIdentifier zimbraMember ZimbraAttrType:10
 objectIdentifier zimbraMemberOf ZimbraAttrType:11
 objectIdentifier zimbraMailForwardingAddress ZimbraAttrType:12
 objectIdentifier zimbraMailDeliveryAddress ZimbraAttrType:13
@@ -299,27 +300,6 @@ objectIdentifier zimbraMtaAuthHost ZimbraAttrType:309
 objectIdentifier zimbraMtaAuthURL ZimbraAttrType:310
 objectIdentifier zimbraMtaMyNetworks ZimbraAttrType:311
 objectIdentifier zimbraFeatureViewInHtmlEnabled ZimbraAttrType:312
-objectIdentifier zimbraAccountCalendarUserType ZimbraAttrType:313
-objectIdentifier zimbraCalResType ZimbraAttrType:314
-objectIdentifier zimbraCalResAutoAcceptDecline ZimbraAttrType:315
-objectIdentifier zimbraNotifyServerEnabled ZimbraAttrType:316
-objectIdentifier zimbraNotifyBindAddress ZimbraAttrType:317
-objectIdentifier zimbraNotifyBindPort ZimbraAttrType:318
-objectIdentifier zimbraNotifySSLServerEnabled ZimbraAttrType:319
-objectIdentifier zimbraNotifySSLBindAddress ZimbraAttrType:320
-objectIdentifier zimbraNotifySSLBindPort ZimbraAttrType:321
-objectIdentifier zimbraCalResAutoDeclineIfBusy ZimbraAttrType:322
-objectIdentifier zimbraCalResAutoDeclineRecurring ZimbraAttrType:323
-objectIdentifier zimbraCalResAlwaysFree ZimbraAttrType:324
-objectIdentifier zimbraGroupId ZimbraAttrType:325
-objectIdentifier zimbraCalResSite ZimbraAttrType:326
-objectIdentifier zimbraCalResBuilding ZimbraAttrType:327
-objectIdentifier zimbraCalResFloor ZimbraAttrType:328
-objectIdentifier zimbraCalResRoom ZimbraAttrType:329
-objectIdentifier zimbraCalResCapacity ZimbraAttrType:330
-objectIdentifier zimbraCalResContactName ZimbraAttrType:331
-objectIdentifier zimbraCalResContactEmail ZimbraAttrType:332
-objectIdentifier zimbraCalResContactPhone ZimbraAttrType:333
 objectIdentifier zimbraMessageIdDedupeCacheSize ZimbraAttrType:334
 objectIdentifier zimbraFeatureSharingEnabled ZimbraAttrType:335
 
@@ -345,7 +325,6 @@ objectIdentifier zimbraMimeEntry ZimbraObjectClass:12
 objectIdentifier zimbraObjectEntry ZimbraObjectClass:13
 objectIdentifier zimbraTimeZone ZimbraObjectClass:14
 objectIdentifier zimbraZimletEntry ZimbraObjectClass:15
-objectIdentifier zimbraCalendarResource ZimbraObjectClass:16
 
 # break glass in case of emergency
 #
@@ -813,14 +792,6 @@ attributetype ( zimbraGalMode
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256}
 	SINGLE-VALUE )			
-
-attributetype ( zimbraGroupId
-	NAME ( 'zimbraGroupId' )
-	DESC 'Zimbra Systems Unique Group ID'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} 
-	SINGLE-VALUE )
 
 attributetype ( zimbraId
 	NAME ( 'zimbraId' )
@@ -1293,6 +1264,12 @@ attributetype ( zimbraMailTrashLifetime
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{32}
 	SINGLE-VALUE )
 
+attributetype ( zimbraMember
+	NAME ( 'zimbraMember' )
+	DESC 'for group membership, included with security group object'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+
 attributetype ( zimbraMemberOf
 	NAME ( 'zimbraMemberOf' )
 	DESC 'for group membership, included with person object'
@@ -1423,49 +1400,6 @@ attributetype ( zimbraNewMailNotificationBody
 	EQUALITY caseIgnoreMatch
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{10000} )
-
-attributetype ( zimbraNotifyBindAddress
-	NAME 'zimbraNotifyBindAddress'
-	DESC 'Network interface on which notification server should listen; if empty, binds to all interfaces.'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{128} )
-
-attributetype ( zimbraNotifyBindPort
-	NAME 'zimbraNotifyBindPort'
-	DESC 'Port number on which notification server should listen.'
-	EQUALITY integerMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
-	SINGLE-VALUE )
-		
-attributetype ( zimbraNotifyServerEnabled
-	NAME 'zimbraNotifyServerEnabled'
-	DESC 'Whether notification server should be enabled.'
-	EQUALITY booleanMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-
-attributetype ( zimbraNotifySSLBindAddress
-	NAME 'zimbraNotifySSLBindAddress'
-	DESC 'Network interface on which SSL notification server should listen; if empty, binds to all interfaces'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{128} )
-		
-attributetype ( zimbraNotifySSLBindPort
-	NAME 'zimbraNotifySSLBindPort'
-	DESC 'Port number on which notification server should listen.'
-	EQUALITY integerMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
-	SINGLE-VALUE )
-		
-attributetype ( zimbraNotifySSLServerEnabled
-	NAME 'zimbraNotifySSLServerEnabled'
-	DESC 'Whether SSL notification server should be enabled.'
-	EQUALITY booleanMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-
 #
 # number of unique passwords a user must have before being allowed to
 # re-use an old one. A value of 0 means no password history.
@@ -1932,7 +1866,7 @@ attributetype ( zimbraSshPublicKey
 	NAME 'zimbraSshPublicKey'
 	DESC 'Public key of this server, used by other hosts to authorize this server to login.'
 	EQUALITY caseIgnoreIA5Match
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024}
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{2048}
 	SINGLE-VALUE )
 
 attributetype ( zimbraSslCaCert
@@ -2358,112 +2292,6 @@ attributetype ( zimbraZimletIsExtension
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )
 
-attributetype ( zimbraAccountCalendarUserType
-	NAME 'zimbraAccountCalendarUserType'
-	DESC 'calendar user type - USER (default) or RESOURCE'
-	EQUALITY caseIgnoreMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResType
-	NAME 'zimbraCalResType'
-	DESC 'calendar resource type - Location, Equipment, etc.'
-	EQUALITY caseIgnoreMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResAutoAcceptDecline
-	NAME 'zimbraCalResAutoAcceptDecline'
-	DESC 'Whether this calendar resource accepts/declines meeting invites automatically; default TRUE'
-	EQUALITY booleanMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResAutoDeclineIfBusy
-	NAME 'zimbraCalResAutoDeclineIfBusy'
-	DESC 'Whether this calendar resource declines invite if already busy; default TRUE'
-	EQUALITY booleanMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResAutoDeclineRecurring
-	NAME 'zimbraCalResAutoDeclineRecurring'
-	DESC 'Whether this calendar resource declines invites to recurring appointments; default FASE'
-	EQUALITY booleanMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResAlwaysFree
-	NAME 'zimbraCalResAlwaysFree'
-	DESC 'Whether resource remains free after accepting invite; default FALSE'
-	EQUALITY booleanMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResSite
-	NAME 'zimbraCalResSite'
-	DESC 'site name'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResBuilding
-	NAME 'zimbraCalResBuilding'
-	DESC 'building number or name'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResFloor
-	NAME 'zimbraCalResFloor'
-	DESC 'floor number or name'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResRoom
-	NAME 'zimbraCalResRoom'
-	DESC 'room number or name'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{32}
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResCapacity
-	NAME 'zimbraCalResCapacity'
-	DESC 'capacity'
-	EQUALITY integerMatch
-	ORDERING integerOrderingMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
-	SINGLE-VALUE )	
-
-attributetype ( zimbraCalResContactName
-	NAME 'zimbraCalResContactName'
-	DESC 'name of contact in charge of resource'
-	EQUALITY caseIgnoreMatch
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256}
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResContactEmail
-	NAME 'zimbraCalResContactEmail'
-	DESC 'email of contact in charge of resource'
-	EQUALITY caseIgnoreIA5Match
-	SUBSTR caseIgnoreSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256}
-	SINGLE-VALUE )
-
-attributetype ( zimbraCalResContactPhone
-	NAME 'zimbraCalResContactPhone'
-	DESC 'phone number of contact in charge of resource'
-	EQUALITY telephoneNumberMatch
-	SUBSTR telephoneNumberSubstringsMatch
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.50{32}
-	SINGLE-VALUE )
-
 
 #################################################################
 # object class definitions
@@ -2542,7 +2370,6 @@ objectclass ( zimbraAccount
 		description $
 		initials $
 		l $
-		zimbraAccountCalendarUserType $
 		zimbraAttachmentsBlocked $
 		zimbraAttachmentsIndexingEnabled $
 		zimbraAttachmentsViewInHtmlOnly $
@@ -2838,12 +2665,6 @@ objectclass ( zimbraGlobalConfig
 		zimbraMtaRelayHost $
 		zimbraMtaRestriction $
 		zimbraMtaTlsAuthOnly $
-		zimbraNotifyServerEnabled $
-		zimbraNotifyBindAddress $
-		zimbraNotifyBindPort $
-		zimbraNotifySSLServerEnabled $
-		zimbraNotifySSLBindAddress $
-		zimbraNotifySSLBindPort $
 		zimbraPop3CleartextLoginEnabled $
 		zimbraPop3NumThreads $
 		zimbraPop3BindPort $
@@ -2930,18 +2751,21 @@ objectclass ( zimbraDomain
 		))
 
 ################
-# zimbraSecurityGroup is used to represent a security group in the directory. Members of this
-# group have a zimbraMemberOf attr with this group's zimbraId. If this group is a member of
-# other groups, then it will have those group's zimbraIds in its own zimbraMemberOf list.
+# zimbraSecurityGroup is used to represent a security group in the directory. Each zimbraMember attr
+# is the zimbraId of the account (and/or group if we allow recursive groups) that is a member
+# of this group.
 #
 ################
 objectclass ( zimbraSecurityGroup
 	NAME 'zimbraSecurityGroup'
 	DESC 'Security Group'
-	SUP top AUXILIARY
-	MUST ( zimbraGroupId )
-	MAY ( zimbraMemberOf ))
-
+	SUP top STRUCTURAL
+	MUST (	zimbraId $
+		cn)
+	MAY (	zimbraMember $ 
+		zimbraNotes $
+		description))
+	
 ################
 # zimbraServer is used to represent a defined server within a zimbra install.
 #
@@ -2983,12 +2807,6 @@ objectclass ( zimbraServer
 		zimbraMtaMyNetworks $		
 		zimbraMtaRelayHost $
 		zimbraMtaTlsAuthOnly $
-		zimbraNotifyServerEnabled $
-		zimbraNotifyBindAddress $
-		zimbraNotifyBindPort $
-		zimbraNotifySSLServerEnabled $
-		zimbraNotifySSLBindAddress $
-		zimbraNotifySSLBindPort $
 		zimbraPop3CleartextLoginEnabled $
 		zimbraPop3AdvertisedName $
 		zimbraPop3BindAddress $
@@ -3065,7 +2883,7 @@ objectclass ( zimbraObjectEntry
 	MAY (description $
 		zimbraObjectHandlerConfig $
 		zimbraObjectHandlerClass
-	))	
+	))
 
 ################
 # zimbraTimeZone is used to define a timezone with daylight savings time
@@ -3114,36 +2932,3 @@ objectclass ( zimbraZimletEntry
 		zimbraZimletServerIndexRegex
 		)
 	)	
-
-
-################
-#
-# zimbraCalendarResource is used to represent a calendar resource
-# This objectclass should be mixed in to a zimbraAccount entry.
-#
-################
-objectclass ( zimbraCalendarResource
-	NAME 'zimbraCalendarResource'
-	DESC 'Calendar resource object'
-	SUP top AUXILIARY
-	MUST (	
-		zimbraId $
-		displayName $
-		zimbraAccountCalendarUserType $
-		zimbraCalResType
-		)
-	MAY (
-		zimbraCalResAutoAcceptDecline $
-		zimbraCalResAutoDeclineIfBusy $
-		zimbraCalResAutoDeclineRecurring $
-		zimbraCalResAlwaysFree $
-		zimbraCalResSite $
-		zimbraCalResBuilding $
-		zimbraCalResFloor $
-		zimbraCalResRoom $
-		zimbraCalResCapacity $
-		zimbraCalResContactName $
-		zimbraCalResContactEmail $
-		zimbraCalResContactPhone
-		)
-	)
