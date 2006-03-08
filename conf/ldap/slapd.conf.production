@@ -110,9 +110,11 @@ directory	"/opt/zimbra/openldap-data"
 # Indices to maintain
 index   objectClass            eq
 index   zimbraForeignPrincipal eq
+index   zimbraGroupId          eq
 index   zimbraId               eq
 index   zimbraMailCatchAllAddress eq,sub
 index   zimbraMailDeliveryAddress eq,sub
+index   zimbraMailForwardingAddress eq
 index   zimbraMailAlias        eq,sub
 index   zimbraDomainName       eq,sub
 index   uid                    pres,eq
@@ -122,6 +124,12 @@ index   cn                     pres,eq,sub
 index   displayName            pres,eq,sub
 index   sn                     pres,eq,sub
 index   gn                     pres,eq,sub
+# calendar resources
+index   zimbraCalResSite       eq,sub
+index   zimbraCalResBuilding   eq,sub
+index   zimbraCalResFloor      eq,sub
+index   zimbraCalResRoom       eq,sub
+index   zimbraCalResCapacity   eq
 sessionlog 100 100
 TLSCertificateFile /opt/zimbra/conf/slapd.crt
 TLSCertificateKeyFile /opt/zimbra/conf/slapd.key
