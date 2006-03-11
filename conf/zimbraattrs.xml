@@ -13,7 +13,7 @@
   The AttributeManager is invoked when entries are created/modified. 
   
   <attr name="{name}"
-  [class="account,config,cos,domain,server,distributionList"]
+  [class="account,config,cos,domain,server,distributionList,calendarResource"]
   [immutable="*0|1"]
   [type="{type-of-attr}"]
   [value="..."]
@@ -176,6 +176,8 @@
 
 <attr name="zimbraGalMode" type="enum" value="zimbra,both,ldap"/>
 
+<attr name="zimbraGroupId" type="id" immutable="1"/>
+
 <attr name="zimbraId" type="id" immutable="1"/>
 
 <attr name="zimbraImapAdvertisedName" type="string" max="128"/>
@@ -272,6 +274,8 @@
 
 <attr name="zimbraMailTrashLifetime" type="duration"/>
 
+<attr name="zimbraMemberOf" type="id"/>
+
 <attr name="zimbraMessageCacheSize" type="integer"/>
 
 <attr name="zimbraMessageIdDedupeCacheSize" type="integer"/>
@@ -315,6 +319,18 @@
 <attr name="zimbraNewMailNotificationSubject" type="string"/>
 
 <attr name="zimbraNotes" type="string"/>
+
+<attr name="zimbraNotifyServerEnabled" type="boolean"/>
+
+<attr name="zimbraNotifyBindAddress" type="string" max="128"/>
+
+<attr name="zimbraNotifyBindPort" type="integer"/>
+
+<attr name="zimbraNotifySSLServerEnabled" type="boolean"/>
+
+<attr name="zimbraNotifySSLBindAddress" type="string" max="128"/>
+
+<attr name="zimbraNotifySSLBindPort" type="integer"/>
 
 <attr name="zimbraObjectHandlerClass" type="string"/>
 
@@ -598,12 +614,40 @@
 
 <attr name="streetAddress" type="string"/>
 
-<attr name="telphoneNumber" type="string"/>
+<attr name="telephoneNumber" type="string"/>
 
 <attr name="title" type="string"/>
 
 <attr name="uid" type="string" immutable="1"/>
 
 <attr name="userPassword" type="string" immutable="1"/>
+
+<attr name="zimbraAccountCalendarUserType" type="enum" value="USER,RESOURCE"/>
+
+<attr name="zimbraCalResType" type="string"/>
+
+<attr name="zimbraCalResAutoAcceptDecline" type="boolean"/>
+
+<attr name="zimbraCalResAutoDeclineIfBusy" type="boolean"/>
+
+<attr name="zimbraCalResAutoDeclineRecurring" type="boolean"/>
+
+<attr name="zimbraCalResAlwaysFree" type="boolean"/>
+
+<attr name="zimbraCalResSite" type="string"/>
+
+<attr name="zimbraCalResBuilding" type="string"/>
+
+<attr name="zimbraCalResFloor" type="string"/>
+
+<attr name="zimbraCalResRoom" type="string"/>
+
+<attr name="zimbraCalResCapacity" type="integer"/>
+
+<attr name="zimbraCalResContactName" type="string"/>
+
+<attr name="zimbraCalResContactEmail" type="email"/>
+
+<attr name="zimbraCalResContactPhone" type="string"/>
 
 </attrs>
