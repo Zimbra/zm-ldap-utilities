@@ -316,6 +316,10 @@ objectIdentifier zimbraCalResCapacity ZimbraAttrType:330
 objectIdentifier zimbraCalResContactName ZimbraAttrType:331
 objectIdentifier zimbraCalResContactEmail ZimbraAttrType:332
 objectIdentifier zimbraCalResContactPhone ZimbraAttrType:333
+objectIdentifier zimbraRemoteManagementCommand ZimbraAttrType:336
+objectIdentifier zimbraRemoteManagementUser ZimbraAttrType:337
+objectIdentifier zimbraRemoteManagementPrivateKeyPath ZimbraAttrType:338
+objectIdentifier zimbraRemoteManagementPort ZimbraAttrType:339
 
 #################################################################
 # object class OIDs
@@ -1777,6 +1781,34 @@ attributetype ( zimbraRedoLogDeleteOnRollover
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )	
 
+attributetype ( zimbraRemoteManagementCommand
+	NAME 'zimbraRemoteManagementCommand'
+	DESC 'Path to remote management command to execute on this server'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024}
+	SINGLE-VALUE )	
+
+attributetype ( zimbraRemoteManagementUser
+	NAME 'zimbraRemoteManagementUser'
+	DESC 'Login name of user allowed to execute remote management command'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256}
+	SINGLE-VALUE )	
+
+attributetype ( zimbraRemoteManagementPrivateKeyPath
+	NAME 'zimbraRemoteManagementPrivateKeyPath'
+	DESC 'Private key this server should use to access another server'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024}
+	SINGLE-VALUE )	
+
+attributetype ( zimbraRemoteManagementPort
+        NAME 'zimbraRemoteManagementPort'
+	DESC 'Port on which remote management sshd listening on this server.'
+	EQUALITY integerMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE )	
+
 attributetype ( zimbraServerInheritedAttr
 	NAME 'zimbraServerInheritedAttr'
 	DESC 'zimbraServer attrs that get inherited from global config'
@@ -2802,6 +2834,10 @@ objectclass ( zimbraGlobalConfig
 		zimbraRedoLogRolloverFileSizeKB $
 		zimbraRedoLogDeleteOnRollover $
 		zimbraRedoLogFsyncIntervalMS $
+                zimbraRemoteManagementCommand $
+                zimbraRemoteManagementUser $
+                zimbraRemoteManagementPrivateKeyPath $
+                zimbraRemoteManagementPort $
 		zimbraServerInheritedAttr $
 		zimbraSmtpHostname $
 		zimbraSmtpPort $
@@ -2948,6 +2984,10 @@ objectclass ( zimbraServer
 		zimbraRedoLogRolloverFileSizeKB $
 		zimbraRedoLogDeleteOnRollover $
 		zimbraRedoLogFsyncIntervalMS $
+                zimbraRemoteManagementCommand $
+                zimbraRemoteManagementUser $
+                zimbraRemoteManagementPrivateKeyPath $
+                zimbraRemoteManagementPort $
 		zimbraServiceHostname $
 		zimbraServiceEnabled $
 		zimbraServiceInstalled $
