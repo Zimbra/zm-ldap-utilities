@@ -124,8 +124,6 @@ zimbraCOSInheritedAttr: zimbraFeatureInitialSearchPreferenceEnabled
 zimbraCOSInheritedAttr: zimbraFeatureFiltersEnabled
 zimbraCOSInheritedAttr: zimbraFeatureSharingEnabled
 zimbraCOSInheritedAttr: zimbraFeatureViewInHtmlEnabled
-zimbraCOSInheritedAttr: zimbraFeatureHtmlComposeEnabled
-zimbraCOSInheritedAttr: zimbraFeatureMobileSyncEnabled
 zimbraCOSInheritedAttr: zimbraNewMailNotificationFrom
 zimbraCOSInheritedAttr: zimbraNewMailNotificationSubject
 zimbraCOSInheritedAttr: zimbraNewMailNotificationBody
@@ -133,6 +131,7 @@ zimbraCOSInheritedAttr: zimbraPop3Enabled
 zimbraCOSInheritedAttr: zimbraImapEnabled
 zimbraCOSInheritedAttr: zimbraPrefComposeFormat
 zimbraCOSInheritedAttr: zimbraPrefForwardReplyInOriginalFormat
+zimbraCOSInheritedAttr: zimbraFeatureHtmlComposeEnabled
 zimbraDomainAdminModifiableAttr: zimbraAccountStatus
 zimbraDomainAdminModifiableAttr: company
 zimbraDomainAdminModifiableAttr: cn
@@ -246,8 +245,8 @@ zimbraDomainAdminModifiableAttr: title
 zimbraDomainInheritedAttr: zimbraGalMaxResults
 zimbraDomainInheritedAttr: zimbraGalLdapAttrMap
 zimbraFileUploadMaxSize: 10485760
-zimbraGalLdapFilterDef: zimbraAccounts:(&(|(cn=*%s*)(sn=*%s*)(gn=*%s*)(mail=*%s*)(zimbraMailDeliveryAddress=*%s*)(zimbraMailAlias=*%s*))(|(objectclass=zimbraAccount)(objectclass=zimbraDistributionList))(!(objectclass=zimbraCalendarResource)))
-zimbraGalLdapFilterDef: zimbraResources:(&(|(cn=*%s*)(sn=*%s*)(gn=*%s*)(mail=*%s*)(zimbraMailDeliveryAddress=*%s*)(zimbraMailAlias=*%s*))(objectclass=zimbraCalendarResource))
+zimbraGalLdapFilterDef: zimbraAccounts:(&(|(cn=*%s*)(sn=*%s*)(gn=*%s*)(mail=*%s*)(zimbraMailDeliveryAddress=*%s*)(zimbraMailAlias=*%s*)(zimbraMailAddress=*%s*))(|(objectclass=zimbraAccount)(objectclass=zimbraDistributionList))(!(objectclass=zimbraCalendarResource)))
+zimbraGalLdapFilterDef: zimbraResources:(&(|(cn=*%s*)(sn=*%s*)(gn=*%s*)(mail=*%s*)(zimbraMailDeliveryAddress=*%s*)(zimbraMailAlias=*%s*)(zimbraMailAddress=*%s*))(objectclass=zimbraCalendarResource))
 zimbraGalLdapFilterDef: ad:(&(|(cn=*%s*)(sn=*%s*)(gn=*%s*)(mail=*%s*))(!(msExchHideFromAddressLists=TRUE))(mailnickname=*)(|(&(objectCategory=person)(objectClass=user)(!(homeMDB=*))(!(msExchHomeServerName=*)))(&(objectCategory=person)(objectClass=user)(|(homeMDB=*)(msExchHomeServerName=*)))(&(objectCategory=person)(objectClass=contact))(objectCategory=group)(objectCategory=publicFolder)(objectCategory=msExchDynamicDistributionList)))
 zimbraGalLdapAttrMap: co=workCountry
 zimbraGalLdapAttrMap: company=company
@@ -288,7 +287,7 @@ zimbraImapSSLBindOnStartup: TRUE
 zimbraImapSSLServerEnabled: TRUE
 zimbraImapCleartextLoginEnabled: FALSE
 zimbraMessageCacheSize: 1671168
-zimbraMessageIdDedupeCacheSize: 3000
+zimbraMessageIdDedupeCacheSize: 0
 zimbraMtaAuthEnabled: TRUE
 zimbraMtaCommonBlockedExtension: asd
 zimbraMtaCommonBlockedExtension: bat
@@ -299,7 +298,7 @@ zimbraMtaCommonBlockedExtension: dll
 zimbraMtaCommonBlockedExtension: do
 zimbraMtaCommonBlockedExtension: exe
 zimbraMtaCommonBlockedExtension: hlp
-zimbraMtaCommonBlockedExtension: hta 
+zimbraMtaCommonBlockedExtension: hta
 zimbraMtaCommonBlockedExtension: js
 zimbraMtaCommonBlockedExtension: jse
 zimbraMtaCommonBlockedExtension: lnk
@@ -326,10 +325,6 @@ zimbraMtaMaxMessageSize: 10240000
 zimbraMtaRestriction: reject_invalid_hostname
 zimbraMtaRestriction: reject_non_fqdn_sender
 zimbraMtaTlsAuthOnly: TRUE
-zimbraNotifyServerEnabled: TRUE
-zimbraNotifyBindPort: 7035
-zimbraNotifySSLServerEnabled: TRUE
-zimbraNotifySSLBindPort: 7036
 zimbraPop3CleartextLoginEnabled: FALSE
 zimbraPop3NumThreads: 20
 zimbraPop3BindPort: 7110
@@ -363,7 +358,6 @@ zimbraTableMaintenanceMaxRows: 1000000
 zimbraTableMaintenanceOperation: ANALYZE
 zimbraMailPort: 80
 zimbraMailSSLPort: 0
-zimbraMailURL: /zimbra
 zimbraAdminPort: 7071
 zimbraServerInheritedAttr: zimbraLocale
 zimbraServerInheritedAttr: zimbraAttachmentsScanURL
@@ -387,12 +381,6 @@ zimbraServerInheritedAttr: zimbraMtaDnsLookupsEnabled
 zimbraServerInheritedAttr: zimbraMtaMyNetworks
 zimbraServerInheritedAttr: zimbraMtaRelayHost
 zimbraServerInheritedAttr: zimbraMtaTlsAuthOnly
-zimbraServerInheritedAttr: zimbraNotifyServerEnabled
-zimbraServerInheritedAttr: zimbraNotifyBindAddress
-zimbraServerInheritedAttr: zimbraNotifyBindPort
-zimbraServerInheritedAttr: zimbraNotifySSLServerEnabled
-zimbraServerInheritedAttr: zimbraNotifySSLBindAddress
-zimbraServerInheritedAttr: zimbraNotifySSLBindPort
 zimbraServerInheritedAttr: zimbraPop3ServerEnabled
 zimbraServerInheritedAttr: zimbraPop3NumThreads
 zimbraServerInheritedAttr: zimbraPop3BindPort
@@ -423,7 +411,6 @@ zimbraServerInheritedAttr: zimbraTableMaintenanceOperation
 zimbraServerInheritedAttr: zimbraMailPort
 zimbraServerInheritedAttr: zimbraMailSSLPort
 zimbraServerInheritedAttr: zimbraMailMode
-zimbraServerInheritedAttr: zimbraMailURL
 zimbraServerInheritedAttr: zimbraAdminPort
 zimbraServerInheritedAttr: zimbraVirusDefinitionsUpdateFrequency
 zimbraServerInheritedAttr: zimbraRedoLogProvider
@@ -468,7 +455,6 @@ zimbraFeatureInitialSearchPreferenceEnabled: TRUE
 zimbraFeatureFiltersEnabled: TRUE
 zimbraFeatureSharingEnabled: TRUE
 zimbraFeatureViewInHtmlEnabled: FALSE
-zimbraFeatureMobileSyncEnabled: TRUE
 zimbraImapEnabled: TRUE
 zimbraMailIdleSessionTimeout: 0
 zimbraMailTrashLifetime: 30d

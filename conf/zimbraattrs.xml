@@ -152,8 +152,6 @@
 
 <attr name="zimbraFeatureSavedSearchesEnabled" type="boolean"/>
 
-<attr name="zimbraFeatureMobileSyncEnabled" type="boolean"/>
-
 <attr name="zimbraFileUploadMaxSize" type="long"/>
 
 <attr name="zimbraFeatureSharingEnabled" type="boolean"/>
@@ -181,8 +179,6 @@
 <attr name="zimbraGalMaxResults" type="integer" min="0"/>
 
 <attr name="zimbraGalMode" type="enum" value="zimbra,both,ldap"/>
-
-<attr name="zimbraGroupId" type="id" immutable="1"/>
 
 <attr name="zimbraId" type="id" immutable="1"/>
 
@@ -272,8 +268,6 @@
 
 <attr name="zimbraMailMode" type="enum" value="http,https,both,mixed"/>
 
-<attr name="zimbraMailURL" type="string" max="1024"/>
-
 <attr name="zimbraMailSieveScript" type="string"/>
 
 <attr name="zimbraMailSpamLifetime" type="duration"/>
@@ -281,8 +275,6 @@
 <attr name="zimbraMailStatus" type="enum" value="enabled,disabled"/>
 
 <attr name="zimbraMailTrashLifetime" type="duration"/>
-
-<attr name="zimbraMemberOf" type="id"/>
 
 <attr name="zimbraMessageCacheSize" type="integer"/>
 
@@ -327,18 +319,6 @@
 <attr name="zimbraNewMailNotificationSubject" type="string"/>
 
 <attr name="zimbraNotes" type="string"/>
-
-<attr name="zimbraNotifyServerEnabled" type="boolean"/>
-
-<attr name="zimbraNotifyBindAddress" type="string" max="128"/>
-
-<attr name="zimbraNotifyBindPort" type="integer"/>
-
-<attr name="zimbraNotifySSLServerEnabled" type="boolean"/>
-
-<attr name="zimbraNotifySSLBindAddress" type="string" max="128"/>
-
-<attr name="zimbraNotifySSLBindPort" type="integer"/>
 
 <attr name="zimbraObjectHandlerClass" type="string"/>
 
