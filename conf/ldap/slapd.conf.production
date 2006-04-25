@@ -130,7 +130,7 @@ index   zimbraCalResRoom       eq,sub
 index   zimbraCalResCapacity   eq
 # recommended for replication
 index   entryUUID              eq
-sessionlog 100 100
+index   entryCSN               eq
 overlay syncprov
 syncprov-checkpoint 100 10
 syncprov-sessionlog 100
