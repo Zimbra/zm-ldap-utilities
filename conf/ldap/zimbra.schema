@@ -42,7 +42,6 @@ objectIdentifier zimbraMailAddress ZimbraAttrType:3
 objectIdentifier zimbraMailHost ZimbraAttrType:4
 #objectIdentifier zimbraAttr ZimbraAttrType:8
 objectIdentifier zimbraNotes ZimbraAttrType:9
-objectIdentifier zimbraMember ZimbraAttrType:10
 objectIdentifier zimbraMemberOf ZimbraAttrType:11
 objectIdentifier zimbraMailForwardingAddress ZimbraAttrType:12
 objectIdentifier zimbraMailDeliveryAddress ZimbraAttrType:13
@@ -303,9 +302,16 @@ objectIdentifier zimbraFeatureViewInHtmlEnabled ZimbraAttrType:312
 objectIdentifier zimbraAccountCalendarUserType ZimbraAttrType:313
 objectIdentifier zimbraCalResType ZimbraAttrType:314
 objectIdentifier zimbraCalResAutoAcceptDecline ZimbraAttrType:315
+objectIdentifier zimbraNotifyServerEnabled ZimbraAttrType:316
+objectIdentifier zimbraNotifyBindAddress ZimbraAttrType:317
+objectIdentifier zimbraNotifyBindPort ZimbraAttrType:318
+objectIdentifier zimbraNotifySSLServerEnabled ZimbraAttrType:319
+objectIdentifier zimbraNotifySSLBindAddress ZimbraAttrType:320
+objectIdentifier zimbraNotifySSLBindPort ZimbraAttrType:321
 objectIdentifier zimbraCalResAutoDeclineIfBusy ZimbraAttrType:322
 objectIdentifier zimbraCalResAutoDeclineRecurring ZimbraAttrType:323
 objectIdentifier zimbraCalResLocationDisplayName ZimbraAttrType:324
+objectIdentifier zimbraGroupId ZimbraAttrType:325
 objectIdentifier zimbraCalResSite ZimbraAttrType:326
 objectIdentifier zimbraCalResBuilding ZimbraAttrType:327
 objectIdentifier zimbraCalResFloor ZimbraAttrType:328
@@ -320,12 +326,14 @@ objectIdentifier zimbraRemoteManagementCommand ZimbraAttrType:336
 objectIdentifier zimbraRemoteManagementUser ZimbraAttrType:337
 objectIdentifier zimbraRemoteManagementPrivateKeyPath ZimbraAttrType:338
 objectIdentifier zimbraRemoteManagementPort ZimbraAttrType:339
+objectIdentifier zimbraMailURL ZimbraAttrType:340
 objectIdentifier zimbraPrefCalendarApptReminderWarningTime ZimbraAttrType:341
 objectIdentifier zimbraFeatureMailForwardingEnabled ZimbraAttrType:342
 objectIdentifier zimbraPrefMailForwardingAddress ZimbraAttrType:343
 objectIdentifier zimbraPrefMailLocalDeliveryDisabled ZimbraAttrType:344
 objectIdentifier zimbraLocale ZimbraAttrType:345
 objectIdentifier zimbraMailboxLocationBeforeMove ZimbraAttrType:346
+objectIdentifier zimbraFeatureMobileSyncEnabled ZimbraAttrType:347
 objectIdentifier zimbraImapProxyBindPort ZimbraAttrType:348
 objectIdentifier zimbraImapSSLProxyBindPort ZimbraAttrType:349
 objectIdentifier zimbraPop3ProxyBindPort ZimbraAttrType:350
@@ -751,6 +759,13 @@ attributetype ( zimbraFeatureViewInHtmlEnabled
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
 	SINGLE-VALUE )
 
+attributetype ( zimbraFeatureMobileSyncEnabled
+	NAME 'zimbraFeatureMobileSyncEnabled'
+	DESC 'whether to permit mobile sync'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
 attributetype ( zimbraForeignPrincipal
 	NAME ( 'zimbraForeignPrincipal' )
 	DESC 'mapping to foreign principal identifier'
@@ -827,6 +842,14 @@ attributetype ( zimbraGalMode
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256}
 	SINGLE-VALUE )			
+
+attributetype ( zimbraGroupId
+	NAME ( 'zimbraGroupId' )
+	DESC 'Zimbra Systems Unique Group ID'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{256} 
+	SINGLE-VALUE )
 
 attributetype ( zimbraId
 	NAME ( 'zimbraId' )
@@ -1349,12 +1372,6 @@ attributetype ( zimbraMailTrashLifetime
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{32}
 	SINGLE-VALUE )
 
-attributetype ( zimbraMember
-	NAME ( 'zimbraMember' )
-	DESC 'for group membership, included with security group object'
-	EQUALITY caseIgnoreIA5Match
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
-
 attributetype ( zimbraMemberOf
 	NAME ( 'zimbraMemberOf' )
 	DESC 'for group membership, included with person object'
@@ -1485,6 +1502,49 @@ attributetype ( zimbraNewMailNotificationBody
 	EQUALITY caseIgnoreMatch
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{10000} )
+
+attributetype ( zimbraNotifyBindAddress
+	NAME 'zimbraNotifyBindAddress'
+	DESC 'Network interface on which notification server should listen; if empty, binds to all interfaces.'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{128} )
+
+attributetype ( zimbraNotifyBindPort
+	NAME 'zimbraNotifyBindPort'
+	DESC 'Port number on which notification server should listen.'
+	EQUALITY integerMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE )
+		
+attributetype ( zimbraNotifyServerEnabled
+	NAME 'zimbraNotifyServerEnabled'
+	DESC 'Whether notification server should be enabled.'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
+attributetype ( zimbraNotifySSLBindAddress
+	NAME 'zimbraNotifySSLBindAddress'
+	DESC 'Network interface on which SSL notification server should listen; if empty, binds to all interfaces'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{128} )
+		
+attributetype ( zimbraNotifySSLBindPort
+	NAME 'zimbraNotifySSLBindPort'
+	DESC 'Port number on which notification server should listen.'
+	EQUALITY integerMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE )
+		
+attributetype ( zimbraNotifySSLServerEnabled
+	NAME 'zimbraNotifySSLServerEnabled'
+	DESC 'Whether SSL notification server should be enabled.'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7
+	SINGLE-VALUE )
+
 #
 # number of unique passwords a user must have before being allowed to
 # re-use an old one. A value of 0 means no password history.
@@ -1986,7 +2046,7 @@ attributetype ( zimbraSshPublicKey
 	NAME 'zimbraSshPublicKey'
 	DESC 'Public key of this server, used by other hosts to authorize this server to login.'
 	EQUALITY caseIgnoreIA5Match
-	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{2048}
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{1024}
 	SINGLE-VALUE )
 
 attributetype ( zimbraSslCaCert
@@ -2072,6 +2132,14 @@ attributetype ( zimbraMailMode
 	EQUALITY caseIgnoreMatch
 	SUBSTR caseIgnoreSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{64}
+	SINGLE-VALUE )	
+
+attributetype ( zimbraMailURL
+	NAME 'zimbraMailURL'
+	DESC 'URL prefix for where the zimbra app resides on this server'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
 	SINGLE-VALUE )	
 
 attributetype ( zimbraAdminPort
@@ -2563,7 +2631,8 @@ objectclass ( zimbraMailRecipient
 		zimbraMailCatchAllAddress $
 		zimbraMailCatchAllForwardingAddress $
 		zimbraMailCatchAllCanonicalAddress $
-		zimbraMailStatus) )
+		zimbraMailStatus
+	))
 
 ################
 # zimbraAccount extends zimbraMailRecipient. It represents a real account in the system
@@ -2595,7 +2664,8 @@ objectclass ( zimbraAccount
 	MUST (	
 		zimbraId $ 
 		zimbraAccountStatus $
-		uid)
+		uid
+	)
 	MAY (
 		zimbraLocale $
 		c $
@@ -2631,6 +2701,7 @@ objectclass ( zimbraAccount
 		zimbraFeatureFiltersEnabled $
 		zimbraFeatureSharingEnabled $		
 		zimbraFeatureViewInHtmlEnabled $
+                zimbraFeatureMobileSyncEnabled $
 		zimbraForeignPrincipal $
 		zimbraImapEnabled $
 		zimbraIsAdminAccount $ 
@@ -2674,7 +2745,7 @@ objectclass ( zimbraAccount
 		zimbraPrefCalendarInitialCheckedCalendars $
 		zimbraPrefCalendarUseQuickAdd $		
 		zimbraPrefCalendarAlwaysShowMiniCal $
-        zimbraPrefCalendarNotifyDelegatedChanges $
+		zimbraPrefCalendarNotifyDelegatedChanges $
 		zimbraPrefContactsInitialView $
 		zimbraPrefDedupeMessagesSentToSelf $
 		zimbraPrefForwardIncludeOriginalText $
@@ -2717,7 +2788,8 @@ objectclass ( zimbraAccount
 		st $
 		telephoneNumber $
 		title $
-		userPassword) )
+		userPassword
+	))
 
 ################
 # zimbraServer is used to represent a defined server within a zimbra install.
@@ -2732,12 +2804,13 @@ objectclass ( zimbraAlias
 	SUP top STRUCTURAL
 	MUST (
 		zimbraAliasTargetId $
-		zimbraId)
+		zimbraId
+	)
 	MAY (
 		zimbraLocale $
 		uid $
-		cn)
-	)
+		cn
+	))
 
 ################
 # zimbraDistributionList represents a distribution/mailing list.
@@ -2751,14 +2824,15 @@ objectclass ( zimbraDistributionList
 	SUP top STRUCTURAL
 	MUST (
 		zimbraId $
-		uid)
+		uid
+	)
 	MAY (
 		zimbraLocale $
 		displayName $
 		description $
 		zimbraNotes $
-		mail)
-	)
+		mail
+	))
 
 ################
 # zimbraCOS is the class of service object.
@@ -2774,7 +2848,8 @@ objectclass ( zimbraCOS
 	SUP top STRUCTURAL
 	MUST (
 		cn $
-		zimbraId)
+		zimbraId
+	)
 	MAY (
 		zimbraLocale $
 		description $
@@ -2798,8 +2873,9 @@ objectclass ( zimbraCOS
 		zimbraFeatureChangePasswordEnabled $
 		zimbraFeatureInitialSearchPreferenceEnabled $
 		zimbraFeatureFiltersEnabled $
-		zimbraImapEnabled $
 		zimbraFeatureViewInHtmlEnabled $
+                zimbraFeatureMobileSyncEnabled $
+		zimbraImapEnabled $
 		zimbraNotes $
 		zimbraMailHostPool $
 		zimbraMailIdleSessionTimeout $
@@ -2856,7 +2932,7 @@ objectclass ( zimbraCOS
 		zimbraZimletAvailableZimlets $
 		zimbraProxyAllowedDomains $
 		zimbraProxyCacheableContentTypes
-	) )
+	))
 
 ################
 # zimbraGlobalConfig is the entry that holds all the global configuration attrs.
@@ -2916,6 +2992,12 @@ objectclass ( zimbraGlobalConfig
 		zimbraMtaRelayHost $
 		zimbraMtaRestriction $
 		zimbraMtaTlsAuthOnly $
+		zimbraNotifyServerEnabled $
+		zimbraNotifyBindAddress $
+		zimbraNotifyBindPort $
+		zimbraNotifySSLServerEnabled $
+		zimbraNotifySSLBindAddress $
+		zimbraNotifySSLBindPort $
 		zimbraPop3CleartextLoginEnabled $
 		zimbraPop3NumThreads $
 		zimbraPop3BindPort $
@@ -2960,6 +3042,7 @@ objectclass ( zimbraGlobalConfig
 		zimbraMailPort $
 		zimbraMailSSLPort $
 		zimbraMailMode $
+                zimbraMailURL $
 		zimbraAdminPort $
 		zimbraVirusBlockEncryptedArchive $
 		zimbraVirusCheckEnabled $
@@ -2967,8 +3050,7 @@ objectclass ( zimbraGlobalConfig
 		zimbraVirusWarnAdmin $
 		zimbraVirusDefinitionsUpdateFrequency $
 		zimbraRedoLogProvider
-		)
-	 )
+	))
 
 ################
 # zimbraDomain is used to represent a domain in the directory. For example, if we created the foo.com domain, then
@@ -2981,9 +3063,11 @@ objectclass ( zimbraDomain
 	NAME 'zimbraDomain'
 	DESC 'Domain object'
 	SUP zimbraMailRecipient AUXILIARY	
-	MUST (	zimbraId $
+	MUST (
+		zimbraId $
 		zimbraDomainName $
-		zimbraDomainType)
+		zimbraDomainType
+	)
 	MAY (
 		zimbraLocale $
 		description $
@@ -3006,25 +3090,25 @@ objectclass ( zimbraDomain
 		zimbraGalLdapAttrMap $
 		zimbraGalLdapFilter $
 		zimbraPreAuthKey
-		))
+	))
 
 ################
-# zimbraSecurityGroup is used to represent a security group in the directory. Each zimbraMember attr
-# is the zimbraId of the account (and/or group if we allow recursive groups) that is a member
-# of this group.
+# zimbraSecurityGroup is used to represent a security group in the directory. Members of this
+# group have a zimbraMemberOf attr with this group's zimbraId. If this group is a member of
+# other groups, then it will have those group's zimbraIds in its own zimbraMemberOf list.
 #
 ################
 objectclass ( zimbraSecurityGroup
 	NAME 'zimbraSecurityGroup'
 	DESC 'Security Group'
-	SUP top STRUCTURAL
-	MUST (	zimbraId $
-		cn)
+	SUP top AUXILIARY
+	MUST (
+		zimbraGroupId
+	)
 	MAY (
-		zimbraMember $
-		zimbraNotes $
-		description))
-	
+		zimbraMemberOf
+	))
+
 ################
 # zimbraServer is used to represent a defined server within a zimbra install.
 #
@@ -3036,7 +3120,10 @@ objectclass ( zimbraServer
 	NAME 'zimbraServer'
 	DESC 'Server in the cluster'
 	SUP top STRUCTURAL
-	MUST (zimbraId $ cn)
+	MUST (
+		zimbraId $
+		cn
+	)
 	MAY (
 		zimbraLocale $
 		description $
@@ -3069,6 +3156,12 @@ objectclass ( zimbraServer
 		zimbraMtaMyNetworks $		
 		zimbraMtaRelayHost $
 		zimbraMtaTlsAuthOnly $
+		zimbraNotifyServerEnabled $
+		zimbraNotifyBindAddress $
+		zimbraNotifyBindPort $
+		zimbraNotifySSLServerEnabled $
+		zimbraNotifySSLBindAddress $
+		zimbraNotifySSLBindPort $
 		zimbraPop3CleartextLoginEnabled $
 		zimbraPop3AdvertisedName $
 		zimbraPop3BindAddress $
@@ -3111,6 +3204,7 @@ objectclass ( zimbraServer
 		zimbraMailPort $
 		zimbraMailSSLPort $
 		zimbraMailMode $
+                zimbraMailURL $
 		zimbraAdminPort $
 		zimbraRedoLogProvider
 	))
@@ -3127,8 +3221,10 @@ objectclass ( zimbraMimeEntry
 	MUST (
 		cn $
 		zimbraMimeType $ 
-		zimbraMimeIndexingEnabled)
-	MAY (description $
+		zimbraMimeIndexingEnabled
+	)
+	MAY (
+		description $
 		zimbraMimeFileExtension $
 		zimbraMimeHandlerClass $
 		zimbraMimeHandlerExtension
@@ -3148,10 +3244,11 @@ objectclass ( zimbraObjectEntry
 		zimbraObjectType $ 
 		zimbraObjectIndexingEnabled $
 		zimbraObjectStoreMatched)
-	MAY (description $
+	MAY (
+		description $
 		zimbraObjectHandlerConfig $
 		zimbraObjectHandlerClass
-	))
+	))	
 
 ################
 # zimbraTimeZone is used to define a timezone with daylight savings time
@@ -3163,16 +3260,16 @@ objectclass ( zimbraTimeZone
 	DESC 'Time Zone info'
 	SUP top STRUCTURAL
 	MUST (
-    	cn $
+		cn $
 		zimbraTimeZoneStandardDtStart $
-		zimbraTimeZoneStandardOffset)
+		zimbraTimeZoneStandardOffset
+	)
 	MAY (
 		zimbraTimeZoneStandardRRule $
 		zimbraTimeZoneDaylightDtStart $
 		zimbraTimeZoneDaylightOffset $
 		zimbraTimeZoneDaylightRRule
 	))
-
  
 ################
 # zimbraZimletEntry is used to represent Zimlets
@@ -3187,7 +3284,7 @@ objectclass ( zimbraZimletEntry
 		cn $
 		zimbraZimletEnabled $
 		zimbraZimletVersion
-		)
+	)
 	MAY (
 		zimbraZimletDescription $
 		zimbraZimletHandlerClass $
@@ -3198,8 +3295,7 @@ objectclass ( zimbraZimletEntry
 		zimbraZimletPriority $
 		zimbraZimletScript $
 		zimbraZimletServerIndexRegex
-		)
-	)	
+	))	
 
 
 ################
@@ -3217,7 +3313,7 @@ objectclass ( zimbraCalendarResource
 		displayName $
 		zimbraAccountCalendarUserType $
 		zimbraCalResType
-		)
+	)
 	MAY (
 		zimbraLocale $
 		zimbraCalResAutoAcceptDecline $
@@ -3232,5 +3328,4 @@ objectclass ( zimbraCalendarResource
 		zimbraCalResContactName $
 		zimbraCalResContactEmail $
 		zimbraCalResContactPhone
-		)
-	)
+	))
