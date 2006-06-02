@@ -74,7 +74,7 @@ access to attrs=userPassword
 
 # only allow access to these attrs basically GAL/Postfix related attrs
 
-access to filter=(!(zimbraHideInGal=TRUE)) attrs=cn,co,company,dc,displayName,givenName,gn,initials,l,mail,o,objectclass,ou,physicalDeliveryOfficeName,postalCode,sn,st,street,streetAddress,telephoneNumber,title,uid
+access to attrs=cn,co,company,dc,displayName,givenName,gn,initials,l,mail,o,objectclass,ou,physicalDeliveryOfficeName,postalCode,sn,st,street,streetAddress,telephoneNumber,title,uid
 	by dn.children="cn=admins,cn=zimbra" write
 	by * read
 
@@ -115,7 +115,6 @@ index   zimbraMailCatchAllAddress eq,sub
 index   zimbraMailDeliveryAddress eq,sub
 index   zimbraMailAlias        eq,sub
 index   zimbraDomainName       eq,sub
-index   zimbraShareInfo        sub
 index   uid                    pres,eq
 # white pages
 index   mail                   pres,eq,sub
