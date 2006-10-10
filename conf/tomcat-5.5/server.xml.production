@@ -14,14 +14,18 @@
     <!-- user services connector, no SSL -->
 	<!-- HTTPBEGIN -->
     <Connector port="%%zimbraMailPort%%"
-        acceptCount="1024"
+        compression="on"
+        compressableMimeType="text/html,text/plain,text/css"
+        acceptCount="1024" URIEncoding="UTF-8"
         enableLookups="false" redirectPort="%%zimbraMailSSLPort%%"
         maxThreads="100" minSpareThreads="100" maxSpareThreads="100"/>
 	<!-- HTTPEND -->
     <!-- user services connector, SSL -->
 	<!-- HTTPSBEGIN 
     <Connector port="%%zimbraMailSSLPort%%"
-        acceptCount="1024"
+        compression="on"
+        compressableMimeType="text/html,text/plain,text/css"
+        acceptCount="1024" URIEncoding="UTF-8"
         enableLookups="false"
         maxThreads="100" minSpareThreads="100" maxSpareThreads="100"
         scheme="https" secure="true"
@@ -31,7 +35,9 @@
 	HTTPSEND -->
     <!-- admin services connector; requires SSL -->
     <Connector port="7071"
-        acceptCount="1024"
+        compression="on"
+        compressableMimeType="text/html,text/plain,text/css"
+        acceptCount="1024" URIEncoding="UTF-8"
         enableLookups="false"
         maxThreads="50" minSpareThreads="50" maxSpareThreads="50"
         scheme="https" secure="true"
