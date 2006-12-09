@@ -34,7 +34,7 @@ our $Basedir = "/opt/zimbra/zimbramon";
 $SIG{CHLD} = 'IGNORE';
 
 use lib "/opt/zimbra/zimbramon/lib";
-use Zimbra::Util::Common;
+use lib "/opt/zimbra/zimbramon/lib/zimbrapm";
 
 my $id = `whoami`;
 chomp $id;

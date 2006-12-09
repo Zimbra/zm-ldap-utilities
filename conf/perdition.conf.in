@@ -66,7 +66,8 @@
 # binary, run "perdition --help".
 #
 ######################################################################
-q
+C
+d
 F mail
 M /opt/zimbra/perdition/lib/libperditiondb_ldap.so
 m '@@SPLIT ldap_url@@/?zimbraMailDeliveryAddress%2CzimbraMailHost?sub?(&(objectClass=zimbraAccount)(zimbraMailDeliveryAddress=%25s))' 

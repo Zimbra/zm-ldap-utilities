@@ -101,7 +101,7 @@ $mailfrom_to_quarantine = ''; # null return path; uses original sender if undef
 # when enabling addr extensions do also Postfix/main.cf: recipient_delimiter=+
 
 $path = '/opt/zimbra/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/usr/bin:/bin';
-#$dspam = '/opt/zimbra/dspam/bin/dspam';
+$dspam = '/opt/zimbra/dspam/bin/dspam';
 
 $MAXLEVELS = 14;
 $MAXFILES = 1500;
@@ -119,7 +119,6 @@ $myhostname = '@@zimbra_server_hostname@@';  # must be a fully-qualified domain 
 
 # $notify_method  = 'smtp:[127.0.0.1]:10025';
 # $forward_method = 'smtp:[127.0.0.1]:10025';  # set to undef with milter!
-$archive_quarantine_method = 'smtp:[127.0.0.1]:10025';
 
 # $final_virus_destiny      = D_DISCARD;
 # $final_banned_destiny     = D_BOUNCE;

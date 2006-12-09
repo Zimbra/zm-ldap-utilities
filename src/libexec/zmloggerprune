@@ -26,8 +26,9 @@
 
 use strict;
 
+use lib "/opt/zimbra/zimbramon/lib/zimbrapm";
+use lib "/opt/zimbra/zimbramon/lib/zimbrapm/SOAP";
 use lib "/opt/zimbra/zimbramon/lib";
-use Zimbra::Util::Common;
 
 use DBI;
 use Time::Local;
