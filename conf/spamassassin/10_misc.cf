@@ -39,7 +39,6 @@ report
 report " pts rule name              description"
 report  ---- ---------------------- --------------------------------------------------
 report _SUMMARY_
-
 #      ........................................................................
 
 # A 'contact address' users should contact for more info. (replaces
