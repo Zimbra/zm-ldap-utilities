@@ -28,12 +28,22 @@
 
 header RATWARE_EGROUPS		X-Mailer =~ /eGroups Message Poster/
 describe RATWARE_EGROUPS	Bulk email fingerprint (eGroups) found
+header RATWARE_HASH_2           X-Mailer =~ /^[A-Za-z0-9_]{16,}$/
+describe RATWARE_HASH_2		Bulk email fingerprint (hash 2) found
+header RATWARE_HASH_2_V2        X-Mailer =~ /^[A-Za-z0-9_]{14,}$/
+describe RATWARE_HASH_2_V2	Bulk email fingerprint (hash 2 v2) found
+header RATWARE_JPFREE		X-Mailer =~ /jpfree Group Mail Express/
+describe RATWARE_JPFREE		Bulk email fingerprint (jpfree) found
 
 # Note that the tests which look at the "ALL" pseudoheader are slower than
 # the specific header.
 # 100% overlap with X-Stormpost-To: header, but seems wise to leave it in
+uri RATWARE_STORM_URI		m{^http://\S{1,100}/sp/t\.pl\?id=\d+:\d+}i
+describe RATWARE_STORM_URI	Bulk email fingerprint (StormPost) found
 header RATWARE_OE_MALFORMED	X-Mailer =~ /^Microsoft Outlook Express \d(?:\.\d+){3} \w+$/
 describe RATWARE_OE_MALFORMED	X-Mailer has malformed Outlook Express version
+header RATWARE_RCVD_LC_ESMTP	Received =~ /^from (?:(?:unknown|\d+\.\d+\.\d+\.\d+) \(\S+\)|\[\d+\.\d+\.\d+\.\d+\]) by \S+ with (?:esmtp|local|smtp); /m
+describe RATWARE_RCVD_LC_ESMTP	Bulk email fingerprint ('esmtp' Received) found
 header RATWARE_MOZ_MALFORMED	User-Agent =~ /Mozilla\/5\.0\d\d/
 describe RATWARE_MOZ_MALFORMED	Bulk email fingerprint (Mozilla malformed) found
 
@@ -44,6 +54,11 @@ describe RATWARE_MPOP_WEBMAIL	Bulk email fingerprint (mPOP Web-Mail)
 # Now, detect forgeries of real MUAs
 #
 # NOTE: these rules should specify version numbers!
+
+# Dec 17 2002 jm: this means "message ID is either too old or has been
+# rewritten by a gateway".  Made into an eval test since meta tests cannot
+# (yet) chain from other meta tests.
+header __UNUSABLE_MSGID		eval:check_messageid_not_usable()
 
 # AOL
 header __AOL_MUA		X-Mailer =~ /\bAOL\b/
@@ -166,10 +181,15 @@ meta __USER_AGENT_APPLEMAIL	!__CTYPE_HTML && __X_MAILER_APPLEMAIL && (__MSGID_AP
 
 # 2003-02-23: quinlan
 # some useful meta rule sub-elements
+body __MIME_HTML		eval:check_for_mime_html()
 header __CTYPE_HTML		Content-Type =~ /text\/html/i
 header __ANY_AOL_MUA		X-Mailer =~ /^AOL\b/
 header __ANY_IMS_MUA		X-Mailer =~ /^Internet Mail Service\b/
 header __ANY_OUTLOOK_MUA	X-Mailer =~ /^Microsoft Outlook\b/
+body __TAG_EXISTS_BODY		eval:html_tag_exists('body')
+body __TAG_EXISTS_HEAD		eval:html_tag_exists('head')
+body __TAG_EXISTS_HTML		eval:html_tag_exists('html')
+body __TAG_EXISTS_META		eval:html_tag_exists('meta')
 
 header __ANY_QUALCOMM_MUA       X-Mailer =~ /\bQUALCOMM\b/
 meta FORGED_QUALCOMM_TAGS	(__ANY_QUALCOMM_MUA && __MIME_HTML && !__TAG_EXISTS_HTML)
@@ -199,6 +219,8 @@ rawbody RATWARE_HASH_DASH	/[a-z\d]-[a-z\d]{16}-[a-z\d]{1,16}(?-i:l)\d/i
 describe RATWARE_HASH_DASH	Contains a hashbuster in Send-Safe format
 
 # spammer tool, sometimes has "netIP with HTTP;" in Received: header
+header RATWARE_NETIP		Content-Type =~ /boundary="--ALT--[A-Z]{4}\d/
+describe RATWARE_NETIP		Bulk email fingerprint (netIP) found
 
 # this is really badly faked.  Also the spammer who uses "25250101"
 # for the build is a total hippie.
@@ -208,6 +230,10 @@ describe RATWARE_GECKO_BUILD	Bulk email fingerprint (Gecko faked) found
 ########################################################################
 # Most ratware uses message templates I would guess.
 # Here's two popular ones...
+header HDR_ORDER_MTSRIX		ALL =~ /\nMessage-ID: <\S+@\S+>\nTo: [^\n]+ <\S+>\nSubject: [^\n]+\nReferences: <\S+@\S+>\nIn-Reply-To: <\S+@\S+>\nX-Mailer: /
+describe HDR_ORDER_MTSRIX	Headers are in order found in spam (MTSRIX)
+header HDR_ORDER_TRIMRS		ALL =~ /\nTo: [^\n]+\nReferences: <\S+@\S+>\nIn-Reply-To: <\S+@\S+>\nMessage-ID: <\S+@\S+>\nReply-To: [^\n]+\nSender: /
+describe HDR_ORDER_TRIMRS	Headers are in order found in spam (TRIMRS)
 
 ########################################################################
 # This ratware always uses a +0000 TZ in the Date header, and has a multiplicity
@@ -246,6 +272,8 @@ header __RATWARE_0_TZ_DATE	Date =~ / \+0000$/
 meta RATWARE_ZERO_TZ   		(__RATWARE_0_TZ_DATE && __CTYPE_HTML && (__0_TZ_1 || __0_TZ_2 || __0_TZ_3 || __0_TZ_4 || __0_TZ_5 || __0_TZ_6 || __0_TZ_7))
 describe RATWARE_ZERO_TZ	Bulk email fingerprint (+0000) found
 
+header RCVD_BONUS_SPC_DATE	Received =~ /with SMTP;  \d\d \S\S\S /
+describe RCVD_BONUS_SPC_DATE	Bulk email fingerprint (bonus space) found
 
 header X_MESSAGE_INFO		exists:X-Message-Info
 describe X_MESSAGE_INFO		Bulk email fingerprint (X-Message-Info) found
@@ -261,50 +289,22 @@ describe RATWARE_RCVD_PF	Bulk email fingerprint (Received PF) found
 header RATWARE_RCVD_AT		Received =~ / by \S+\@\S+ with Microsoft SMTPSVC/
 describe RATWARE_RCVD_AT	Bulk email fingerprint (Received @) found
 
-header __RCVD_WITH_EXCHANGE	Received =~ /with Microsoft Exchange Server/
-
-meta RATWARE_OUTLOOK_NONAME	__MSGID_DOLLARS_OK && !__HAS_X_MAILER && !__RCVD_WITH_EXCHANGE
+meta RATWARE_OUTLOOK_NONAME	__MSGID_DOLLARS_OK && !__HAS_X_MAILER
 describe RATWARE_OUTLOOK_NONAME	Bulk email fingerprint (Outlook no name) found
 
+header MSGID_RATWARE1		Message-Id =~ /<[A-Z]+\$[^\$]+\$.+@/
+describe MSGID_RATWARE1		Bulk email fingerprint found
 
-
-header __MIMEOLE_MS		X-MIMEOLE =~ /^Produced By Microsoft MimeOLE/
-meta RATWARE_MS_HASH 		__MSGID_DOLLARS_OK && !__MIMEOLE_MS && !__RCVD_WITH_EXCHANGE
-describe RATWARE_MS_HASH	Bulk email fingerprint (msgid ms hash) found
-
-###########################################################################
-
-ifplugin Mail::SpamAssassin::Plugin::HeaderEval
-
-# Dec 17 2002 jm: this means "message ID is either too old or has been
-# rewritten by a gateway".  Made into an eval test since meta tests cannot
-# (yet) chain from other meta tests.
-header __UNUSABLE_MSGID		eval:check_messageid_not_usable()
+header RATWARE_BOUND_PIECE	Content-Type =~ /boundary=\"?--Piece/
+describe RATWARE_BOUND_PIECE	Bulk email fingerprint (piece boundary) found
 
 header __RATWARE_NAME_ID	eval:check_ratware_name_id()
 meta RATWARE_NAME_ID		__RATWARE_0_TZ_DATE && __RATWARE_NAME_ID
 describe RATWARE_NAME_ID	Bulk email fingerprint (msgid from) found
 
+header __MIMEOLE_MS		X-MIMEOLE =~ /^Produced By Microsoft MimeOLE/
+meta RATWARE_MS_HASH 		__MSGID_DOLLARS_OK && !__MIMEOLE_MS
+describe RATWARE_MS_HASH	Bulk email fingerprint (msgid ms hash) found
+
 header RATWARE_EFROM		eval:check_ratware_envelope_from()
 describe RATWARE_EFROM		Bulk email fingerprint (envfrom) found
-
-endif
-
-###########################################################################
-
-ifplugin Mail::SpamAssassin::Plugin::MIMEEval
-
-body __MIME_HTML		eval:check_for_mime_html()
-
-endif
-
-###########################################################################
-
-ifplugin Mail::SpamAssassin::Plugin::HTMLEval
-
-body __TAG_EXISTS_BODY		eval:html_tag_exists('body')
-body __TAG_EXISTS_HEAD		eval:html_tag_exists('head')
-body __TAG_EXISTS_HTML		eval:html_tag_exists('html')
-body __TAG_EXISTS_META		eval:html_tag_exists('meta')
-
-endif
