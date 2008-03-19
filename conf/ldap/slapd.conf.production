@@ -33,11 +33,12 @@ TLSVerifyClient never
 loglevel @@ldap_log_level@@
 
 # Load dynamic backend modules:
-modulepath	/opt/zimbra/openldap/libexec/openldap
-moduleload	back_bdb.la
-moduleload	back_monitor.la
-moduleload	syncprov.la
-moduleload	accesslog.la
+# modulepath	/usr/local/libexec/openldap
+# moduleload	back_bdb.la
+# moduleload	back_ldap.la
+# moduleload	back_ldbm.la
+# moduleload	back_passwd.la
+# moduleload	back_shell.la
 
 # Sample security restrictions
 #	Require integrity protection (prevent hijacking)
@@ -66,15 +67,8 @@ moduleload	accesslog.la
 #
 # rootdn can always read and write EVERYTHING!
 
-access to dn.subtree=""
-	by dn.children="cn=admins,cn=zimbra" write
-	by * break
-
-access to dn.base=""
-	by * read
-
-access to dn.base="cn=Subschema"
-	by * read
+access to dn.base="" by * read
+access to dn.base="cn=Subschema" by * read
 
 # don't let user's change their own passwords, since we want 
 # to enforce password policy
@@ -92,39 +86,14 @@ access to attrs=zimbraZimletUserProperties,zimbraGalLdapBindPassword,zimbraGalLd
 	by dn.children="cn=admins,cn=zimbra" write
         by * none
 
-# objectClass access for Amavis
-access to attrs=objectclass
-	by dn.children="cn=admins,cn=zimbra" write
-	by dn.exact="uid=zmpostfix,cn=appaccts,cn=zimbra" read
-	by dn.exact="uid=zmamavis,cn=appaccts,cn=zimbra" read
-	by * read
-
-# objectClass=amavisAccount access for Amavis
-access to attrs=amavisAccount
-	by dn.children="cn=admins,cn=zimbra" write
-	by dn.exact="uid=zmamavis,cn=appaccts,cn=zimbra" read
-	by * break
-
-access to attrs=mail
-	by dn.children="cn=admins,cn=zimbra" write
-	by dn.exact="uid=zmamavis,cn=appaccts,cn=zimbra" read
-	by * break
-
-# Allow access to zimbraAllowFromAddress for postfix for smtpd_sender_login_maps
-access to attrs=zimbraAllowFromAddress
-	by dn.children="cn=admins,cn=zimbra" write
-	by dn.exact="uid=zmpostfix,cn=appaccts,cn=zimbra" read
-
 # only allow access to these attrs basically GAL/Postfix related attrs
 
-access to filter=(!(zimbraHideInGal=TRUE)) attrs=cn,co,company,dc,displayName,givenName,gn,initials,l,mail,o,ou,physicalDeliveryOfficeName,postalCode,sn,st,street,streetAddress,telephoneNumber,title,uid
+access to filter=(!(zimbraHideInGal=TRUE)) attrs=cn,co,company,dc,displayName,givenName,gn,initials,l,mail,o,objectclass,ou,physicalDeliveryOfficeName,postalCode,sn,st,street,streetAddress,telephoneNumber,title,uid
 	by dn.children="cn=admins,cn=zimbra" write
-	by dn.exact="uid=zmpostfix,cn=appaccts,cn=zimbra" read
 	by * read
 
 access to attrs=zimbraId,zimbraMailAddress,zimbraMailAlias,zimbraMailCanonicalAddress,zimbraMailCatchAllAddress,zimbraMailCatchAllCanonicalAddress,zimbraMailCatchAllForwardingAddress,zimbraMailDeliveryAddress,zimbraMailForwardingAddress,zimbraPrefMailForwardingAddress,zimbraMailHost,zimbraMailStatus,zimbraMailTransport,zimbraDomainName,zimbraDomainType,zimbraPrefMailLocalDeliveryDisabled
 	by dn.children="cn=admins,cn=zimbra" write
-	by dn.exact="uid=zmpostfix,cn=appaccts,cn=zimbra" read
 	by * read
 
 access to attrs=entry
@@ -141,10 +110,10 @@ rootpw		{SSHA}8+r0nkcErptqasSrFPcT0k81NFrbTcAS
 #######################################################################
 # monitor database definition
 #######################################################################
-database	monitor
+database	monitor 
 rootdn		"cn=config"
 access to dn.children="cn=monitor"
-	by dn.children="cn=admins,cn=zimbra" read
+	by dn.exact="uid=zimbra,cn=admins,cn=zimbra" read
 
 #######################################################################
 # accesslog database definition
@@ -157,7 +126,11 @@ access to dn.children="cn=monitor"
 
 database	bdb
 suffix		""
-rootdn		"cn=config"
+rootdn		"uid=zimbra,cn=admins,cn=zimbra"
+# Cleartext passwords, especially for the rootdn, should
+# be avoid.  See slappasswd(8) and slapd.conf(5) for details.
+# Use of strong authentication encouraged.
+rootpw		{SSHA}8+r0nkcErptqasSrFPcT0k81NFrbTcAS
 # number of entries to keep in memory
 cachesize 10000
 # number of search results to keep in memory
@@ -170,20 +143,17 @@ checkpoint 64 5
 # Mode 700 recommended.
 directory	"/opt/zimbra/openldap-data"
 # Indices to maintain
-index   objectClass                 eq
-index   zimbraForeignPrincipal      eq
-index   zimbraId                    eq
-index   zimbraVirtualHostname       eq
-index   zimbraVirtualIPAddress      eq
-index   zimbraAuthKerberos5Realm    eq
-index   zimbraMailCatchAllAddress   eq,sub
-index   zimbraMailDeliveryAddress   eq,sub
+index   objectClass            eq
+index   zimbraForeignPrincipal eq
+index   zimbraId               eq
+index   zimbraVirtualHostname  eq
+index   zimbraMailCatchAllAddress eq,sub
+index   zimbraMailDeliveryAddress eq,sub
 index   zimbraMailForwardingAddress eq
-index   zimbraMailAlias             eq,sub
-index   zimbraMailTransport         eq
-index   zimbraDomainName            eq,sub
-index   zimbraShareInfo             sub
-index   uid                         pres,eq
+index   zimbraMailAlias        eq,sub
+index   zimbraDomainName       eq,sub
+index   zimbraShareInfo        sub
+index   uid                    pres,eq
 # white pages
 index   mail                   pres,eq,sub
 index   cn                     pres,eq,sub
@@ -202,6 +172,6 @@ index   entryCSN               eq
 sizelimit unlimited
 timelimit unlimited
 #overlay syncprov
-#syncprov-checkpoint 20 10
+#syncprov-checkpoint 100 10
 #syncprov-sessionlog 500
 ###include /opt/zimbra/conf/master-accesslog-overlay.conf

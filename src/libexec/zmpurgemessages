@@ -20,6 +20,11 @@ use lib "/opt/zimbra/zimbramon/lib";
 use Zimbra::Util::Common;
 
 use Getopt::Std;
+my %options = ();
+
+unless ( getopts( 'a:', \%options ) ) { usage(); }
+
+my $account_id = $options{a};
 
 use POSIX ":sys_wait_h";
 use LWP::UserAgent;
@@ -43,33 +48,14 @@ my $START;
 my $END;
 my $PERIOD;
 
-our %GlobalOpts;
+#our %GlobalOpts;
 
 sub usage { exit 1; }
 
-sub run_maint_command {
-
-	my $h = "localhost";
-
-	my $url = "https://$h:7071/service/admin/soap/";
-
-	my $context = $SOAP->zimbraContext($authToken, "");
-
-	my $d = new Zimbra::SOAP::XmlDoc;
-	$d->start('MaintainTablesRequest', $ADMINNS);
-	$d->end();
-
-	my $serverResponse = $SOAP->invoke($url, $d->root(), $context);
-
-	print $serverResponse->to_string("pretty"),"\n";
-
-}
-
 sub get_auth_token {
-	my $host = "localhost";
-	my $user = "zimbra";
-	my $pass = `/opt/zimbra/bin/zmlocalconfig -s -m nokey zimbra_ldap_password`;
-	chomp $pass;
+	my $host = shift;
+	my $user = shift;
+	my $pass = shift;
 
 	# print "Authenticating to $host as $user/$pass\n";
 
@@ -95,11 +81,36 @@ sub get_auth_token {
 
 }
 
-$authToken = get_auth_token();
+sub purgeMessages {
+	my $zimbraId = shift;
+	my $host = "localhost";
+	my $user = "zimbra";
+	chomp $user;
+	my $pass = `/opt/zimbra/bin/zmlocalconfig -s -m nokey zimbra_ldap_password`;
+	chomp $pass;
+	$authToken = get_auth_token ($host, $user, $pass );
 
-if (!defined ($authToken)) {
-	print STDERR "AUTH FAILED\n\n";
-	exit (1);
+	if (!defined ($authToken)) {exit 1;}
+
+	my $context = $SOAP->zimbraContext($authToken, "");
+
+	my $url = "https://$host:7071/service/admin/soap/";
+
+	my $d = new Zimbra::SOAP::XmlDoc;
+	$d->start('PurgeMessagesRequest', $ADMINNS);
+	if ($zimbraId) {
+		$d->add('mbox', undef, {id => $zimbraId}, undef);
+		}
+	$d->end();
+
+	my $response = $SOAP->invoke($url, $d->root(), $context, 36000);
+
+	# print $response->to_string("pretty"),"\n";
+
+	if ($response->{name} ne "PurgeMessagesResponse") {
+		print STDERR "Error: ".$response->to_string("pretty")."\n";
+		return undef;
+	}
+
 }
-
-run_maint_command();
+purgeMessages($account_id);
