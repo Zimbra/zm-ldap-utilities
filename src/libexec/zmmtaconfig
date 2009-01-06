@@ -56,6 +56,11 @@ chomp($config{hostname} = `/opt/zimbra/bin/zmhostname`)
  
 logMsg(0, "Can't determine server hostname") 
   if ($config{hostname} eq ""); 
+chomp($config{hostname} = `/opt/zimbra/bin/zmhostname`)
+  if ($config{hostname} eq "");
+ 
+logMsg(0, "Can't determine server hostname") 
+  if ($config{hostname} eq ""); 
 
 my $sectionMap = { 
   amavis     => "mta",
@@ -99,7 +104,6 @@ my %exe = (
   'IMAPPROXY'     => "$config{baseDir}/bin/zmproxyctl",
   'STATS'         => "$config{baseDir}/bin/zmstatctl",
   'ARCHIVING'     => "$config{baseDir}/bin/zmamavisdctl",
-  'MEMCACHED'     => "$config{baseDir}/bin/zmmemcachedctl",
   'MTA'           => "$config{baseDir}/bin/postfix",
   'ANTISPAM'      => "$config{baseDir}/bin/zmamavisdctl",
   'AMAVIS'        => "$config{baseDir}/bin/zmamavisdctl",
@@ -815,10 +819,10 @@ sub compileActions {
         logMsg(5, "Adding postconf $postconf");
         $state->{current}->{postconf}->{$postconf} = $section->{config}->{postconf}->{$postconf};
       }
-      if ($section->{name} eq "imapproxy") {
-        logMsg(5, "Section $section->{name} changed compiling proxygen");
-        $state->{current}->{proxygen}=1;
-      }
+	  if ($section->{name} eq "imapproxy") {
+	    logMsg(5, "Section $section->{name} changed compiling proxygen");
+		$state->{current}->{proxygen}=1;
+	  }
       unless ($state->{forced}) {  # no restarts on forced rewrites
         logMsg(5, "Section $section->{name} changed compiling restarts");
         foreach my $restarts (keys %{$section->{config}->{restarts}}) {
