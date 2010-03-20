@@ -47,10 +47,6 @@ public	class	ApiReferenceTemplateHandler extends	TemplateHandler {
 	private	static	final	String		OUTPUT_SERVICE_FRAME = "service-frame.html";
 	private	static	final	String		OUTPUT_SERVICE_SUMMARY = "service-summary.html";
 
-	public	static	final	String			KEY_SERVICE = "service";
-	public	static	final	String			KEY_COMMAND = "command";
-	public	static	final	String			KEY_ALL_COMMANDS = "allcommands";
-
 	private	Template indexTemplate = null;
 	private	Template overviewFrameTemplate = null;
 	private	Template overviewSummaryTemplate = null;
@@ -127,16 +123,13 @@ public	class	ApiReferenceTemplateHandler extends	TemplateHandler {
     	File of = getOutputFile(s.getName());
 		of.mkdir();
 
-		Map data = new HashMap();
-		data.put(KEY_SERVICE, s);
-
     	// write service/service-frame.html
 		File sf = new File(of, OUTPUT_SERVICE_FRAME);
-    	processTemplate(root, data, sf, this.serviceFrameTemplate);
+    	processTemplate(root, s, null, sf, this.serviceFrameTemplate);
     	
     	// write service/service-summary.html
 		File ss = new File(of, OUTPUT_SERVICE_SUMMARY);
-    	processTemplate(root, data, ss, this.serviceSummaryTemplate);
+    	processTemplate(root, s, null, ss, this.serviceSummaryTemplate);
     	
     	// write service/commands*.html
     	processServiceCommands(root, s, of);
@@ -149,7 +142,7 @@ public	class	ApiReferenceTemplateHandler extends	TemplateHandler {
      */
     private	void	processIndex(Root root)
     throws	IOException, SoapDocException {
-    	processTemplate(root, null, OUTPUT_INDEX, this.indexTemplate);
+    	processTemplate(root, null, null, OUTPUT_INDEX, this.indexTemplate);
     }
 
     /**
@@ -159,7 +152,7 @@ public	class	ApiReferenceTemplateHandler extends	TemplateHandler {
      */
     private	void	processOverviewFrame(Root root)
     throws	IOException, SoapDocException {
-    	processTemplate(root, null, OUTPUT_OVERVIEW_FRAME, this.overviewFrameTemplate);
+    	processTemplate(root, null, null, OUTPUT_OVERVIEW_FRAME, this.overviewFrameTemplate);
     }
 
     /**
@@ -169,7 +162,7 @@ public	class	ApiReferenceTemplateHandler extends	TemplateHandler {
      */
     private	void	processOverviewSummary(Root root)
     throws	IOException, SoapDocException {
-    	processTemplate(root, null, OUTPUT_OVERVIEW_SUMMARY, this.overviewSummaryTemplate);
+    	processTemplate(root, null, null, OUTPUT_OVERVIEW_SUMMARY, this.overviewSummaryTemplate);
     }
 
     /**
@@ -182,9 +175,9 @@ public	class	ApiReferenceTemplateHandler extends	TemplateHandler {
     	List<Command>	allCommands = root.getAllCommands();
     	
     	Map data = new HashMap();
-    	data.put(KEY_ALL_COMMANDS, allCommands);
+    	data.put("allcommands", allCommands);
     	
-    	processTemplate(root, data, OUTPUT_ALL_COMMANDS_FRAME, this.allCommandsFrameTemplate);
+    	processTemplate(root, null, data, OUTPUT_ALL_COMMANDS_FRAME, this.allCommandsFrameTemplate);
     }
 
     /**
@@ -205,10 +198,9 @@ public	class	ApiReferenceTemplateHandler extends	TemplateHandler {
     		File cf = new File(outputFile, filename);
     		
     		Map data = new HashMap();
-    		data.put(KEY_COMMAND, c);
-    		data.put(KEY_SERVICE, service);
+    		data.put("command", c);
     		
-        	processTemplate(root, data, cf, this.serviceCommandTemplate);
+        	processTemplate(root, service, data, cf, this.serviceCommandTemplate);
     	}
     
     }

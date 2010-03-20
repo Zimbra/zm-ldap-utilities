@@ -13,41 +13,40 @@
  * ***** END LICENSE BLOCK *****
  */
 
-package com.zimbra.doc.soap.doclet;
+package com.zimbra.doc.soap;
 
-import com.zimbra.doc.soap.Service;
-import java.util.*;
-import com.sun.javadoc.*;
+import com.zimbra.soap.DocumentDispatcher;
+import com.zimbra.soap.DocumentHandler;
+import org.dom4j.QName;
 
 /**
  * 
  * @author sposetti
  *
  */
-public 	class ServiceDocletListener	extends	DocletListener {
+public	class	ServiceDispatcher extends DocumentDispatcher {
 	
-	public	static	final	String			TAG_SERVICE_DESCRIPTION = "@zm-service-description";
-
+	private	Root	root = null;
 	private	Service		service = null;
+	private	ServiceRegisterListener	listener = null;
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param		service		the service
 	 */
-	public	ServiceDocletListener(Service service) {
-		super(service.getDocumentServiceClassName());
+	ServiceDispatcher (Root root, Service service, ServiceRegisterListener listener) {
+		this.root = root;
 		this.service = service;
-	}
-
-	/**
-	 * Called when a registered class is found.
-	 * 
-	 * @param	tags		the tags
-	 */
-	public	void		tagsEvent(Tag[] tags) {
-		String description = getTagText(tags, TAG_SERVICE_DESCRIPTION);
-		this.service.setDescription(description);
+		this.listener = listener;
 	}
 	
-} // end ServiceDocletListener class
+	/**
+	 * Registers the service document dispather.
+	 * 
+	 */
+	public void registerHandler(QName qname, DocumentHandler handler) {
+		if (listener.registerCommand(qname, handler))
+			this.service.addCommand(handler.getClass().getName(), qname.getNamespace().getURI());
+	}
+	
+} // end class ServiceDispatcher

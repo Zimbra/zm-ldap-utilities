@@ -43,7 +43,7 @@ ${command.description}
 </p>
 <h2><a name="request">${command.requestName}</a></h2>
 <pre>
-${command.request.elementAsXML}
+${command.request.elementAsCode}
 </pre>
 <p>
 The <code>&lt;${command.requestName}&gt;</code> element has the following attributes: 
@@ -128,7 +128,7 @@ The following table describes the elements defined within a <code>&lt;${command.
 <h2><a name="response">${command.responseName}</a></h2>
 <p>
 <pre>
-${command.response.elementAsXML}
+${command.response.elementAsCode}
 </pre>
 </p>
 <p>
