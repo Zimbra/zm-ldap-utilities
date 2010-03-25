@@ -111,11 +111,11 @@ body DEAR_WINNER /\bdear.{1,20}winner/i
 
 ##{ DNS_FROM_OPENWHOIS
 
-ifplugin Mail::SpamAssassin::Plugin::DNSEval
-header          DNS_FROM_OPENWHOIS  eval:check_rbl_envfrom('openwhois', 'bl.open-whois.org.')
-describe        DNS_FROM_OPENWHOIS  Envelope sender listed in bl.open-whois.org.
-tflags          DNS_FROM_OPENWHOIS  net publish
-endif
+#ifplugin Mail::SpamAssassin::Plugin::DNSEval
+#header          DNS_FROM_OPENWHOIS  eval:check_rbl_envfrom('openwhois', 'bl.open-whois.org.')
+#describe        DNS_FROM_OPENWHOIS  Envelope sender listed in bl.open-whois.org.
+#tflags          DNS_FROM_OPENWHOIS  net publish
+#endif
 ##} DNS_FROM_OPENWHOIS
 
 ##{ DOS_FIX_MY_URI
