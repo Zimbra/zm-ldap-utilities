@@ -62,6 +62,7 @@ $lock_file = "$MYHOME/var/amavisd.lock";
 @local_domains_maps = ( [".$mydomain"] );
 # @mynetworks = qw( 127.0.0.0/8 [::1] [FE80::]/10 [FEC0::]/10
 #                   10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 );
+@mynetworks = qw( %%zimbraMtaMyNetworks%% );
 
 $log_level = 1;              # verbosity 0..5 - 1 is the minimum for msg tracing
 $log_recip_templ = undef;    # disable by-recipient level-0 log entries
