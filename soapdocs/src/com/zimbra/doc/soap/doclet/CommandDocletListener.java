@@ -1,7 +1,7 @@
 /*
  * ***** BEGIN LICENSE BLOCK *****
  * Zimbra Collaboration Suite Server
- * Copyright (C) 2010 Zimbra, Inc.
+ * Copyright (C) 2007, 2008, 2009, 2010 Zimbra, Inc.
  * 
  * The contents of this file are subject to the Zimbra Public License
  * Version 1.3 ("License"); you may not use this file except in
@@ -21,7 +21,7 @@ import com.zimbra.doc.soap.AbstractElement;
 import com.zimbra.doc.soap.Element;
 import com.zimbra.doc.soap.Attribute;
 import java.util.*;
-import com.sun.javadoc.*;
+import com.sun.javadoc.Tag;
 
 /**
  * 
