@@ -66,6 +66,17 @@ class ServerConfig(config.Config):
 				elif (v == "mta"):
 					self.serviceconfig["sasl"] = "zimbraServiceEnabled"
 
+		if self["zimbraIPMode"] is not None:
+			v = self["zimbraIPMode"]
+			v = str(v)
+			v = v.lower()
+			if v == "ipv4":
+				self["zimbraPostconfProtocol"] = "ipv4"
+			if v == "ipv6":
+				self["zimbraPostconfProtocol"] = "ipv6"
+			if v == "both":
+				self["zimbraPostconfProtocol"] = "all"
+
 		milter = None
 		if (self["zimbraMilterServerEnabled"] == "TRUE"):
 			if self["zimbraMilterBindAddress"] is None:

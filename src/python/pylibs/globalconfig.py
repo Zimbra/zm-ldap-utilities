@@ -54,5 +54,16 @@ class GlobalConfig(config.Config):
 			self["zimbraMtaRestriction"] = q
 			self["zimbraMtaRestrictionRBLs"] = ' '.join(p)
 
+		if self["zimbraIPMode"] is not None:
+			v = self["zimbraIPMode"]
+			v = str(v)
+			v = v.lower()
+			if v == "ipv4":
+				self["zimbraPostconfProtocol"] = "ipv4"
+			if v == "ipv6":
+				self["zimbraPostconfProtocol"] = "ipv6"
+			if v == "both":
+				self["zimbraPostconfProtocol"] = "all"
+
 		dt = time.clock()-t1
 		Log.logMsg(5,"globalconfig loaded in %.2f seconds" % dt)
