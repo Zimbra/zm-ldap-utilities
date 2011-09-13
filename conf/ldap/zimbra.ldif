@@ -93,6 +93,12 @@ zimbraId: 30C08DC0-DB30-11E0-A9E3-832DA18C185A
 description: The zimbra BES searcher account
 userPassword: {SSHA}HdIhXsO3HVQI3NB0aU/ZfJ0ZjTnP/2Ld
 
+# place holder for global group tree
+dn: cn=groups,cn=zimbra
+objectClass: organizationalRole
+cn: groups
+description: global dynamic groups
+
 # zimlets
 dn: cn=zimlets,cn=zimbra
 objectclass: organizationalRole
