@@ -7,7 +7,6 @@ include		"/opt/zimbra/openldap/etc/openldap/schema/core.schema"
 include		"/opt/zimbra/openldap/etc/openldap/schema/cosine.schema"
 include		"/opt/zimbra/openldap/etc/openldap/schema/inetorgperson.schema"
 include		"/opt/zimbra/openldap/etc/openldap/schema/amavisd.schema"
-include		"/opt/zimbra/openldap/etc/openldap/schema/dyngroup.schema"
 include		"/opt/zimbra/openldap/etc/openldap/schema/zimbra.schema"
 
 # Define global ACLs to disable default read access.
@@ -133,9 +132,7 @@ index   zimbraMailAlias             eq,sub
 index   zimbraMailTransport         eq
 index   zimbraDomainName            eq,sub
 index   zimbraShareInfo             sub
-index   zimbraSharedItem            sub
 index   zimbraACE                   sub
-index   zimbraMemberOf              eq
 index   uid                         pres,eq
 # white pages
 index   mail                   pres,eq,sub
