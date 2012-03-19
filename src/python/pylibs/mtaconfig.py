@@ -1,13 +1,13 @@
 #
 # ***** BEGIN LICENSE BLOCK *****
 # Zimbra Collaboration Suite Server
-# Copyright (C) 2010, 2011 VMware, Inc.
-# 
+# Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Zimbra, Inc.
+#
 # The contents of this file are subject to the Zimbra Public License
 # Version 1.3 ("License"); you may not use this file except in
 # compliance with the License.  You may obtain a copy of the License at
 # http://www.zimbra.com/license.
-# 
+#
 # Software distributed under the License is distributed on an "AS IS"
 # basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 # ***** END LICENSE BLOCK *****
@@ -93,7 +93,7 @@ class MtaConfig():
 				"amavis"     : "mta",
 				"sasl"       : "mta",
 				"webxml"     : "mailbox",
-				"nginx"      : "imapproxy",
+				"nginx"      : "proxy",
 				}
 
 	def getSection(self,name):
@@ -139,7 +139,7 @@ class MtaConfig():
 			i += 1
 
 			# the previous version continued to add the section to the list, with
-			# no data; this resulted in the forced run of proxyconfgen even when imapproxy
+			# no data; this resulted in the forced run of proxyconfgen even when proxy
 			# was disabled.  Probably a bug, not replicating.
 			if not state.checkConditional("SERVICE", servicemap):
 				Log.logMsg(4, "Service %s is not enabled.  Skipping %s" % (servicemap, section.name))
@@ -193,7 +193,7 @@ class MtaConfig():
 					else:
 						section.postconf(fields[1],"")
 				elif re.match(r"PROXYGEN", ln):
-					# ignore this; proxygen hardcoded in the imapproxy section logic
+					# ignore this; proxygen hardcoded in the proxy section logic
 					pass
 				elif re.match(r"LDAP", ln):
 					if (re.match(r"LOCAL", fields[2])):
@@ -244,4 +244,4 @@ class MtaConfig():
 			self.addSection(section)
 
 		dt = time.clock()-t1
-		Log.logMsg(5,"zmmta.cf loaded in %.2f seconds" % dt)
+		Log.logMsg(5,"zmconfigd.cf loaded in %.2f seconds" % dt)
