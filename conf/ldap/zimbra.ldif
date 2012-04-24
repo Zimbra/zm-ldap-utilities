@@ -13,6 +13,7 @@ dn: uid=zimbra,cn=admins,cn=zimbra
 uid: zimbra
 objectclass: zimbraAccount
 objectclass: organizationalPerson
+objectClass: inetOrgPerson
 cn: zimbra
 sn: zimbra
 zimbraAccountStatus: active
@@ -27,6 +28,7 @@ dn: uid=zmreplica,cn=admins,cn=zimbra
 uid: zmreplica
 objectclass: zimbraAccount
 objectclass: organizationalPerson
+objectClass: inetOrgPerson
 cn: zmreplica
 sn: zmreplica
 zimbraAccountStatus: active
@@ -45,6 +47,7 @@ dn: uid=zmnginx,cn=appaccts,cn=zimbra
 uid: zmnginx
 objectclass: zimbraAccount
 objectclass: organizationalPerson
+objectClass: inetOrgPerson
 cn: zmnginx
 sn: zmnginx
 zimbraAccountStatus: active
@@ -59,11 +62,12 @@ dn: uid=zmpostfix,cn=appaccts,cn=zimbra
 uid: zmpostfix
 objectclass: zimbraAccount
 objectclass: organizationalPerson
+objectClass: inetOrgPerson
 cn: zmpostfix
 sn: zmpostfix
 zimbraAccountStatus: active
 zimbraIsSystemResource: TRUE
-zimbraId: DA336C18-4F5E-11DC-8514-DCA8E67A905E
+zimbraId: a8255e5f-142b-4aa0-8aab-f8591b6455ba
 description: The zimbra postfix account
 userPassword: {SSHA}Cx6IUWjKNw5JGsaBQsLOcDmugUPyI0E4
 
@@ -72,6 +76,7 @@ dn: uid=zmamavis,cn=appaccts,cn=zimbra
 uid: zmamavis
 objectclass: zimbraAccount
 objectclass: organizationalPerson
+objectClass: inetOrgPerson
 cn: zmamavis
 sn: zmamavis
 zimbraAccountStatus: active
@@ -85,6 +90,7 @@ dn: uid=zmbes-searcher,cn=appaccts,cn=zimbra
 uid: zmbes-searcher
 objectclass: zimbraAccount
 objectclass: organizationalPerson
+objectClass: inetOrgPerson
 cn: zmbes-searcher
 sn: zmbes-searcher
 zimbraAccountStatus: active
@@ -92,6 +98,12 @@ zimbraIsSystemResource: TRUE
 zimbraId: 30C08DC0-DB30-11E0-A9E3-832DA18C185A
 description: The zimbra BES searcher account
 userPassword: {SSHA}HdIhXsO3HVQI3NB0aU/ZfJ0ZjTnP/2Ld
+
+# place holder for global group tree
+dn: cn=groups,cn=zimbra
+objectClass: organizationalRole
+cn: groups
+description: global dynamic groups
 
 # zimlets
 dn: cn=zimlets,cn=zimbra
@@ -109,6 +121,11 @@ dn: cn=servers,cn=zimbra
 objectclass: organizationalRole
 cn: servers
 
+# for storing UC service info
+dn: cn=ucservices,cn=zimbra
+objectclass: organizationalRole
+cn: ucservices
+
 # for storing xmpp component info
 dn: cn=xmppcomponents,cn=zimbra
 objectclass: organizationalRole
@@ -120,5 +137,7 @@ objectclass: zimbraAclTarget
 description: acl target for global grants
 cn: globalgrant
 
-
-
+# for storing share locators
+dn: cn=sharelocators,cn=zimbra
+objectclass: organizationalRole
+cn: sharelocators
