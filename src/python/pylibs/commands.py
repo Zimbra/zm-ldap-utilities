@@ -1,13 +1,13 @@
 #
 # ***** BEGIN LICENSE BLOCK *****
 # Zimbra Collaboration Suite Server
-# Copyright (C) 2010, 2011 VMware, Inc.
-# 
+# Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Zimbra, Inc.
+#
 # The contents of this file are subject to the Zimbra Public License
 # Version 1.3 ("License"); you may not use this file except in
 # compliance with the License.  You may obtain a copy of the License at
 # http://www.zimbra.com/license.
-# 
+#
 # Software distributed under the License is distributed on an "AS IS"
 # basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 # ***** END LICENSE BLOCK *****
@@ -29,10 +29,11 @@ from com.zimbra.cs.util import ProxyConfGen
 
 exe = {
 	"POSTCONF"      : "postfix/sbin/postconf -e",
+	"POSTCONFD"     : "postfix/sbin/postconf -X",
 	"ZMPROV"        : "bin/zmprov -l",
 	"ZMLOCALCONFIG" : "bin/zmlocalconfig",
 	'PERDITION'     : "bin/zmperditionctl",
-	'IMAPPROXY'     : "bin/zmproxyctl",
+	'PROXY'         : "bin/zmproxyctl",
 	'STATS'         : "bin/zmstatctl",
 	'ARCHIVING'     : "bin/zmamavisdctl",
 	'MEMCACHED'     : "bin/zmmemcachedctl",
@@ -50,7 +51,7 @@ exe = {
 	'CBPOLICYD'     : "bin/zmcbpolicydctl",
 	'PROXYGEN'      : "bin/zmproxyconfgen",
 	'CONVERTD'      : "bin/zmconvertctl",
-	'LDAPHELPER'    : "bin/ldapHelper.pl",
+	'OPENDKIM'	: "bin/zmopendkimctl",
 	}
 
 class Command:
@@ -343,6 +344,12 @@ commands = {
 		cmd  = exe["POSTCONF"] + " %s",
 		# cmd  = exe["POSTCONF"] + " %s='%s'",
 	),
+	"postconfd" : Command(
+		desc = "postconfd",
+		name = "postconfd",
+		cmd  = exe["POSTCONFD"] + " %s",
+		# cmd  = exe["POSTCONFD"] + " %s='%s'",
+	),
 	"proxygen" : Command(
 		desc = "proxygen",
 		name = "proxygen",
@@ -353,10 +360,10 @@ commands = {
 		name = "perdition",
 		cmd  = exe["PERDITION"] + " %s",
 	),
-	"imapproxy" : Command(
-		desc = "imapproxy",
-		name = "imapproxy",
-		cmd  = exe["IMAPPROXY"] + " %s",
+	"proxy" : Command(
+		desc = "proxy",
+		name = "proxy",
+		cmd  = exe["PROXY"] + " %s",
 	),
 	"stats" : Command(
 		desc = "stats",
@@ -392,6 +399,11 @@ commands = {
 		desc = "amavis",
 		name = "amavis",
 		cmd  = exe["AMAVIS"] + " %s",
+	),
+	"opendkim" : Command(
+		desc = "opendkim",
+		name = "opendkim",
+		cmd  = exe["OPENDKIM"] + " %s",
 	),
 	"cbpolicyd" : Command(
 		desc = "cbpolicyd",
@@ -437,11 +449,6 @@ commands = {
 		desc = "convertd",
 		name = "convertd",
 		cmd  = exe["CONVERTD"] + " %s",
-	),
-	"ldaphelper" : Command(
-		desc = "ldaphelper",
-		name = "ldaphelper",
-		cmd  = exe["LDAPHELPER"] + " %s %s %s '%s'",
 	),
 	}
 

@@ -1,13 +1,13 @@
 #
 # ***** BEGIN LICENSE BLOCK *****
 # Zimbra Collaboration Suite Server
-# Copyright (C) 2010, 2011 VMware, Inc.
-# 
+# Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Zimbra, Inc.
+#
 # The contents of this file are subject to the Zimbra Public License
 # Version 1.3 ("License"); you may not use this file except in
 # compliance with the License.  You may obtain a copy of the License at
 # http://www.zimbra.com/license.
-# 
+#
 # Software distributed under the License is distributed on an "AS IS"
 # basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 # ***** END LICENSE BLOCK *****
@@ -36,7 +36,7 @@ class Config:
 						1 : "Error", 
 						0 : "Fatal"
 						}
-		self.configFile = self.baseDir+"/conf/zmmta.cf";
+		self.configFile = self.baseDir+"/conf/zmconfigd.cf";
 		self.logFile    = self.baseDir+"/log/"+self.progname+".log";
 		self.pidFile    = self.baseDir+"/log/"+self.progname+".pid";
 		self.interval 	= 60
@@ -61,17 +61,19 @@ class Config:
 		self.ldap_root_password = state.localconfig["ldap_root_password"]
 		self.ldap_master_url = state.localconfig["ldap_master_url"]
 		self.loglevel 	= 3
-		if state.localconfig["zmmtaconfig_log_level"] is not None:
-			self.loglevel 	= int(state.localconfig["zmmtaconfig_log_level"])
+		if state.localconfig["ldap_starttls_required"] is not None:
+			self.ldap_starttls_required = (state.localconfig["ldap_starttls_required"].upper() != "FALSE")
+		if state.localconfig["zmconfigd_log_level"] is not None:
+			self.loglevel 	= int(state.localconfig["zmconfigd_log_level"])
 		self.interval 	= 60
-		if state.localconfig["zmmtaconfig_interval"] is not None and state.localconfig["zmmtaconfig_interval"] != "":
-			self.interval 	= int(state.localconfig["zmmtaconfig_interval"])
+		if state.localconfig["zmconfigd_interval"] is not None and state.localconfig["zmconfigd_interval"] != "":
+			self.interval 	= int(state.localconfig["zmconfigd_interval"])
 		self.debug 		= False
-		if state.localconfig["zmmtaconfig_debug"] is not None:
-			self.debug 		= state.localconfig["zmmtaconfig_debug"]
-		if state.localconfig["zmmtaconfig_watchdog"] is not None:
-			self.watchdog	= (state.localconfig["zmmtaconfig_watchdog"].upper() != "FALSE")
-		if state.localconfig["zmmtaconfig_enable_config_restarts"] is not None:
-			self.restartconfig = (state.localconfig["zmmtaconfig_enable_config_restarts"].upper() != "FALSE")
-		if state.localconfig["zmmtaconfig_watchdog_services"] is not None:
-			self.wd_list = state.localconfig["zmmtaconfig_watchdog_services"].split()
+		if state.localconfig["zmconfigd_debug"] is not None:
+			self.debug 		= state.localconfig["zmconfigd_debug"]
+		if state.localconfig["zmconfigd_watchdog"] is not None:
+			self.watchdog	= (state.localconfig["zmconfigd_watchdog"].upper() != "FALSE")
+		if state.localconfig["zmconfigd_enable_config_restarts"] is not None:
+			self.restartconfig = (state.localconfig["zmconfigd_enable_config_restarts"].upper() != "FALSE")
+		if state.localconfig["zmconfigd_watchdog_services"] is not None:
+			self.wd_list = state.localconfig["zmconfigd_watchdog_services"].split()
