@@ -1,13 +1,13 @@
 #
 # ***** BEGIN LICENSE BLOCK *****
 # Zimbra Collaboration Suite Server
-# Copyright (C) 2010, 2011 VMware, Inc.
-# 
+# Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Zimbra, Inc.
+#
 # The contents of this file are subject to the Zimbra Public License
 # Version 1.3 ("License"); you may not use this file except in
 # compliance with the License.  You may obtain a copy of the License at
 # http://www.zimbra.com/license.
-# 
+#
 # Software distributed under the License is distributed on an "AS IS"
 # basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 # ***** END LICENSE BLOCK *****
@@ -60,15 +60,25 @@ class GlobalConfig(config.Config):
 			self["zimbraMtaRestrictionRBLs"] = ' '.join(p)
 
 		if self["zimbraIPMode"] is not None:
+			self["zimbraIPv4BindAddress"] = "127.0.0.1"
 			v = self["zimbraIPMode"]
 			v = str(v)
 			v = v.lower()
 			if v == "ipv4":
+				self["zimbraLocalBindAddress"] = "127.0.0.1"
 				self["zimbraPostconfProtocol"] = "ipv4"
+				self["zimbraAmavisListenSockets"] = "'10024','10026'"
+				self["zimbraInetMode"] = "inet"
 			if v == "ipv6":
+				self["zimbraLocalBindAddress"] = "::1"
 				self["zimbraPostconfProtocol"] = "ipv6"
+				self["zimbraAmavisListenSockets"] = "'[::1]:10024','[::1]:10026'"
+				self["zimbraInetMode"] = "inet6"
 			if v == "both":
+				self["zimbraLocalBindAddress"] = "::1"
 				self["zimbraPostconfProtocol"] = "all"
+				self["zimbraAmavisListenSockets"] = "'10024','10026','[::1]:10024','[::1]:10026'"
+				self["zimbraInetMode"] = "inet6"
 
 		dt = time.clock()-t1
 		Log.logMsg(5,"globalconfig loaded in %.2f seconds" % dt)
