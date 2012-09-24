@@ -18,7 +18,6 @@ olcIndexIntLen: 4
 olcLocalSSF: 128
 olcLogLevel: Sync
 olcLogLevel: None
-olcSecurity: ssf=0
 olcPidFile: /opt/zimbra/openldap/var/run/slapd.pid
 olcReadOnly: FALSE
 olcSaslSecProps: noplain,noanonymous
@@ -30,7 +29,7 @@ olcTLSCertificateKeyFile: /opt/zimbra/conf/slapd.key
 olcTLSCACertificatePath: /opt/zimbra/conf/ca
 olcTLSCRLCheck: none
 olcTLSVerifyClient: never
-olcToolThreads: 2
+olcToolThreads: 1
 olcWriteTimeout: 0
 structuralObjectClass: olcGlobal
 entryUUID: 1525b684-333e-102d-86f5-d562901af228
