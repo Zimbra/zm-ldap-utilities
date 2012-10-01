@@ -1,13 +1,13 @@
 #
 # ***** BEGIN LICENSE BLOCK *****
 # Zimbra Collaboration Suite Server
-# Copyright (C) 2010, 2011 VMware, Inc.
-# 
+# Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010 Zimbra, Inc.
+#
 # The contents of this file are subject to the Zimbra Public License
 # Version 1.3 ("License"); you may not use this file except in
 # compliance with the License.  You may obtain a copy of the License at
 # http://www.zimbra.com/license.
-# 
+#
 # Software distributed under the License is distributed on an "AS IS"
 # basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 # ***** END LICENSE BLOCK *****
@@ -30,6 +30,7 @@ class Section():
 						"configkeys" : {},
 						"requiredvars" : {},
 						"postconf"   : {},
+						"postconfd"  : {},
 					}
 
 	def depends(self, key=None, val=None):
@@ -77,6 +78,15 @@ class Section():
 			return None
 		return self.config["postconf"]
 
+	def postconfd(self, key=None, val=None):
+		if val is not None:
+			self.config["postconfd"][key] = val
+		if key is not None:
+			if key in self.config["postconfd"]:
+				return self.config["postconfd"][key]
+			return None
+		return self.config["postconfd"]
+
 	def ldap(self, key=None, val=None):
 		if val is not None:
 			self.config["ldap"][key] = val
@@ -91,9 +101,10 @@ class MtaConfig():
 		self.sections = {}
 		self.sectionMap = {
 				"amavis"     : "mta",
+				"opendkim"   : "mta",
 				"sasl"       : "mta",
 				"webxml"     : "mailbox",
-				"nginx"      : "imapproxy",
+				"nginx"      : "proxy",
 				}
 
 	def getSection(self,name):
@@ -139,7 +150,7 @@ class MtaConfig():
 			i += 1
 
 			# the previous version continued to add the section to the list, with
-			# no data; this resulted in the forced run of proxyconfgen even when imapproxy
+			# no data; this resulted in the forced run of proxyconfgen even when proxy
 			# was disabled.  Probably a bug, not replicating.
 			if not state.checkConditional("SERVICE", servicemap):
 				Log.logMsg(4, "Service %s is not enabled.  Skipping %s" % (servicemap, section.name))
@@ -173,6 +184,25 @@ class MtaConfig():
 				elif re.match(r"VAR|LOCAL", ln):
 					Log.logMsg(5, "Adding %s to required vars:  processing %s" % (fields[1], ln));
 					section.requiredvars(fields[1], fields[0])
+				elif re.match(r"POSTCONFD", ln):
+					if len(fields) > 2:
+						if (re.match(r"VAR|LOCAL|FILE", fields[2])):
+							val = state.lookUpConfig(fields[2], fields[3])
+							section.requiredvars(fields[3], fields[2])
+							if val is not None:
+								if (str(val).upper() == "TRUE"):
+									val = "yes"
+								if (str(val).upper() == "FALSE"):
+									val = "no"
+							else:
+								val = ""
+							Log.logMsg(5, "Adding to postconfd commands: \'%s\' %s=\'%s\'" % (ln, fields[1], val))
+							section.postconfd(fields[1],val)
+						else:
+							value = " ".join(fields[2:len(fields)]);
+							section.postconfd(fields[1],value)
+					else:
+						section.postconfd(fields[1],"")
 				elif re.match(r"POSTCONF", ln):
 					if len(fields) > 2:
 						if (re.match(r"VAR|LOCAL|FILE", fields[2])):
@@ -193,7 +223,7 @@ class MtaConfig():
 					else:
 						section.postconf(fields[1],"")
 				elif re.match(r"PROXYGEN", ln):
-					# ignore this; proxygen hardcoded in the imapproxy section logic
+					# ignore this; proxygen hardcoded in the proxy section logic
 					pass
 				elif re.match(r"LDAP", ln):
 					if (re.match(r"LOCAL", fields[2])):
@@ -210,7 +240,19 @@ class MtaConfig():
 								continue
 							fields = lines[i].split()
 							ln = lines[i].strip()
-							if re.match(r"POSTCONF", ln):
+							if re.match(r"POSTCONFD", ln):
+								if len(fields) > 2:
+									if (re.match(r"VAR|LOCAL|FILE", fields[2])):
+										val = state.lookUpConfig(fields[2], fields[3])
+										section.requiredvars(fields[3], fields[2])
+										Log.logMsg(5, "Adding to postconfd commands: \'%s\' %s=\'%s\'" % (ln, fields[1], val))
+										section.postconfd(fields[1],val)
+									else:
+										value = " ".join(fields[2:len(fields)]);
+										section.postconfd(fields[1],value)
+								else:
+									section.postconfd(fields[1],"")
+							elif re.match(r"POSTCONF", ln):
 								if len(fields) > 2:
 									if (re.match(r"VAR|LOCAL|FILE", fields[2])):
 										val = state.lookUpConfig(fields[2], fields[3])
@@ -244,4 +286,4 @@ class MtaConfig():
 			self.addSection(section)
 
 		dt = time.clock()-t1
-		Log.logMsg(5,"zmmta.cf loaded in %.2f seconds" % dt)
+		Log.logMsg(5,"zmconfigd.cf loaded in %.2f seconds" % dt)
