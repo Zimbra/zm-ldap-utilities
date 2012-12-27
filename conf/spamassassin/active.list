@@ -1,221 +1,11 @@
 # active ruleset list, automatically generated from http://ruleqa.spamassassin.org/
-# with results from: day 1: axb-coi-bulk axb-fraud axb-generic axb-ham-misc axb-sa-users axb-woas bb-guenther_fraud bb-jhardin bb-jhardin_fraud bb-jm bb-kmcgrail bb-zmi bpoliakoff danmcdonald darxus grenier jarif kpg-gah mas zmi; day 2: axb-coi-bulk axb-fraud axb-generic axb-ham-misc axb-sa-users axb-woas bb-guenther_fraud bb-jhardin bb-jhardin_fraud bb-jm bb-kmcgrail bb-zmi bpoliakoff danmcdonald darxus grenier jarif kpg-gah llanga mas zmi; day 3: axb-coi-bulk axb-fraud axb-generic axb-ham-misc axb-sa-users axb-woas bb-guenther_fraud bb-jhardin bb-jhardin_fraud bb-jm bb-kmcgrail bb-zmi bpoliakoff danmcdonald darxus grenier jarif kpg-gah llanga mas zmi
-
-# good enough
-ACH_CANCELLED
-
-# tflags publish
-ADVANCE_FEE_2_NEW_FORM
-
-# good enough
-ADVANCE_FEE_2_NEW_FRM_MNY
-
-# tflags publish
-ADVANCE_FEE_2_NEW_MONEY
-
-# tflags publish
-ADVANCE_FEE_3_NEW
-
-# tflags publish
-ADVANCE_FEE_3_NEW_FORM
-
-# good enough
-ADVANCE_FEE_3_NEW_FRM_MNY
-
-# tflags publish
-ADVANCE_FEE_3_NEW_MONEY
-
-# tflags publish
-ADVANCE_FEE_4_NEW
-
-# good enough
-ADVANCE_FEE_4_NEW_FORM
-
-# good enough
-ADVANCE_FEE_4_NEW_FRM_MNY
-
-# good enough
-ADVANCE_FEE_4_NEW_MONEY
-
-# good enough
-ADVANCE_FEE_5_NEW
-
-# good enough
-ADVANCE_FEE_5_NEW_FORM
-
-# good enough
-ADVANCE_FEE_5_NEW_FRM_MNY
-
-# good enough
-ADVANCE_FEE_5_NEW_MONEY
+# with results from: day 1: bb-doc bb-fredt bb-guenther_fraud bb-jhardin bb-jhardin_fraud bb-jm bb-kmcgrail bb-trec_enron bb-zmi bernie-it_batt bernie-mix jm wt-en1 wt-en2 wt-en3 wt-en4 wt-en5 wt-jp1 wt-jp2; day 2: bb-doc bb-fredt bb-guenther_fraud bb-jhardin bb-jhardin_fraud bb-jm bb-kmcgrail bb-trec_enron bb-zmi bernie-it_batt bernie-mix dos nbebout wt-en1 wt-en2 wt-en3 wt-en4 wt-en5 wt-jp1 wt-jp2; day 3: bb-doc bb-fredt bb-guenther_fraud bb-jhardin bb-jhardin_fraud bb-jm bb-kmcgrail bb-trec_enron bb-zmi bernie-it_batt bernie-mix nbebout wt-en1 wt-en2 wt-en3 wt-en4 wt-en5 wt-jp1 wt-jp2
 
 # tflags userconf
 ALL_TRUSTED
 
 # good enough
-ANY_PILL_PRICE
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_024C2
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_07794
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_0ECF8
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_12495
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_1ECD5
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_22B61
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_2E645
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_326A6
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_32D97
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_335D0
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_35FFA
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_3AC1D
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_4204A
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_4379D
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_44FE0
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_4BF4C
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_4F240
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_56DF6
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_5933D
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_5B79A
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_616F8
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_787D6
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_79A9A
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_7C3E5
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_7EB15
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_7F4F5
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_8627E
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_8B970
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_8E893
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_9B90B
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_A275F
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_A50F8
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_A6545
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_A7B9C
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_B4B40
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_B9B11
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_BC7E6
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_C0C83
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_C1698
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_C3E2E
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_C95DC
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_C9CC0
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_CD271
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_DDE5D
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_E023A
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_E9F46
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_F475E
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_FB17C
-
-# good enough
-AXB_XMAILER_MIMEOLE_OL_FF5C8
-
-# good enough
-AXB_XMA_BASP
-
-# good enough
-AXB_XMID_PFIX_CTRIP
-
-# good enough
-AXB_XM_FORGED_OL2600
-
-# good enough
-AXB_X_PHPS_CTRIP
-
-# good enough
-AXB_X_RCV_WLOCAL
+AXB_HELO_HOME_UN
 
 # tflags learn
 BAYES_00
@@ -250,29 +40,17 @@ CHARSET_FARAWAY
 # tflags userconf
 CHARSET_FARAWAY_HEADER
 
-# tflags publish
+# tflags userconf
 CORRUPT_FROM_LINE_IN_HDRS
-
-# good enough
-CURR_PRICE
 
 # good enough
 DEAR_BENEFICIARY
 
 # good enough
-DEAR_WINNER
-
-# good enough
-DECEASED_NO_ML
+DEAR_EMAIL
 
 # tflags net
 DIGEST_MULTIPLE
-
-# tflags net
-DKIMDOMAIN_IN_DWL
-
-# tflags net
-DKIMDOMAIN_IN_DWL_UNKNOWN
 
 # tflags net
 DKIM_ADSP_ALL
@@ -304,17 +82,59 @@ DKIM_VALID_AU
 # tflags net
 DNS_FROM_AHBL_RHSBL
 
+# tflags net
+DNS_FROM_RFC_BOGUSMX
+
+# tflags net
+DNS_FROM_RFC_DSN
+
 # tflags publish
 DOS_ANAL_SPAM_MAILER
 
 # good enough
+DOS_HIGHBIT_HDRS_BODY
+
+# good enough
+DOS_OE_TO_MX
+
+# good enough
+DOS_OE_TO_MX_IMAGE
+
+# good enough
+DOS_OUTLOOK_TO_MX
+
+# good enough
+DOS_RCVD_IP_TWICE_C
+
+# good enough
 DRUGS_STOCK_MIMEOLE
+
+# good enough
+DYN_RDNS_AND_INLINE_IMAGE
+
+# good enough
+DYN_RDNS_SHORT_HELO_HTML
+
+# good enough
+DYN_RDNS_SHORT_HELO_IMAGE
 
 # tflags userconf
 ENV_AND_HDR_SPF_MATCH
 
 # good enough
-FB_ACHIEVE_BACH
+FB_CIALIS_LEO3
+
+# good enough
+FB_EXTRA_INCHES
+
+# good enough
+FB_QUALITY_REPLICA
+
+# good enough
+FB_REPLICA_ROLEX
+
+# good enough
+FB_SOFTTABS
 
 # good enough
 FH_FAKE_RCVD_LINE
@@ -322,62 +142,50 @@ FH_FAKE_RCVD_LINE
 # good enough
 FH_FAKE_RCVD_LINE_B
 
-# tflags publish
-FILL_THIS_FORM
+# good enough
+FH_HELO_ALMOST_IP
 
 # good enough
-FILL_THIS_FORM_FRAUD_PHISH
+FH_HELO_EQ_CHARTER
 
 # good enough
-FILL_THIS_FORM_LOAN
+FH_HELO_EQ_D_D_D_D
 
 # good enough
-FILL_THIS_FORM_LONG
+FH_HOST_EQ_DYNAMICIP
 
 # good enough
-FILL_THIS_FORM_SHORT
-
-# good enough
-FM_LOTTO_MONEY
+FH_HOST_EQ_VERIZON_P
 
 # good enough
 FM_LOTTO_YOU_WON
 
 # good enough
-FM_SCHOOLING
+FM_SEX_HELODDDD
 
 # good enough
-FM_SCHOOL_DIPLOMA
+FORGED_RELAY_MUA_TO_MX
 
-# tflags publish
-FORM_FRAUD_3
+# good enough
+FORGED_TBIRD_IMG_ARROW
 
-# tflags publish
-FORM_FRAUD_5
+# good enough
+FORGED_TBIRD_IMG_SIZE
+
+# good enough
+FORGED_TBIRD_IMG_TO_MX
 
 # tflags userconf
 FRAGMENTED_MESSAGE
 
-# good enough
-FROM_12LTRDOM
-
 # tflags userconf
 FROM_DOMAIN_NOVOWEL
-
-# tflags publish
-FROM_IN_TO_AND_SUBJ
 
 # tflags userconf
 FROM_LOCAL_NOVOWEL
 
 # good enough
-FROM_MISSPACED
-
-# good enough
 FROM_MISSP_DYNIP
-
-# good enough
-FROM_MISSP_EH_MATCH
 
 # good enough
 FROM_MISSP_FREEMAIL
@@ -386,55 +194,43 @@ FROM_MISSP_FREEMAIL
 FROM_MISSP_MSFT
 
 # good enough
-FROM_MISSP_NO_TO
+FRT_PHARMAC
 
 # good enough
-FROM_MISSP_PHISH
+FSL_FAKE_HOTMAIL_RVCD
 
 # good enough
-FROM_MISSP_REPLYTO
-
-# tflags net
-FROM_MISSP_SPF_FAIL
-
-# good enough
-FROM_MISSP_TO_UNDISC
-
-# good enough
-FROM_MISSP_URI
-
-# good enough
-FROM_MISSP_USER
-
-# good enough
-FROM_WSP_LEAD
-
-# good enough
-FRT_ERECTION
-
-# good enough
-FSL_CTYPE_WIN1251
+FSL_HELO_BARE_IP_1
 
 # good enough
 FSL_HELO_DEVICE
 
 # good enough
-FSL_HELO_FIREWALL
+FSL_HELO_NON_FQDN_1
 
 # good enough
-FSL_MID_419
+FSL_LSPACES_ABUSE
 
 # good enough
-FSL_MISSP_REPLYTO
+FSL_YG_ABUSE
 
 # good enough
-FSL_NEW_HELO_USER
+FS_ABIGGER
 
 # good enough
-FS_MAKE_MONEY
+FS_REPLICA
 
 # good enough
-GAPPY_HTML
+FS_REPLICAWATCH
+
+# good enough
+FS_START_LOSE
+
+# good enough
+FS_WEIGHT_LOSS
+
+# good enough
+FS_WILL_HELP
 
 # tflags userconf
 GTUBE
@@ -464,61 +260,40 @@ HASHCASH_2SPEND
 HASHCASH_HIGH
 
 # good enough
-HDRS_LCASE
-
-# good enough
-HDRS_LCASE_1K
+HDRS_MISSP
 
 # tflags userconf
 HEAD_LONG
 
 # good enough
-HK_LOTTO
+HELO_LH_HOME
 
 # good enough
-HK_LOTTO_NAME
+HELO_NO_DOMAIN
 
 # good enough
-HK_NAME_FROM
+HELO_OEM
 
 # good enough
-HK_NAME_MR_MRS
+HK_NAME_DRUGS
 
 # good enough
-HK_RANDOM_FROM
-
-# good enough
-HK_SCAM_N1
-
-# good enough
-HK_SCAM_N15
+HK_NAME_FREE
 
 # good enough
 HK_SCAM_N2
-
-# good enough
-HK_SCAM_N3
-
-# good enough
-HK_SCAM_N8
-
-# good enough
-HK_SCAM_S25
-
-# good enough
-HK_SCAM_S7
 
 # tflags userconf
 HTML_CHARSET_FARAWAY
 
 # good enough
-HTTPS_HTTP_MISMATCH
+IMG_DIRECT_TO_MX
 
 # good enough
-IRS_SPOOF
+KAM_LOTTO1
 
 # good enough
-JM_FAKE_PSMTP_RCVD
+KAM_LOTTO2
 
 # good enough
 KB_DATE_CONTAINS_TAB
@@ -527,25 +302,13 @@ KB_DATE_CONTAINS_TAB
 KB_FAKED_THE_BAT
 
 # good enough
-KB_FORGED_MOZ4
-
-# good enough
 KB_RATWARE_MSGID
 
 # good enough
 KB_RATWARE_OUTLOOK_MID
 
 # good enough
-KHOP_BIG_TO_CC
-
-# good enough
-KHOP_JS_OBFUSCATION
-
-# good enough
-LONG_TERM_PRICE
-
-# tflags publish
-LOTS_OF_MONEY
+LIVEFILESTORE
 
 # good enough
 LOTTERY_PH_004470
@@ -554,40 +317,19 @@ LOTTERY_PH_004470
 LOTTO_AGENT
 
 # good enough
-LOTTO_DEPT
+MANY_GOOG_PROXY
 
 # good enough
-MANY_PILL_PRICE
-
-# tflags publish
 MANY_SPAN_IN_TEXT
+
+# good enough
+MANY_TINY_FLOAT
 
 # tflags userconf
 MIME_CHARSET_FARAWAY
 
 # tflags userconf
 MISSING_HB_SEP
-
-# good enough
-MONEY_ATM_CARD
-
-# good enough
-MONEY_FORM
-
-# good enough
-MONEY_FORM_SHORT
-
-# tflags publish
-MONEY_FRAUD_3
-
-# tflags publish
-MONEY_FRAUD_5
-
-# tflags publish
-MONEY_FRAUD_8
-
-# good enough
-MONEY_FROM_41
 
 # good enough
 MONEY_FROM_MISSP
@@ -603,21 +345,6 @@ NO_RECEIVED
 
 # tflags userconf
 NO_RELAYS
-
-# good enough
-NSL_RCVD_FROM_USER
-
-# good enough
-NSL_RCVD_HELO_USER
-
-# tflags publish
-OBFU_JVSCR_ESC
-
-# tflags publish
-OBFU_TEXT_ATTACH
-
-# good enough
-POSTCARD_09
 
 # tflags net
 PYZOR_CHECK
@@ -638,7 +365,7 @@ RAZOR2_CHECK
 RCVD_IN_BL_SPAMCOP_NET
 
 # tflags net
-RCVD_IN_DNSWL_BLOCKED
+RCVD_IN_CSS
 
 # tflags net
 RCVD_IN_DNSWL_HI
@@ -752,39 +479,6 @@ RCVD_IN_MAPS_RBL
 RCVD_IN_MAPS_RSS
 
 # tflags net
-RCVD_IN_MSPIKE_BL
-
-# tflags net
-RCVD_IN_MSPIKE_H2
-
-# tflags net
-RCVD_IN_MSPIKE_H3
-
-# tflags net
-RCVD_IN_MSPIKE_H4
-
-# tflags net
-RCVD_IN_MSPIKE_H5
-
-# tflags net
-RCVD_IN_MSPIKE_L2
-
-# tflags net
-RCVD_IN_MSPIKE_L3
-
-# tflags net
-RCVD_IN_MSPIKE_L4
-
-# tflags net
-RCVD_IN_MSPIKE_L5
-
-# tflags net
-RCVD_IN_MSPIKE_WL
-
-# tflags net
-RCVD_IN_MSPIKE_ZBI
-
-# tflags net
 RCVD_IN_NJABL_CGI
 
 # tflags net
@@ -845,25 +539,31 @@ RCVD_IN_SORBS_ZOMBIE
 RCVD_IN_XBL
 
 # good enough
+RDNS_LOCALHOST
+
+# good enough
 REPLYTO_WITHOUT_TO_CC
 
 # good enough
-RISK_FREE
+S25R_4
 
 # good enough
-RP_MATCHES_RCVD
+S25R_6
 
 # good enough
-SB_GIF_AND_NO_URIS
+SANE_04e8bf28eb445199a7f11b943c44d209
 
 # good enough
-SERGIO_SUBJECT_VIAGRA01
+SANE_4ef8302546bf270a19baf98508afacc4
 
 # good enough
-SHARE_50_50
+SANE_7429530a7398f43f1f1b795f9420714e
 
 # good enough
-SHORT_TERM_PRICE
+SANE_d0d2b0f6373bf91253d66dd74c594b87
+
+# good enough
+SHORT_HELO_AND_INLINE_IMAGE
 
 # good enough
 SPAMMY_XMAILER
@@ -893,10 +593,10 @@ SPF_PASS
 SPF_SOFTFAIL
 
 # good enough
-STOX_REPLY_TYPE_WITHOUT_QUOTES
+STOCK_IMG_HDR_FROM
 
 # good enough
-STYLE_GIBBERISH
+STOX_REPLY_TYPE_WITHOUT_QUOTES
 
 # tflags userconf
 SUBJECT_IN_BLACKLIST
@@ -908,37 +608,19 @@ SUBJECT_IN_WHITELIST
 TAB_IN_FROM
 
 # good enough
-TINY_FLOAT
-
-# tflags net
-TO_EQ_FM_DOM_SPF_FAIL
-
-# tflags net
-TO_EQ_FM_SPF_FAIL
-
-# good enough
-TO_NO_BRKTS_FROM_MSSP
-
-# good enough
-TO_NO_BRKTS_HTML_ONLY
-
-# good enough
-TO_NO_BRKTS_MSFT
+TO_NO_BRKTS_DYNIP
 
 # good enough
 TT_MSGID_TRUNC
 
 # good enough
-TVD_APPROVED
+TVD_FINGER_02
 
 # good enough
-TVD_PH_1
+TVD_INCREASE_SIZE
 
 # good enough
-TVD_PH_BODY_META
-
-# good enough
-TVD_PH_REC
+TVD_PCT_OFF
 
 # good enough
 TVD_QUAL_MEDS
@@ -950,7 +632,13 @@ TVD_RCVD_IP
 TVD_RCVD_IP4
 
 # good enough
-TVD_SUBJ_ACC_NUM
+TVD_RCVD_SINGLE
+
+# good enough
+TVD_VISIT_PHARMA
+
+# good enough
+TWO_IPS_RCVD
 
 # tflags userconf
 UNPARSEABLE_RELAY
@@ -962,22 +650,13 @@ URIBL_AB_SURBL
 URIBL_BLACK
 
 # tflags net
-URIBL_BLOCKED
-
-# tflags net
-URIBL_DBL_ERROR
-
-# tflags net
-URIBL_DBL_REDIR
-
-# tflags net
-URIBL_DBL_SPAM
-
-# tflags net
 URIBL_GREY
 
 # tflags net
 URIBL_JP_SURBL
+
+# tflags net
+URIBL_OB_SURBL
 
 # tflags net
 URIBL_PH_SURBL
@@ -992,16 +671,10 @@ URIBL_RHS_DOB
 URIBL_SBL
 
 # tflags net
-URIBL_SBL_A
-
-# tflags net
 URIBL_SC_SURBL
 
 # tflags net
 URIBL_WS_SURBL
-
-# good enough
-URI_MALWARE_BH
 
 # tflags userconf
 URI_NOVOWEL
@@ -1040,34 +713,55 @@ USER_IN_WHITELIST
 USER_IN_WHITELIST_TO
 
 # good enough
-XM_PHPMAILER_FORGED
+XMAILER_MIMEOLE_OL_09BB4
 
 # good enough
-YOUR_PERMISSION
+XMAILER_MIMEOLE_OL_1ECD5
+
+# good enough
+XMAILER_MIMEOLE_OL_20C99
+
+# good enough
+XMAILER_MIMEOLE_OL_22B61
+
+# good enough
+XMAILER_MIMEOLE_OL_3D61D
+
+# good enough
+XMAILER_MIMEOLE_OL_4B815
+
+# good enough
+XMAILER_MIMEOLE_OL_7533E
+
+# good enough
+XMAILER_MIMEOLE_OL_83BF7
+
+# good enough
+XMAILER_MIMEOLE_OL_8627E
+
+# good enough
+XMAILER_MIMEOLE_OL_91287
+
+# good enough
+XMAILER_MIMEOLE_OL_CAC8F
 
 # tflags net
-__DKIMDOMAIN_IN_DWL_ANY
+__DNS_FROM_RFC_ABUSE
 
 # tflags net
-__FROM_MISSP_DKIM
+__DNS_FROM_RFC_POST
+
+# tflags net
+__DNS_FROM_RFC_WHOIS
+
+# tflags net
+__RCVD_IN_BRBL
 
 # tflags net
 __RCVD_IN_DNSWL
 
 # tflags net
 __RCVD_IN_IADB
-
-# tflags net
-__RCVD_IN_MSPIKE_B
-
-# tflags net
-__RCVD_IN_MSPIKE_L
-
-# tflags net
-__RCVD_IN_MSPIKE_LOW
-
-# tflags net
-__RCVD_IN_MSPIKE_Z
 
 # tflags net
 __RCVD_IN_NJABL
@@ -1085,16 +779,4 @@ __RESIGNER1
 __RESIGNER2
 
 # tflags net
-__SPF_FULL_PASS
-
-# tflags net
-__SPF_RANDOM_SENDER
-
-# tflags net
-__TO_EQ_FM_DOM_SPF_FAIL
-
-# tflags net
-__TO_EQ_FM_SPF_FAIL
-
-# tflags userconf
-__UNPARSEABLE_RELAY_COUNT
+__RFC_IGNORANT_ENVFROM
