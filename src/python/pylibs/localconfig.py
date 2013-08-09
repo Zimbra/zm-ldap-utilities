@@ -4,7 +4,7 @@
 # Copyright (C) 2010, 2011, 2012, 2013 Zimbra Software, LLC.
 # 
 # The contents of this file are subject to the Zimbra Public License
-# Version 1.4 ("License"); you may not use this file except in
+# Version 1.3 ("License"); you may not use this file except in
 # compliance with the License.  You may obtain a copy of the License at
 # http://www.zimbra.com/license.
 # 
@@ -42,8 +42,14 @@ class LocalConfig(config.Config):
 		self.config = dict([(k,v) for (k,v) in c.output])
 
 		# Set a default for this
-		if self["zmmtaconfig_listen_port"] is None:
-			self["zmmtaconfig_listen_port"] = "7171"
+		if self["zmconfigd_listen_port"] is None:
+			self["zmconfigd_listen_port"] = "7171"
 
+		if self["ldap_url"] is not None:
+			v = self["ldap_url"]
+			v = str(v)
+			self["opendkim_signingtable_uri"] = ' '.join([''.join((val,'/?DKIMSelector?sub?(DKIMIdentity=$d)')) for val in self["ldap_url"].split()])
+			self["opendkim_keytable_uri"] = ' '.join([''.join((val,'/?DKIMDomain,DKIMSelector,DKIMKey,?sub?(DKIMSelector=$d)')) for val in self["ldap_url"].split()])
+			
 		dt = time.clock()-t1
 		Log.logMsg(5,"Localconfig loaded in %.2f seconds" % dt)
