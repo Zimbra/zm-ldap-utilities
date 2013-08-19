@@ -56,7 +56,7 @@ class GlobalConfig(config.Config):
 			q = re.sub(r'reject_rbl_client\s+\S+\s+','',self["zimbraMtaRestriction"])
 			p = re.findall(r'reject_rbl_client\s+(\S+)',self["zimbraMtaRestriction"])
 			self["zimbraMtaRestriction"] = q
-			self["zimbraMtaRestrictionRBLs"] = ' '.join(p)
+			self["zimbraMtaRestrictionRBLs"] = ', '.join(p)
 
 		if self["zimbraIPMode"] is not None:
 			v = self["zimbraIPMode"]
