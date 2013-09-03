@@ -2,7 +2,7 @@ dn: cn=config
 objectClass: olcGlobal
 cn: config
 olcConfigDir: /opt/zimbra/data/ldap/config
-olcArgsFile: /opt/zimbra/data/ldap/state/run/slapd.args
+olcArgsFile: /opt/zimbra/openldap/var/run/slapd.args
 olcAttributeOptions: lang-
 olcAuthzPolicy: none
 olcConcurrency: 0
@@ -18,8 +18,7 @@ olcIndexIntLen: 4
 olcLocalSSF: 128
 olcLogLevel: Sync
 olcLogLevel: None
-olcSecurity: ssf=0
-olcPidFile: /opt/zimbra/data/ldap/state/run/slapd.pid
+olcPidFile: /opt/zimbra/openldap/var/run/slapd.pid
 olcReadOnly: FALSE
 olcSaslSecProps: noplain,noanonymous
 olcSockbufMaxIncoming: 262143
@@ -30,7 +29,7 @@ olcTLSCertificateKeyFile: /opt/zimbra/conf/slapd.key
 olcTLSCACertificatePath: /opt/zimbra/conf/ca
 olcTLSCRLCheck: none
 olcTLSVerifyClient: never
-olcToolThreads: 2
+olcToolThreads: 1
 olcWriteTimeout: 0
 structuralObjectClass: olcGlobal
 entryUUID: 1525b684-333e-102d-86f5-d562901af228
