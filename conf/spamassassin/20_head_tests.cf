@@ -11,9 +11,9 @@
 # The ASF licenses this file to you under the Apache License, Version 2.0
 # (the "License"); you may not use this file except in compliance with
 # the License.  You may obtain a copy of the License at:
-#
+# 
 #     http://www.apache.org/licenses/LICENSE-2.0
-#
+# 
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -74,7 +74,7 @@ describe MSGID_SPAM_LETTERS	Spam tool Message-Id: (letters variant)
 
 
 
-# negative lookahead exempts this MUA from circa 1997-2000
+# negative lookahead exempts this MUA from circa 1997-2000 
 # X-Mailer: Microsoft Outlook Express 4.71.1712.3
 # Message-ID: <01bd45da$2649cdc0$LocalHost@andrew>
 header __MSGID_DOLLARS_OK	MESSAGEID =~ /<[0-9a-f]{4,}\$[0-9a-f]{4,}\$[0-9a-f]{4,}\@\S+>/
@@ -134,9 +134,8 @@ describe MSGID_FROM_MTA_HEADER	Message-Id was added by a relay
 header MSGID_SHORT		MESSAGEID =~ /^.{1,15}$|<.{0,4}\@/
 describe MSGID_SHORT		Message-ID is unusually short
 
-#DEMOTED TO SANDBOX - 2012-03-21
-#header MSGID_MULTIPLE_AT	MESSAGEID =~ /<[^>]*\@[^>]*\@/
-#describe MSGID_MULTIPLE_AT	Message-ID contains multiple '@' characters
+header MSGID_MULTIPLE_AT	MESSAGEID =~ /<[^>]*\@[^>]*\@/
+describe MSGID_MULTIPLE_AT	Message-ID contains multiple '@' characters
 
 ###########################################################################
 
@@ -159,7 +158,7 @@ describe INVALID_DATE		Invalid Date: header (not RFC 2822)
 test INVALID_DATE fail    Sat, 31 Dec 2005 23:59:60 -0500
 test INVALID_DATE fail    Wed, 31 Jul 2002 16:41:57 +0200
 test INVALID_DATE ok      Sat, 31 Dec 2005 24:00:00 -0500
-#test INVALID_DATE ok      Sat, 31 Dec 2005 23:00:00 
+test INVALID_DATE ok      Sat, 31 Dec 2005 23:00:00
 test INVALID_DATE ok      Thurs, 31 Jul 2002 16:41:57 +0200
 
 # allow +1300, NZ timezone
@@ -325,9 +324,9 @@ describe SUBJ_DOLLARS           Subject starts with dollar amount
 
 
 
-#DISABLING DUE TO POOR S/O 2012-09-27
-#header SUBJ_YOUR_DEBT		Subject =~ /Your (?:Bills|Debt|Credit)/i
-#describe SUBJ_YOUR_DEBT		Subject contains "Your Bills" or similar
+
+header SUBJ_YOUR_DEBT		Subject =~ /Your (?:Bills|Debt|Credit)/i
+describe SUBJ_YOUR_DEBT		Subject contains "Your Bills" or similar
 
 header SUBJ_YOUR_FAMILY		Subject =~ /Your Family/i
 describe SUBJ_YOUR_FAMILY	Subject contains "Your Family"
@@ -420,15 +419,8 @@ meta     __VIA_ML  __ML1 || __ML2 || __ML3 || __ML4 || __ML5
 describe __VIA_ML  Mail from a mailing list
 
 
-# some clueless mailing lists (like zmailer with an RFC822TABS option on)
-# are replacing a leading space by a TAB in header fields From, To,
-# Cc, Date (Bug 6429)
-header   __ML_TURNS_SP_TO_TAB  Received =~ /\(ORCPT <rfc822;/
-describe __ML_TURNS_SP_TO_TAB  A mailing list changing a space to a TAB
-
-
 # must keep it in sync with http://www.iana.org/assignments/ipv4-address-space/
-header RCVD_ILLEGAL_IP		X-Spam-Relays-Untrusted =~ / (?:by|ip)=(?=\d+\.\d+\.\d+\.\d+ )(?:(?:0|2(?:2[4-9]|[3-5]\d)|192\.0\.2|198\.51\.100|203\.0\.113)\.|(?:\d+\.){0,3}(?!(?:2(?:[0-4]\d|5[0-5])|[01]?\d\d?)\b))/
+header RCVD_ILLEGAL_IP		X-Spam-Relays-Untrusted =~ / (?:by|ip)=(?=\d+\.\d+\.\d+\.\d+ )(?:0|2(?:2[4-9]|[3-5]\d)|192\.0\.2|198\.51\.100|203\.0\.113)\./
 describe RCVD_ILLEGAL_IP	Received: contains illegal IP address
 
 
@@ -559,12 +551,10 @@ endif
 
 ifplugin Mail::SpamAssassin::Plugin::RelayEval
 
-header __UNPARSEABLE_RELAY_COUNT        eval:check_relays_unparseable()
-tflags __UNPARSEABLE_RELAY_COUNT        userconf
-
-meta	 UNPARSEABLE_RELAY	(__UNPARSEABLE_RELAY_COUNT >= 1)
-tflags	 UNPARSEABLE_RELAY	userconf
+header UNPARSEABLE_RELAY        eval:check_relays_unparseable()
+tflags UNPARSEABLE_RELAY        userconf
 describe UNPARSEABLE_RELAY      Informational: message has unparseable relay lines
+
 
 
 header RCVD_HELO_IP_MISMATCH	eval:helo_ip_mismatch()
