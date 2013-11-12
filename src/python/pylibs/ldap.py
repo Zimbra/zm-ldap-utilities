@@ -13,7 +13,7 @@
 # ***** END LICENSE BLOCK *****
 #
 
-TODO this doesn't work, the jython ldap implementation doesn't support ldapi access.  
+TODO this doesn't work, the jython ldap implementation doesn't support ldapi access.
 TODO we use the external perl libraries instead.
 
 import conf
@@ -28,7 +28,7 @@ from javax.naming import Context
 from javax.naming.directory import InitialDirContext
 
 # (Key, DN, requires_master)
-keymap = {
+hdb_keymap = {
 	"ldap_common_loglevel"		:	("olcLogLevel",		"cn=config", False),
 	"ldap_common_threads"		:	("olcThreads",		"cn=config", False),
 	"ldap_common_toolthreads"	:	("olcToolThreads",	"cn=config", False),
@@ -55,11 +55,28 @@ keymap = {
 	"ldap_overlay_accesslog_logpurge"	:	("olcAccessLogPurge", "olcOverlay={1}accesslog,olcDatabase={3}hdb,cn=config", True)
 }
 
+mdb_keymap = {
+	"ldap_common_loglevel"			:	("olcLogLevel",		"cn=config", False),
+	"ldap_common_threads"			:	("olcThreads",		"cn=config", False),
+	"ldap_common_toolthreads"		:	("olcToolThreads",	"cn=config", False),
+	"ldap_common_require_tls"		:	("olcSecurity",		"cn=config", False),
+	"ldap_common_writetimeout"		:	("olcWriteTimeout",	"cn=config", False),
+
+	"ldap_db_maxsize"			:	("olcDbMaxsize",	"olcDatabase={3}mdb,cn=config", False),
+
+        "ldap_accesslog_maxsize"		:	("olcDbMaxsize",	"olcDatabase={2}mdb,cn=config", True),
+
+	"ldap_overlay_syncprov_checkpoint"	:	("olcSpCheckpoint",	"olcOverlay={0}syncprov,olcDatabase={3}mdb,cn=config", True),
+
+	"ldap_overlay_accesslog_logpurge"	:	("olcAccessLogPurge",	"olcOverlay={1}accesslog,olcDatabase={3}mdb,cn=config", True)
+}
+
 class Ldap:
 
 	cf = None
 	mLdapContext = None
 	master = False
+	mdb = False
 
 	@classmethod
 	def initLdap(cls, c=None):
@@ -83,6 +100,14 @@ class Ldap:
 		env.put(Context.SECURITY_PRINCIPAL, "cn=config")
 		env.put(Context.SECURITY_CREDENTIALS, cls.cf.ldap_root_password)
 		cls.mLdapContext = InitialDirContext(env)
+
+		Log.logMsg(5, "Checking for mdb install")
+		ats = BasicAttributes("objectClass", None)
+		atr = ['1.1']
+		results = cls.mLdapContext.search("olcDatabase={2}mdb,cn=config", ats, atr)
+		if results.hasMore():
+			Log.logMsg(5, "mdb detected")
+			cls.mdb = True
 
 		if cls.cf.ldap_is_master:
 			#s = SearchControls()
@@ -129,27 +154,44 @@ class Ldap:
 		(attr, dn, xform) = Ldap.lookupKey(key, cls.master)
 		if attr is not None:
 			v = xform % (value,)
-			Ldap.verify_shm_key(key, attr, dn, v)
+			if not cls.mdb:
+				Ldap.verify_shm_key(key, attr, dn, v)
 			Log.logMsg(4, "Setting %s to %s" % (key, v))
 			myAttrs = BasicAttributes(attr, v, True)
 			cls.ctx.modifyAttributes(dn, DirContext.REPLACE_ATTRIBUTE, myAttrs)
 
 	@classmethod
 	def lookupKey(cls, key, master):
-		if key in keymap:
-			(attr, dn, requires_master) = keymap[key]
-			if re.match("ldap_db_", key) and not cls.master:
-				dn = "olcDatabase={2}hdb,cn=config"
-				
-			xform = "%s"
-			if key == "ldap_common_require_tls":
-				xform = "ssf=%s"
-			if requires_master and not cls.master:
-				Log.logMsg(2, "LDAP: Trying to modify key: %s when not a master" % (key,))
-				return (None, None, None)
-			else:
-				Log.logMsg(5, "Found key %s and dn %s for %s (%s)" % (attr, dn, key, cls.master))
-				return (attr, dn, xform)
+		if not cls.mdb:
+			if key in hdb_keymap:
+				(attr, dn, requires_master) = keymap[key]
+				if re.match("ldap_db_", key) and not cls.master:
+					dn = "olcDatabase={2}hdb,cn=config"
+					
+				xform = "%s"
+				if key == "ldap_common_require_tls":
+					xform = "ssf=%s"
+				if requires_master and not cls.master:
+					Log.logMsg(2, "LDAP: Trying to modify key: %s when not a master" % (key,))
+					return (None, None, None)
+				else:
+					Log.logMsg(5, "Found key %s and dn %s for %s (%s)" % (attr, dn, key, cls.master))
+					return (attr, dn, xform)
+		elif cls.mdb:
+			if key in mdb_keymap:
+				(attr, dn, requires_master) = keymap[key]
+				if re.match("ldap_db_", key) and not cls.master:
+					dn = "olcDatabase={2}mdb,cn=config"
+					
+				xform = "%s"
+				if key == "ldap_common_require_tls":
+					xform = "ssf=%s"
+				if requires_master and not cls.master:
+					Log.logMsg(2, "LDAP: Trying to modify key: %s when not a master" % (key,))
+					return (None, None, None)
+				else:
+					Log.logMsg(5, "Found key %s and dn %s for %s (%s)" % (attr, dn, key, cls.master))
+					return (attr, dn, xform)
 		else:
 			Log.logMsg(1, "UNKNOWN KEY %s" % (key,))
 
