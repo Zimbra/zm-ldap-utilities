@@ -30,11 +30,10 @@ from com.zimbra.cs.util import ProxyConfGen
 
 exe = {
 	"POSTCONF"      : "postfix/sbin/postconf -e",
-	"POSTCONFD"     : "postfix/sbin/postconf -X",
 	"ZMPROV"        : "bin/zmprov -l",
 	"ZMLOCALCONFIG" : "bin/zmlocalconfig",
 	'PERDITION'     : "bin/zmperditionctl",
-	'PROXY'         : "bin/zmproxyctl",
+	'IMAPPROXY'     : "bin/zmproxyctl",
 	'STATS'         : "bin/zmstatctl",
 	'ARCHIVING'     : "bin/zmamavisdctl",
 	'MEMCACHED'     : "bin/zmmemcachedctl",
@@ -52,8 +51,7 @@ exe = {
 	'CBPOLICYD'     : "bin/zmcbpolicydctl",
 	'PROXYGEN'      : "bin/zmproxyconfgen",
 	'CONVERTD'      : "bin/zmconvertctl",
-	'OPENDKIM'	: "bin/zmopendkimctl",
-	'DNSCACHE'	: "bin/zmdnscachectl",
+	'LDAPHELPER'    : "bin/ldapHelper.pl",
 	}
 
 class Command:
@@ -347,12 +345,6 @@ commands = {
 		cmd  = exe["POSTCONF"] + " %s",
 		# cmd  = exe["POSTCONF"] + " %s='%s'",
 	),
-	"postconfd" : Command(
-		desc = "postconfd",
-		name = "postconfd",
-		cmd  = exe["POSTCONFD"] + " %s",
-		# cmd  = exe["POSTCONFD"] + " %s='%s'",
-	),
 	"proxygen" : Command(
 		desc = "proxygen",
 		name = "proxygen",
@@ -363,10 +355,10 @@ commands = {
 		name = "perdition",
 		cmd  = exe["PERDITION"] + " %s",
 	),
-	"proxy" : Command(
-		desc = "proxy",
-		name = "proxy",
-		cmd  = exe["PROXY"] + " %s",
+	"imapproxy" : Command(
+		desc = "imapproxy",
+		name = "imapproxy",
+		cmd  = exe["IMAPPROXY"] + " %s",
 	),
 	"stats" : Command(
 		desc = "stats",
@@ -402,16 +394,6 @@ commands = {
 		desc = "amavis",
 		name = "amavis",
 		cmd  = exe["AMAVIS"] + " %s",
-	),
-	"opendkim" : Command(
-		desc = "opendkim",
-		name = "opendkim",
-		cmd  = exe["OPENDKIM"] + " %s",
-	),
-	"dnscache" : Command(
-		desc = "dnscache",
-		name = "dnscache",
-		cmd  = exe["DNSCACHE"] + " %s",
 	),
 	"cbpolicyd" : Command(
 		desc = "cbpolicyd",
@@ -457,6 +439,11 @@ commands = {
 		desc = "convertd",
 		name = "convertd",
 		cmd  = exe["CONVERTD"] + " %s",
+	),
+	"ldaphelper" : Command(
+		desc = "ldaphelper",
+		name = "ldaphelper",
+		cmd  = exe["LDAPHELPER"] + " %s %s %s '%s'",
 	),
 	}
 
