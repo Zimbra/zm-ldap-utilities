@@ -28,6 +28,7 @@ import re
 import threading
 import time
 import traceback
+import ldap
 
 class State:
 	
@@ -37,22 +38,24 @@ class State:
 
 	startorder = {
 		"ldap"      : 0,
-		"logger"    : 10,
-		"convertd"  : 20,
-		"mailbox"   : 30,
-		"mailboxd"  : 35,
-		"memcached" : 40,
-		"imapproxy" : 50,
-		"antispam"  : 60,
-		"antivirus" : 70,
-		"cbpolicyd" : 72,
-		"amavis"    : 75,
-		"archiving" : 80,
-		"snmp"      : 90,
-		"spell"     : 100,
-		"mta"       : 110,
-		"sasl"      : 115,
-		"stats"     : 120,
+		"dnscache"  : 10,
+		"logger"    : 20,
+		"convertd"  : 30,
+		"mailbox"   : 40,
+		"mailboxd"  : 50,
+		"memcached" : 60,
+		"proxy"     : 70,
+		"antispam"  : 80,
+		"antivirus" : 90,
+		"cbpolicyd" : 100,
+		"amavis"    : 110,
+		"opendkim"  : 120,
+		"archiving" : 130,
+		"snmp"      : 140,
+		"spell"     : 150,
+		"mta"       : 160,
+		"sasl"      : 170,
+		"stats"     : 180,
 		}
 
 	def __init__(self):
@@ -65,6 +68,7 @@ class State:
 		self.globalconfig     = globalconfig.GlobalConfig()
 		self.miscconfig       = miscconfig.MiscConfig()
 		self.serverconfig     = serverconfig.ServerConfig()
+		self.ldap             = ldap.Ldap()
 		self.forcedconfig     = {}
 		self.requestedconfig     = {}
 		self.fileCache 		  = {}
@@ -76,6 +80,7 @@ class State:
 								"config"     : {},
 								# "restarts"   : {}, Don't need this, I think
 								"postconf"   : {},
+								"postconfd"   : {},
 								"services"   : {},
 								"ldap"       : {},
 								"proxygen"   : False # 0|1
@@ -85,6 +90,7 @@ class State:
 								"config"     : {},
 								"restarts"   : {},
 								"postconf"   : {},
+								"postconfd"   : {},
 								"services"   : {},
 								"ldap"       : {},
 								"proxygen"   : False # 0|1
@@ -141,6 +147,18 @@ class State:
 		except Exception:
 			return
 
+	def clearPostconfd(self):
+		try:
+			self.current["postconfd"] = {}
+		except Exception:
+			return
+
+	def delPostconfd(self, service):
+		try:
+			del self.current["postconfd"][service]
+		except Exception:
+			return
+
 	def delRewrite(self, service):
 		try:
 			del self.current["rewrites"][service]
@@ -194,6 +212,21 @@ class State:
 			except Exception, e:
 				return None
 		return self.current["postconf"]
+
+	def curPostconfd(self, key=None, val=None):
+		if key is not None:
+			if val is not None:
+				if val == True:
+					val = "yes"
+				elif val == False:
+					val = "no"
+				Log.logMsg(5, "Adding postconfd %s = %s" % (key, val))
+				self.current["postconfd"][key] = val.replace('\n', ' ')
+			try:
+				return self.current["postconfd"][key]
+			except Exception, e:
+				return None
+		return self.current["postconfd"]
 
 	def curServices(self, service=None, state=None):
 		if service is not None:
@@ -496,7 +529,11 @@ class State:
 				for postconf in section.postconf():
 					self.curPostconf(postconf, section.postconf(postconf))
 
-				if section.name == "imapproxy":
+				Log.logMsg(5, "Section %s changed compiling postconfd" % (section.name,))
+				for postconfd in section.postconfd():
+					self.curPostconfd(postconfd, section.postconfd(postconfd))
+
+				if section.name == "proxy":
 					Log.logMsg(5, "Section %s changed compiling proxygen" % (section.name,))
 					self.proxygen(True)
 
@@ -513,6 +550,9 @@ class State:
 						else:
 							if restart == "archiving" and not self.serverconfig.getServices(restart):
 								Log.logMsg(5, "%s not enabled, skipping stop" % (restart,))
+							elif restart == "opendkim" and self.serverconfig.getServices("mta"):
+								Log.logMsg(5, "Adding restart opendkim")
+								self.curRestarts(restart, -1)
 							else:
 								Log.logMsg(5, "Adding stop %s" % (restart,))
 								self.curRestarts(restart, 0)
@@ -548,18 +588,26 @@ class State:
 			return rc
 		return 0
 
+	def doPostconfd(self):
+		if self.curPostconfd():
+			c = commands.commands["postconfd"]
+			for (postconfd, val) in self.curPostconfd().items():
+				try:
+					rc = c.execute("%s" % postconfd)
+				except Exception, e:
+					return rc
+			self.clearPostconfd()
+			return rc
+		return 0
+
 	def runProxygen(self):
 		if self.proxygen():
 			if not self.doProxygen():
 				self.proxygen(False)
 
 	def runLdap(self):
-		master = conf.Config.mConfig.ldap_is_master
-		if master != "true":
-			master = "false"
-		pw = conf.Config.mConfig.ldap_root_password
 		for (ldap,val) in self.curLdap().items():
-			if not self.doLdap(ldap, val, master, pw):
+			if not self.doLdap(ldap, val):
 				self.delLdap(ldap)
 
 	def doConfigRewrites(self):
@@ -569,6 +617,7 @@ class State:
 		th.append(threading.Thread(target=State.runProxygen,args=(self,),name="proxygen"))
 		th.append(threading.Thread(target=State.doRewrites,args=(self,),name="rewrites"))
 		th.append(threading.Thread(target=State.doPostconf,args=(self,),name="postconf"))
+		th.append(threading.Thread(target=State.doPostconfd,args=(self,),name="postconfd"))
 		th.append(threading.Thread(target=State.runLdap,args=(self,),name="ldap"))
 
 		[t.start() for t in th]
@@ -587,17 +636,14 @@ class State:
 		dt = time.clock()-t1
 		Log.logMsg(3, "All restarts completed in %.2f sec" % dt)
 
-	def doLdap(self, key, val, master, pw):
+	def doLdap(self, key, val):
 		Log.logMsg(4, "Setting ldap %s=%s" % (key, val))
-		c = commands.commands["ldaphelper"]
-		rc = 0
-		try:
-			rc = c.execute((master, pw, key, val))
-			[Log.logMsg(5,t) for t in c.output.splitlines()]
-		except Exception, e:
-			[Log.logMsg(1,t) for t in traceback.format_tb(sys.exc_info()[2])]
-			Log.logMsg(1, "LDAP FAILURE (%s)" % e)
-		return rc
+                rc = 0
+                try:
+			rc = self.ldap.modify_attribute(key, val)
+                except Exception, e:
+                        Log.logMsg(1, "LDAP FAILURE (%s)" % e)
+                return rc
 
 	def processIsRunning(self,process):
 		return (not self.controlProcess(process, 2))
@@ -743,6 +789,18 @@ class State:
 	#  SERVER:key - use command gs with zimbra_server_hostname, get value of key
 	#
 
+	def xformConfigVariable(self, match):
+		sr = match.group(1)
+		val = None
+		val = self.lookUpConfig("VAR", sr)
+		if val is None:
+			val = self.lookUpConfig("LOCAL", sr)
+
+		# Requires a string return for re.sub()
+		if val is None:
+			val = ""
+		return str(val)
+
 	def xformConfig(self, match):
 		sr = match.group(1)
 		val = None
@@ -828,7 +886,7 @@ class State:
 				val = ""
 
 		elif re.match(r"contains", sr):
-			f = sr.split(',',2)
+			f = sr.split('^',2)
 			st = f[0]
 			if len(f) > 2:
 				replace = f[1].strip()
@@ -900,7 +958,23 @@ class State:
 		return str(val)
 
 	def transform(self, line):
+		if(line.count('@') < 2 and line.count('%') < 2):
+			return line
+
 		line = re.sub(r"@@([^@]+)@@", self.xformLocalConfig, line)
+
+		# If the line begins and ends with %%, then we are asking a special action be done
+		# Howewver, before we do that action, we need to do variable substitution in the line
+		# and then evaluate the action
+		line = line.rstrip()
+
+		if(line.startswith("%%") and line.endswith("%%") and line.count('%') > 4):
+			line = re.sub('^%%','',line)
+			line = re.sub('%%$','',line)
+			line = re.sub(r"%%([^%]+)%%", self.xformConfigVariable, line)
+			line = line + "%%"
+			line = "%%" + line
+		line = line + '\n'
 		line = re.sub(r"%%([^%]+)%%", self.xformConfig, line)
 		return line
 
