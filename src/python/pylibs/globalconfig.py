@@ -51,5 +51,23 @@ class GlobalConfig(config.Config):
 			self["zimbraSSLExcludeCipherSuites"] = ' '.join(sorted(v.split(), key=str.lower))
 			self["zimbraSSLExcludeCipherSuitesXML"] = '\n'.join([''.join(('<Item>',val,'</Item>')) for val in self["zimbraSSLExcludeCipherSuites"].split()])
 
+		if self["zimbraMtaRestriction"] is not None:
+			# Remove all the reject_rbl_client lines from MTA restriction and put the values in RBLs
+			q = re.sub(r'reject_rbl_client\s+\S+\s+','',self["zimbraMtaRestriction"])
+			p = re.findall(r'reject_rbl_client\s+(\S+)',self["zimbraMtaRestriction"])
+			self["zimbraMtaRestriction"] = q
+			self["zimbraMtaRestrictionRBLs"] = ', '.join(p)
+
+		if self["zimbraIPMode"] is not None:
+			v = self["zimbraIPMode"]
+			v = str(v)
+			v = v.lower()
+			if v == "ipv4":
+				self["zimbraPostconfProtocol"] = "ipv4"
+			if v == "ipv6":
+				self["zimbraPostconfProtocol"] = "ipv6"
+			if v == "both":
+				self["zimbraPostconfProtocol"] = "all"
+
 		dt = time.clock()-t1
 		Log.logMsg(5,"globalconfig loaded in %.2f seconds" % dt)
