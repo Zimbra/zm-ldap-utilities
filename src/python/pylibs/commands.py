@@ -53,7 +53,6 @@ exe = {
 	'PROXYGEN'      : "bin/zmproxyconfgen",
 	'CONVERTD'      : "bin/zmconvertctl",
 	'OPENDKIM'	: "bin/zmopendkimctl",
-	'DNSCACHE'	: "bin/zmdnscachectl",
 	}
 
 class Command:
@@ -407,11 +406,6 @@ commands = {
 		desc = "opendkim",
 		name = "opendkim",
 		cmd  = exe["OPENDKIM"] + " %s",
-	),
-	"dnscache" : Command(
-		desc = "dnscache",
-		name = "dnscache",
-		cmd  = exe["DNSCACHE"] + " %s",
 	),
 	"cbpolicyd" : Command(
 		desc = "cbpolicyd",
