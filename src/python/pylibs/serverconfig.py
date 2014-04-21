@@ -56,6 +56,12 @@ class ServerConfig(config.Config):
 			self["zimbraSSLExcludeCipherSuites"] = ' '.join(sorted(v.split(), key=str.lower))
 			self["zimbraSSLExcludeCipherSuitesXML"] = '\n'.join([''.join(('<Item>',val,'</Item>')) for val in self["zimbraSSLExcludeCipherSuites"].split()])
 
+		if self["zimbraSSLIncludeCipherSuites"] is not None:
+			v = self["zimbraSSLIncludeCipherSuites"]
+			v = str(v)
+			self["zimbraSSLIncludeCipherSuites"] = ' '.join(sorted(v.split(), key=str.lower))
+			self["zimbraSSLIncludeCipherSuitesXML"] = '\n'.join([''.join(('<Item>',val,'</Item>')) for val in self["zimbraSSLIncludeCipherSuites"].split()])
+
 		if self["zimbraMtaMyNetworks"] is not None:
 			self["zimbraMtaMyNetworksPerLine"] = '\n'.join([''.join((val,'')) for val in self["zimbraMtaMyNetworks"].split()])
 
