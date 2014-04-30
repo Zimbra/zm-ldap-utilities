@@ -31,7 +31,6 @@ from org.productivity.java.syslog4j.impl.unix.socket import UnixSocketSyslogConf
 
 class Log:
 	zmconfigdSyslogInstance = UnixSocketSyslogConfig(SyslogConstants.FACILITY_LOCAL0, "/dev/log")
-	zmconfigdSyslogInstance.setType("SOCK_STREAM")
 	zmsyslog = Syslog.createInstance("zmSyslog",zmconfigdSyslogInstance)
 	zmsyslog.getConfig().setLocalName("zmconfigd[%d]:" % os.getpid())
 
