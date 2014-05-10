@@ -44,6 +44,10 @@ exe = {
 	'ANTIVIRUS'     : "bin/zmclamdctl",
 	'SASL'          : "bin/zmsaslauthdctl",
 	'MAILBOXD'      : "bin/zmmailboxdctl",
+	'ZIMBRA'        : "bin/zmmailboxdctl",
+	'ZIMBRAADMIN'   : "bin/zmmailboxdctl",
+	'SERVICE'       : "bin/zmmailboxdctl",
+	'ZIMLET'        : "bin/zmmailboxdctl",
 	'SPELL'         : "bin/zmspellctl",
 	'LDAP'          : "bin/ldap",
 	'SNMP'          : "bin/zmswatchctl",
@@ -428,6 +432,26 @@ commands = {
 		name = "mailboxd",
 		cmd  = exe["MAILBOXD"] + " %s",
 	),
+	"zimbra" : Command(
+        desc = "zimbra",
+        name = "zimbra",
+        cmd  = exe["ZIMBRA"] + " %s",
+    ),
+    "zimbraadmin" : Command(
+        desc = "zimbraadmin",
+        name = "zimbraadmin",
+        cmd  = exe["ZIMBRAADMIN"] + " %s",
+    ),
+    "service" : Command(
+        desc = "service",
+        name = "service",
+        cmd  = exe["SERVICE"] + " %s",
+    ),
+    "zimlet" : Command(
+        desc = "zimlet",
+        name = "zimlet",
+        cmd  = exe["ZIMLET"] + " %s",
+    ),
 	"spell" : Command(
 		desc = "spell",
 		name = "spell",
