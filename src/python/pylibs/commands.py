@@ -44,10 +44,6 @@ exe = {
 	'ANTIVIRUS'     : "bin/zmclamdctl",
 	'SASL'          : "bin/zmsaslauthdctl",
 	'MAILBOXD'      : "bin/zmmailboxdctl",
-	'ZIMBRA'        : "bin/zmmailboxdctl",
-	'ZIMBRAADMIN'   : "bin/zmmailboxdctl",
-	'SERVICE'       : "bin/zmmailboxdctl",
-	'ZIMLET'        : "bin/zmmailboxdctl",
 	'SPELL'         : "bin/zmspellctl",
 	'LDAP'          : "bin/ldap",
 	'SNMP'          : "bin/zmswatchctl",
@@ -57,7 +53,6 @@ exe = {
 	'PROXYGEN'      : "bin/zmproxyconfgen",
 	'CONVERTD'      : "bin/zmconvertctl",
 	'OPENDKIM'	: "bin/zmopendkimctl",
-	'DNSCACHE'	: "bin/zmdnscachectl",
 	}
 
 class Command:
@@ -206,7 +201,6 @@ def garpb(sArgs=None, aArgs=None):
 	try:
 		P = Command.P
 		o = []
-		REVERSE_PROXY_PROTO = ""
 		for server in P.getAllServers():
 			isTarget = server.getBooleanAttr(Provisioning.A_zimbraReverseProxyLookupTarget, False)
 			if not isTarget:
@@ -214,13 +208,14 @@ def garpb(sArgs=None, aArgs=None):
 			mode = server.getAttr(Provisioning.A_zimbraMailMode, None)
 			if mode is None:
 				continue
-			if Provisioning.MailMode.fromString(mode) in \
+			if not Provisioning.MailMode.fromString(mode) in \
 				(Provisioning.MailMode.http, Provisioning.MailMode.mixed, Provisioning.MailMode.both):
-			     backendPort = server.getIntAttr(Provisioning.A_zimbraMailPort, 0)
-			else:
-			     backendPort = server.getIntAttr(Provisioning.A_zimbraMailSSLPort, 0)
+				continue
+
+			backendPort = server.getIntAttr(Provisioning.A_zimbraMailPort, 0)
 			serviceName = server.getAttr(Provisioning.A_zimbraServiceHostname, "")
-			o.append("%s%s:%d" % (REVERSE_PROXY_PROTO, serviceName, backendPort))
+
+			o.append("    server %s:%d;" % (serviceName,backendPort))
 
 		# I think this is a hack for the old version of zmconfigd
 		output = o
@@ -412,11 +407,6 @@ commands = {
 		name = "opendkim",
 		cmd  = exe["OPENDKIM"] + " %s",
 	),
-	"dnscache" : Command(
-		desc = "dnscache",
-		name = "dnscache",
-		cmd  = exe["DNSCACHE"] + " %s",
-	),
 	"cbpolicyd" : Command(
 		desc = "cbpolicyd",
 		name = "cbpolicyd",
@@ -432,26 +422,6 @@ commands = {
 		name = "mailboxd",
 		cmd  = exe["MAILBOXD"] + " %s",
 	),
-	"zimbra" : Command(
-        desc = "zimbra",
-        name = "zimbra",
-        cmd  = exe["ZIMBRA"] + " %s",
-    ),
-    "zimbraadmin" : Command(
-        desc = "zimbraadmin",
-        name = "zimbraadmin",
-        cmd  = exe["ZIMBRAADMIN"] + " %s",
-    ),
-    "service" : Command(
-        desc = "service",
-        name = "service",
-        cmd  = exe["SERVICE"] + " %s",
-    ),
-    "zimlet" : Command(
-        desc = "zimlet",
-        name = "zimlet",
-        cmd  = exe["ZIMLET"] + " %s",
-    ),
 	"spell" : Command(
 		desc = "spell",
 		name = "spell",
