@@ -133,8 +133,8 @@ $policy_bank{'AM.PDP-SOCK'} = {
 
 $sa_debug = %%zimbraAmavisSALogLevel%%;
 #$sa_debug = 'info,dns,async,bayes,check,rules-all,uridnsbl,all';
-$sa_configpath = '/opt/zimbra/conf/spamassassin';
-$sa_siteconfigpath = '/opt/zimbra/conf/sa';
+#$sa_configpath = '/opt/zimbra/conf/spamassassin';
+#$sa_siteconfigpath = '/opt/zimbra/conf/sa';
 
 $sa_tag_level_deflt  = -10.0;  # add spam info headers if at, or above that level
 $sa_tag2_level_deflt = %%range VAR:zimbraSpamTagPercent 0 20%%;  # add 'spam detected' headers at that level
