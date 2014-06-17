@@ -37,8 +37,13 @@ my $ldap_root_password = $localxml->{key}->{ldap_root_password}->{value};
 chomp($ldap_root_password);
 my $ldap_is_master = $localxml->{key}->{ldap_is_master}->{value};
 chomp($ldap_is_master);
+my $zimbra_home = $localxml->{key}->{zimbra_home}->{value};
 
-my $ldap = Net::LDAP->new('ldapi://%2fopt%2fzimbra%2fdata%2fldap%2fstate%2frun%2fldapi/') or die "$@";
+if ($zimbra_home eq "") {
+   $zimbra_home = "/opt/zimbra";
+}
+
+my $ldap = Net::LDAP->new('ldapi://%2fopt%2fzimbra%2fopenldap%2fvar%2frun%2fldapi/') or die "$@";
 
 my $mesg = $ldap->bind("cn=config", password=>"$ldap_root_password");
 
