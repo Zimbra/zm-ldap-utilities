@@ -190,7 +190,7 @@ def garpu(sArgs=None, aArgs=None):
 		REVERSE_PROXY_PROTO = ""
 		REVERSE_PROXY_PORT = 7072
 		REVERSE_PROXY_PATH = ExtensionDispatcherServlet.EXTENSION_PATH + "/nginx-lookup"
-		for server in P.getAllServers():
+		for server in P.getAllMailClientServers():
 			if server.getBooleanAttr(Provisioning.A_zimbraReverseProxyLookupTarget, False):
 				o.append("%s%s:%d%s" % (REVERSE_PROXY_PROTO, server.getAttr(Provisioning.A_zimbraServiceHostname, ""),REVERSE_PROXY_PORT,REVERSE_PROXY_PATH))
 
