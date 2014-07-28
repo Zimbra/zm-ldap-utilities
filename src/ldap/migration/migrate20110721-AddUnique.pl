@@ -19,7 +19,6 @@ use strict;
 use lib '/opt/zimbra/zimbramon/lib';
 use Net::LDAP;
 use XML::Simple;
-use Getopt::Std;
 
 if ( ! -d "/opt/zimbra/openldap/etc" ) {
   print "ERROR: openldap does not appear to be installed - exiting\n";
