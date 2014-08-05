@@ -1,17 +1,15 @@
 #
 # ***** BEGIN LICENSE BLOCK *****
 # Zimbra Collaboration Suite Server
-# Copyright (C) 2010, 2011, 2012, 2013, 2014 Zimbra, Inc.
+# Copyright (C) 2010, 2011, 2012, 2013 Zimbra Software, LLC.
 # 
-# This program is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software Foundation,
-# version 2 of the License.
+# The contents of this file are subject to the Zimbra Public License
+# Version 1.4 ("License"); you may not use this file except in
+# compliance with the License.  You may obtain a copy of the License at
+# http://www.zimbra.com/license.
 # 
-# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License along with this program.
-# If not, see <http://www.gnu.org/licenses/>.
+# Software distributed under the License is distributed on an "AS IS"
+# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 # ***** END LICENSE BLOCK *****
 #
 
@@ -46,10 +44,6 @@ exe = {
 	'ANTIVIRUS'     : "bin/zmclamdctl",
 	'SASL'          : "bin/zmsaslauthdctl",
 	'MAILBOXD'      : "bin/zmmailboxdctl",
-	'ZIMBRA'        : "bin/zmmailboxdctl",
-	'ZIMBRAADMIN'   : "bin/zmmailboxdctl",
-	'SERVICE'       : "bin/zmmailboxdctl",
-	'ZIMLET'        : "bin/zmmailboxdctl",
 	'SPELL'         : "bin/zmspellctl",
 	'LDAP'          : "bin/ldap",
 	'SNMP'          : "bin/zmswatchctl",
@@ -59,7 +53,6 @@ exe = {
 	'PROXYGEN'      : "bin/zmproxyconfgen",
 	'CONVERTD'      : "bin/zmconvertctl",
 	'OPENDKIM'	: "bin/zmopendkimctl",
-	'DNSCACHE'	: "bin/zmdnscachectl",
 	}
 
 class Command:
@@ -190,7 +183,7 @@ def garpu(sArgs=None, aArgs=None):
 		REVERSE_PROXY_PROTO = ""
 		REVERSE_PROXY_PORT = 7072
 		REVERSE_PROXY_PATH = ExtensionDispatcherServlet.EXTENSION_PATH + "/nginx-lookup"
-		for server in P.getAllMailClientServers():
+		for server in P.getAllServers():
 			if server.getBooleanAttr(Provisioning.A_zimbraReverseProxyLookupTarget, False):
 				o.append("%s%s:%d%s" % (REVERSE_PROXY_PROTO, server.getAttr(Provisioning.A_zimbraServiceHostname, ""),REVERSE_PROXY_PORT,REVERSE_PROXY_PATH))
 
@@ -208,7 +201,6 @@ def garpb(sArgs=None, aArgs=None):
 	try:
 		P = Command.P
 		o = []
-		REVERSE_PROXY_PROTO = ""
 		for server in P.getAllServers():
 			isTarget = server.getBooleanAttr(Provisioning.A_zimbraReverseProxyLookupTarget, False)
 			if not isTarget:
@@ -216,13 +208,14 @@ def garpb(sArgs=None, aArgs=None):
 			mode = server.getAttr(Provisioning.A_zimbraMailMode, None)
 			if mode is None:
 				continue
-			if Provisioning.MailMode.fromString(mode) in \
+			if not Provisioning.MailMode.fromString(mode) in \
 				(Provisioning.MailMode.http, Provisioning.MailMode.mixed, Provisioning.MailMode.both):
-			     backendPort = server.getIntAttr(Provisioning.A_zimbraMailPort, 0)
-			else:
-			     backendPort = server.getIntAttr(Provisioning.A_zimbraMailSSLPort, 0)
+				continue
+
+			backendPort = server.getIntAttr(Provisioning.A_zimbraMailPort, 0)
 			serviceName = server.getAttr(Provisioning.A_zimbraServiceHostname, "")
-			o.append("%s%s:%d" % (REVERSE_PROXY_PROTO, serviceName, backendPort))
+
+			o.append("    server %s:%d;" % (serviceName,backendPort))
 
 		# I think this is a hack for the old version of zmconfigd
 		output = o
@@ -414,11 +407,6 @@ commands = {
 		name = "opendkim",
 		cmd  = exe["OPENDKIM"] + " %s",
 	),
-	"dnscache" : Command(
-		desc = "dnscache",
-		name = "dnscache",
-		cmd  = exe["DNSCACHE"] + " %s",
-	),
 	"cbpolicyd" : Command(
 		desc = "cbpolicyd",
 		name = "cbpolicyd",
@@ -434,26 +422,6 @@ commands = {
 		name = "mailboxd",
 		cmd  = exe["MAILBOXD"] + " %s",
 	),
-	"zimbra" : Command(
-        desc = "zimbra",
-        name = "zimbra",
-        cmd  = exe["ZIMBRA"] + " %s",
-    ),
-    "zimbraadmin" : Command(
-        desc = "zimbraadmin",
-        name = "zimbraadmin",
-        cmd  = exe["ZIMBRAADMIN"] + " %s",
-    ),
-    "service" : Command(
-        desc = "service",
-        name = "service",
-        cmd  = exe["SERVICE"] + " %s",
-    ),
-    "zimlet" : Command(
-        desc = "zimlet",
-        name = "zimlet",
-        cmd  = exe["ZIMLET"] + " %s",
-    ),
 	"spell" : Command(
 		desc = "spell",
 		name = "spell",
