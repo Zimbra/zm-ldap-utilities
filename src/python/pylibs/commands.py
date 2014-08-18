@@ -56,7 +56,7 @@ exe = {
 	'LOGGER'        : "bin/zmloggerctl",
 	'MAILBOX'       : "bin/zmstorectl",
 	'CBPOLICYD'     : "bin/zmcbpolicydctl",
-	'PROXYGEN'      : "bin/zmproxyconfgen",
+	'PROXYGEN'      : "libexec/zmproxyconfgen",
 	'CONVERTD'      : "bin/zmconvertctl",
 	'OPENDKIM'	: "bin/zmopendkimctl",
 	'DNSCACHE'	: "bin/zmdnscachectl",
