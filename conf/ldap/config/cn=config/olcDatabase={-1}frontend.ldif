@@ -10,6 +10,7 @@ olcMaxDerefDepth: 0
 olcReadOnly: FALSE
 olcSchemaDN: cn=Subschema
 olcMonitoring: FALSE
+olcPasswordHash: {SSHA512}
 structuralObjectClass: olcDatabaseConfig
 entryUUID: 152a840c-333e-102d-86fd-d562901af228
 creatorsName: cn=config

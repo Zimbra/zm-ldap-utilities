@@ -1,15 +1,17 @@
 #
 # ***** BEGIN LICENSE BLOCK *****
 # Zimbra Collaboration Suite Server
-# Copyright (C) 2010, 2011, 2012, 2013 Zimbra Software, LLC.
+# Copyright (C) 2010, 2011, 2012, 2013, 2014 Zimbra, Inc.
 # 
-# The contents of this file are subject to the Zimbra Public License
-# Version 1.4 ("License"); you may not use this file except in
-# compliance with the License.  You may obtain a copy of the License at
-# http://www.zimbra.com/license.
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software Foundation,
+# version 2 of the License.
 # 
-# Software distributed under the License is distributed on an "AS IS"
-# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.
+# If not, see <http://www.gnu.org/licenses/>.
 # ***** END LICENSE BLOCK *****
 #
 
@@ -38,23 +40,24 @@ class State:
 
 	startorder = {
 		"ldap"      : 0,
-		"logger"    : 10,
-		"convertd"  : 20,
-		"mailbox"   : 30,
-		"mailboxd"  : 35,
-		"memcached" : 40,
-		"proxy"     : 50,
-		"antispam"  : 60,
-		"antivirus" : 70,
-		"cbpolicyd" : 72,
-		"amavis"    : 75,
-		"opendkim"  : 78,
-		"archiving" : 80,
-		"snmp"      : 90,
-		"spell"     : 100,
-		"mta"       : 110,
-		"sasl"      : 115,
-		"stats"     : 120,
+		"dnscache"  : 10,
+		"logger"    : 20,
+		"convertd"  : 30,
+		"mailbox"   : 40,
+		"mailboxd"  : 50,
+		"memcached" : 60,
+		"proxy"     : 70,
+		"antispam"  : 80,
+		"antivirus" : 90,
+		"cbpolicyd" : 100,
+		"amavis"    : 110,
+		"opendkim"  : 120,
+		"archiving" : 130,
+		"snmp"      : 140,
+		"spell"     : 150,
+		"mta"       : 160,
+		"sasl"      : 170,
+		"stats"     : 180,
 		}
 
 	def __init__(self):
@@ -778,6 +781,10 @@ class State:
 	#    for MV attribs, set to string if string is in the attrib
 	#   contains (var string, replacement) - 
 	#    for MV attribs, set to replacement if string is in the attrib
+	#   exact (var string) - 
+	#    for MV attribs, set to string if a value of attrib exactly matches string
+	#   contains (var string, replacement) - 
+	#    for MV attribs, set to replacement if a value of attrib exactly matches string
 	#   list (var separator)
 	#    Works like perl join, for multivalued attrib, joins with join value
 	#    used to create csv or regexes
@@ -907,6 +914,34 @@ class State:
 				val = altreplace
 			Log.logMsg(5, "contains: type=%s key=%s val=%s" % (type, key, val))
 
+		elif re.match(r"exact", sr):
+			f = sr.split('^',2)
+			st = f[0]
+			if len(f) > 2:
+				replace = f[1].strip()
+				altreplace = f[2].strip()
+			elif len(f) > 1:
+				replace = f[1].strip()
+				altreplace = ""
+			else:
+				replace = ""
+				altreplace = ""
+			fields = st.split(' ',2)
+			(type,key) = fields[1].split(':')
+			val = self.lookUpConfig(type, key)
+			if val is None:
+				val = ""
+				return str(val)
+			else:
+				val = val.split()
+			replace = replace or fields[2]
+			Log.logMsg(5, "debug exact: type %s for key=%s exact matches %s replace=%s or altreplace=%s" % (type, key, fields[2], replace, altreplace))
+			if fields[2] in val:
+				val = replace
+			else: 
+				val = altreplace
+			Log.logMsg(5, "exact: type=%s key=%s val=%s" % (type, key, val))
+
 		elif re.match(r"freq", sr):
 			[(cmd,key,total)] = re.findall(r"freq ([^:]+):(\S+)\s+(\S+)",sr)
 			val = self.lookUpConfig(cmd,key)
@@ -966,8 +1001,10 @@ class State:
 		# Howewver, before we do that action, we need to do variable substitution in the line
 		# and then evaluate the action
 		line = line.rstrip()
-		if(line.startswith("%%") and line.endswith("%%") and line.count('%') is 4):
-			line = line.strip("%%")
+
+		if(line.startswith("%%") and line.endswith("%%") and line.count('%') > 4):
+			line = re.sub('^%%','',line)
+			line = re.sub('%%$','',line)
 			line = re.sub(r"%%([^%]+)%%", self.xformConfigVariable, line)
 			line = line + "%%"
 			line = "%%" + line

@@ -21,7 +21,7 @@ use Net::LDAP;
 use XML::Simple;
 
 if ( ! -d "/opt/zimbra/openldap/etc" ) {
-  print "ERROR: openldap does not appear to be installed - exiting\n";
+  print STDERR "ERROR: openldap does not appear to be installed - exiting\n";
   exit(1);
 }
 
@@ -36,8 +36,6 @@ if ($id ne "zimbra") {
 my $localxml = XMLin("/opt/zimbra/conf/localconfig.xml");
 my $ldap_root_password = $localxml->{key}->{ldap_root_password}->{value};
 chomp($ldap_root_password);
-my $ldap_is_master = $localxml->{key}->{ldap_is_master}->{value};
-chomp($ldap_is_master);
 
 my $ldap = Net::LDAP->new('ldapi://%2fopt%2fzimbra%2fdata%2fldap%2fstate%2frun%2fldapi/') or die "$@";
 
@@ -45,35 +43,18 @@ my $mesg = $ldap->bind("cn=config", password=>"$ldap_root_password");
 
 $mesg->code && die "Bind: ". $mesg->error . "\n"; 
 
-my $bdn="olcDatabase={2}mdb,cn=config";
+my $dn="cn=module{0},cn=config";
 
-if(lc($ldap_is_master) eq "true") {
-  $mesg = $ldap->search(
-                        base=> "cn=accesslog",
-                        filter=>"(objectClass=*)",
-                        scope => "base",
-                        attrs => ['1.1'],
-                 );
-  my $size = $mesg->count;
-  if ($size > 0 ) {
-    $bdn="olcDatabase={3}mdb,cn=config";
-  }
-}
+$mesg = $ldap->modify(
+    $dn,
+    add =>{olcModuleLoad => 'pw-sha2.la'},
+  );
 
-$mesg = $ldap ->search(
-                    base=>"$bdn",
-                    filter=>"(objectClass=olcUniqueConfig)",
-                    scope=>"sub",
-                    attrs => ['1.1'],
-                );
-
-my $size = $mesg->count;
-if ($size > 0) {
-  my $dn= $mesg->entry(0)->dn;
-  $mesg = $ldap->modify( "$dn",
-                          add =>{olcUniqueURI => 'ldap:///?DKIMSelector?sub'},
-                     );
-  $mesg->code && warn "failed to add entry: ", $mesg->error ;
-}
+$dn = 'olcDatabase={-1}frontend, cn=config';
+$mesg = $ldap->modify(
+    $dn,
+    replace=>{olcPasswordHash=>"{SSHA512}"},
+);
+    
 
 $ldap->unbind;

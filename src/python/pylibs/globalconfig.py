@@ -1,15 +1,17 @@
 #
 # ***** BEGIN LICENSE BLOCK *****
 # Zimbra Collaboration Suite Server
-# Copyright (C) 2010, 2011, 2012, 2013 Zimbra Software, LLC.
+# Copyright (C) 2010, 2011, 2012, 2013, 2014 Zimbra, Inc.
 # 
-# The contents of this file are subject to the Zimbra Public License
-# Version 1.4 ("License"); you may not use this file except in
-# compliance with the License.  You may obtain a copy of the License at
-# http://www.zimbra.com/license.
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software Foundation,
+# version 2 of the License.
 # 
-# Software distributed under the License is distributed on an "AS IS"
-# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with this program.
+# If not, see <http://www.gnu.org/licenses/>.
 # ***** END LICENSE BLOCK *****
 #
 
@@ -51,48 +53,11 @@ class GlobalConfig(config.Config):
 			self["zimbraSSLExcludeCipherSuites"] = ' '.join(sorted(v.split(), key=str.lower))
 			self["zimbraSSLExcludeCipherSuitesXML"] = '\n'.join([''.join(('<Item>',val,'</Item>')) for val in self["zimbraSSLExcludeCipherSuites"].split()])
 
-		if self["zimbraMtaRestriction"] is not None:
-			# Remove all the reject_rbl_client lines from MTA restriction and put the values in RBLs
-			q = re.sub(r'reject_rbl_client\s+\S+\s+','',self["zimbraMtaRestriction"])
-			p = re.findall(r'reject_rbl_client\s+(\S+)',self["zimbraMtaRestriction"])
-			self["zimbraMtaRestriction"] = q
-			self["zimbraMtaRestrictionRBLs"] = ', '.join(p)
-			# Remove all the reject_rhsbl_client lines from MTA restriction and put the values in RBLs
-			q = re.sub(r'reject_rhsbl_client\s+\S+\s+','',self["zimbraMtaRestriction"])
-			p = re.findall(r'reject_rhsbl_client\s+(\S+)',self["zimbraMtaRestriction"])
-			self["zimbraMtaRestriction"] = q
-			self["zimbraMtaRestrictionRHSBLCs"] = ', '.join(p)
-			# Remove all the reject_rhsbl_sender lines from MTA restriction and put the values in RBLs
-			q = re.sub(r'reject_rhsbl_sender\s+\S+\s+','',self["zimbraMtaRestriction"])
-			p = re.findall(r'reject_rhsbl_sender\s+(\S+)',self["zimbraMtaRestriction"])
-			self["zimbraMtaRestriction"] = q
-			self["zimbraMtaRestrictionRHSBLSs"] = ', '.join(p)
-			# Remove all the reject_rhsbl_reverse_client lines from MTA restriction and put the values in RBLs
-			q = re.sub(r'reject_rhsbl_reverse_client\s+\S+\s+','',self["zimbraMtaRestriction"])
-			p = re.findall(r'reject_rhsbl_reverse_client\s+(\S+)',self["zimbraMtaRestriction"])
-			self["zimbraMtaRestriction"] = q
-			self["zimbraMtaRestrictionRHSBLRCs"] = ', '.join(p)
-
-		if self["zimbraIPMode"] is not None:
-			self["zimbraIPv4BindAddress"] = "127.0.0.1"
-			v = self["zimbraIPMode"]
+		if self["zimbraSSLIncludeCipherSuites"] is not None:
+			v = self["zimbraSSLIncludeCipherSuites"]
 			v = str(v)
-			v = v.lower()
-			if v == "ipv4":
-				self["zimbraLocalBindAddress"] = "127.0.0.1"
-				self["zimbraPostconfProtocol"] = "ipv4"
-				self["zimbraAmavisListenSockets"] = "'10024','10026','10032'"
-				self["zimbraInetMode"] = "inet"
-			if v == "ipv6":
-				self["zimbraLocalBindAddress"] = "::1"
-				self["zimbraPostconfProtocol"] = "ipv6"
-				self["zimbraAmavisListenSockets"] = "'[::1]:10024','[::1]:10026','[::1]:10032'"
-				self["zimbraInetMode"] = "inet6"
-			if v == "both":
-				self["zimbraLocalBindAddress"] = "::1"
-				self["zimbraPostconfProtocol"] = "all"
-				self["zimbraAmavisListenSockets"] = "'10024','10026','10032','[::1]:10024','[::1]:10026','[::1]:10032'"
-				self["zimbraInetMode"] = "inet6"
+			self["zimbraSSLIncludeCipherSuites"] = ' '.join(sorted(v.split(), key=str.lower))
+			self["zimbraSSLIncludeCipherSuitesXML"] = '\n'.join([''.join(('<Item>',val,'</Item>')) for val in self["zimbraSSLIncludeCipherSuites"].split()])
 
 		dt = time.clock()-t1
 		Log.logMsg(5,"globalconfig loaded in %.2f seconds" % dt)
