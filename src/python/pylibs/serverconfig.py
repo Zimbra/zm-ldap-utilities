@@ -52,6 +52,12 @@ class ServerConfig(config.Config):
 
 		self.config = dict([(e.getKey(), e.getValue()) for e in sorted(c.output, key=lambda x: x.getKey())])
 
+		if self["zimbraMailboxdSSLProtocols"] is not None:
+			v = self["zimbraMailboxdSSLProtocols"]
+			v = str(v)
+			self["zimbraMailboxdSSLProtocols"] = ' '.join(sorted(v.split(), key=str.lower))
+			self["zimbraMailboxdSSLProtocolsXML"] = '\n'.join([''.join(('<Item>',val,'</Item>')) for val in self["zimbraMailboxdSSLProtocols"].split()])
+
 		if self["zimbraSSLExcludeCipherSuites"] is not None:
 			v = self["zimbraSSLExcludeCipherSuites"]
 			v = str(v)
