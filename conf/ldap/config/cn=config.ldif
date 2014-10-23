@@ -28,6 +28,8 @@ olcThreads: 8
 olcTLSCertificateFile: /opt/zimbra/conf/slapd.crt
 olcTLSCertificateKeyFile: /opt/zimbra/conf/slapd.key
 olcTLSCACertificatePath: /opt/zimbra/conf/ca
+olcTLSProtcolMin: 3.1
+olcTLSCipherSuite: MEDIUM:HIGH
 olcTLSCRLCheck: none
 olcTLSVerifyClient: never
 olcToolThreads: 2

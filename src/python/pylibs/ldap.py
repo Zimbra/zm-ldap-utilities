@@ -40,6 +40,8 @@ keymap = {
 	"ldap_common_toolthreads"		:	("olcToolThreads",	"cn=config", False),
 	"ldap_common_require_tls"		:	("olcSecurity",		"cn=config", False),
 	"ldap_common_writetimeout"		:	("olcWriteTimeout",	"cn=config", False),
+	"ldap_common_tlsprotocolmin"		:	("olcTLSProtocolMin",	"cn=config", False),
+	"ldap_common_tlsciphersuite"		:	("olcTLSCipherSuite",	"cn=config", False),
 
 	"ldap_db_maxsize"			:	("olcDbMaxsize",	"olcDatabase={3}mdb,cn=config", False),
 	"ldap_db_envflags"			:	("olcDbEnvFlags",	"olcDatabase={3}mdb,cn=config", False),
