@@ -136,6 +136,8 @@ class ServerConfig(config.Config):
 		milter = None
 		if (self["zimbraMilterServerEnabled"] == "TRUE"):
 			milter = "inet:%s:%s" % (self["zimbraMilterBindAddress"],self["zimbraMilterBindPort"])
+		else:
+			self["zimbraMtaSmtpdMilters"] = ""
 
 		if self["zimbraMtaSmtpdMilters"] is not None and milter is not None:
 			self["zimbraMtaSmtpdMilters"] = "%s, %s" % (self["zimbraMtaSmtpdMilters"], milter)
