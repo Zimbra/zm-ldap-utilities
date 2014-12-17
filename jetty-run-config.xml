@@ -121,7 +121,7 @@
 						<Set name="Regex">^(/service/certauth)(/|/(.*))?$</Set>
 						<Set name="HttpErrorStatusRegexNotMatched">403</Set>
 						<Set name="HttpErrorReasonRegexNotMatched">errResourceNotAllowedOnPort</Set>
-                        <Set name="ResourceBundlePath">/opt/zimbra/conf/msgs</Set>
+						<Set name="ResourceBundlePath">/opt/zimbra/conf/msgs</Set>
 					</New>
 				</Arg>
 			</Call>
@@ -308,64 +308,61 @@
 		</Arg>
 	</Call>
 
-    <New id="zimbraSslClientContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory">
-        <Set name="KeyStorePath">/opt/zimbra/jetty/etc/keystore</Set>
-        <Set name="KeyStorePassword">zimbra</Set>
-        <Set name="KeyManagerPassword">zimbra</Set>
-        <!-- uncomment following two lines when testing providing CAs from the trust store.
-               see https://bugzilla.zimbra.com/show_bug.cgi?id=64689#c4 and 
-               https://bugzilla.zimbra.com/show_bug.cgi?id=64689#c8
-        -->
-        <!-- 
-        <Set name="TrustStorePath">/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home/jre/lib/security/cacerts</Set>
-        <Set name="TrustStorePassword">changeit</Set>
-        -->
-        <Set name="EndpointIdentificationAlgorithm"></Set>
-        <Set name="ExcludeCipherSuites">
-            <Array type="String">
-                <Item>SSL_RSA_WITH_DES_CBC_SHA</Item>
-                <Item>SSL_DHE_RSA_WITH_DES_CBC_SHA</Item>
-                <Item>SSL_DHE_DSS_WITH_DES_CBC_SHA</Item>
-                <Item>SSL_RSA_EXPORT_WITH_RC4_40_MD5</Item>
-                <Item>SSL_RSA_EXPORT_WITH_DES40_CBC_SHA</Item>
-                <Item>SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA</Item>
-                <Item>SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA</Item>
-            </Array>
-        </Set>
-        <Set name="WantClientAuth">true</Set>
-        <Set name="NeedClientAuth">false</Set>
-    </New>
+	<New id="zimbraSslClientContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory">
+		<Set name="KeyStorePath">/opt/zimbra/jetty/etc/keystore</Set>
+		<Set name="KeyStorePassword">zimbra</Set>
+		<Set name="KeyManagerPassword">zimbra</Set>
+		<!-- uncomment following two lines when testing providing CAs from the 
+			trust store. see https://bugzilla.zimbra.com/show_bug.cgi?id=64689#c4 and 
+			https://bugzilla.zimbra.com/show_bug.cgi?id=64689#c8 -->
+		<!-- <Set name="TrustStorePath">/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home/jre/lib/security/cacerts</Set> 
+			<Set name="TrustStorePassword">changeit</Set> -->
+		<Set name="EndpointIdentificationAlgorithm"></Set>
+		<Set name="ExcludeCipherSuites">
+			<Array type="String">
+				<Item>SSL_RSA_WITH_DES_CBC_SHA</Item>
+				<Item>SSL_DHE_RSA_WITH_DES_CBC_SHA</Item>
+				<Item>SSL_DHE_DSS_WITH_DES_CBC_SHA</Item>
+				<Item>SSL_RSA_EXPORT_WITH_RC4_40_MD5</Item>
+				<Item>SSL_RSA_EXPORT_WITH_DES40_CBC_SHA</Item>
+				<Item>SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA</Item>
+				<Item>SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA</Item>
+			</Array>
+		</Set>
+		<Set name="WantClientAuth">true</Set>
+		<Set name="NeedClientAuth">false</Set>
+	</New>
 
-    <Call id="httpsClientConnector" name="addConnector">
-        <Arg>
-            <New id="ssl-clientcert" class="org.eclipse.jetty.server.ServerConnector">
-                <Arg name="server">
-                    <Ref refid="Server" />
-                </Arg>
-                <Arg name="factories">
-                    <Array type="org.eclipse.jetty.server.ConnectionFactory">
-                        <Item>
-                            <New class="org.eclipse.jetty.server.SslConnectionFactory">
-                                <Arg name="next">http/1.1</Arg>
-                                <Arg name="sslContextFactory">
-                                    <Ref refid="zimbraSslClientContextFactory" />
-                                </Arg>
-                            </New>
-                        </Item>
-                        <Item>
-                            <New class="org.eclipse.jetty.server.HttpConnectionFactory">
-                                <Arg name="config">
-                                    <Ref refid="sslHttpConfig" />
-                                </Arg>
-                            </New>
-                        </Item>
-                    </Array>
-                </Arg>
-                <Set name="port">9443</Set>
-                <Set name="idleTimeout">60000</Set>
-            </New>
-        </Arg>
-    </Call>
+	<Call id="httpsClientConnector" name="addConnector">
+		<Arg>
+			<New id="ssl-clientcert" class="org.eclipse.jetty.server.ServerConnector">
+				<Arg name="server">
+					<Ref refid="Server" />
+				</Arg>
+				<Arg name="factories">
+					<Array type="org.eclipse.jetty.server.ConnectionFactory">
+						<Item>
+							<New class="org.eclipse.jetty.server.SslConnectionFactory">
+								<Arg name="next">http/1.1</Arg>
+								<Arg name="sslContextFactory">
+									<Ref refid="zimbraSslClientContextFactory" />
+								</Arg>
+							</New>
+						</Item>
+						<Item>
+							<New class="org.eclipse.jetty.server.HttpConnectionFactory">
+								<Arg name="config">
+									<Ref refid="sslHttpConfig" />
+								</Arg>
+							</New>
+						</Item>
+					</Array>
+				</Arg>
+				<Set name="port">9443</Set>
+				<Set name="idleTimeout">60000</Set>
+			</New>
+		</Arg>
+	</Call>
 
 	<Call id="adminHttpsConnector" name="addConnector">
 		<Arg>
@@ -394,6 +391,33 @@
 				</Arg>
 				<Set name="port">7071</Set>
 				<Set name="idleTimeout">60000</Set>
+			</New>
+		</Arg>
+	</Call>
+
+	<Call id="solrConnector" name="addConnector">
+		<Arg>
+			<New id="solr" class="org.eclipse.jetty.server.ServerConnector">
+				<Arg name="server">
+					<Ref refid="Server" />
+				</Arg>
+				<Arg name="factories">
+					<Array type="org.eclipse.jetty.server.ConnectionFactory">
+						<Item>
+							<New class="org.eclipse.jetty.server.HttpConnectionFactory">
+								<Arg name="config">
+									<Ref refid="httpConfig" />
+								</Arg>
+							</New>
+						</Item>
+					</Array>
+				</Arg>
+				<Set name="host">
+					<SystemProperty name="jetty.host" default="localhost" />
+				</Set>
+				<Set name="port">7983</Set>
+				<Set name="idleTimeout">60000</Set>
+				<Set name="name">SolrConnector</Set>
 			</New>
 		</Arg>
 	</Call>
