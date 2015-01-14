@@ -123,7 +123,7 @@
    <field name="solrId" type="string" indexed="true" stored="true" required="true" />
    <field name="l.mbox_blob_id" type="int" indexed="true" stored="true"  multiValued="false" /> 
    <field name="l.version" type="string" indexed="true" stored="true" />
-   <field name="has" type="zmtext" indexed="true" stored="false"/>
+   <field name="has" type="zmtext_nr" indexed="true" stored="false"/>
    <field name="l.contactData" type="zmcontact" indexed="true" stored="false"/>
    <field name="l.date" type="zmdate" indexed="true" stored="true"/>        
    <field name="attachment" type="zmmimetype" indexed="true" stored="true" multiValued="true" />
@@ -386,6 +386,21 @@
         <filter class="com.zimbra.solr.ZimbraClassicTokenFilterFactory"/>
         <filter class="solr.ReversedWildcardFilterFactory" withOriginal="true"
            maxPosAsterisk="3" maxPosQuestion="2" />
+      </analyzer>
+      <analyzer type="query">
+        <charFilter class="com.zimbra.solr.ZimbraCharFilterFactory"/>
+        <tokenizer class="com.zimbra.solr.ZimbraStandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory"/>
+        <filter class="com.zimbra.solr.ZimbraClassicTokenFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="zmtext_nr" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+      <analyzer type="index">
+        <charFilter class="com.zimbra.solr.ZimbraCharFilterFactory"/>
+        <tokenizer class="com.zimbra.solr.ZimbraStandardTokenizerFactory"/>
+        <filter class="solr.StopFilterFactory"/>
+        <filter class="com.zimbra.solr.ZimbraClassicTokenFilterFactory"/>
       </analyzer>
       <analyzer type="query">
         <charFilter class="com.zimbra.solr.ZimbraCharFilterFactory"/>
