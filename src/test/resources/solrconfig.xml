@@ -423,8 +423,7 @@
          <str name="dir">.</str>
          <bool name="wait">true</bool>
        </listener-->
-      
-      <listener event="postCommit" class="com.zimbra.solr.ZimbraCommitListener"/>
+      <listener event="postCommit" class="com.zimbra.solr.CommitEventListener" />
   </updateHandler>
   
   <!-- IndexReaderFactory
@@ -515,20 +514,20 @@
            autowarmCount - the number of entries to prepopulate from
                and old cache.  
       -->
-    <filterCache class="solr.FastLRUCache"
+    <!-- filterCache class="solr.FastLRUCache"
                  size="512"
                  initialSize="512"
-                 autowarmCount="0"/>
+                 autowarmCount="0"/ -->
 
     <!-- Query Result Cache
          
          Caches results of searches - ordered lists of document ids
          (DocList) based on a query, a sort, and the range of documents requested.  
       -->
-    <queryResultCache class="solr.LRUCache"
+    <!-- queryResultCache class="solr.LRUCache"
                      size="512"
                      initialSize="512"
-                     autowarmCount="0"/>
+                     autowarmCount="0"/ -->
    
     <!-- Document Cache
 
@@ -1046,6 +1045,11 @@
   <requestHandler name="/restore" class="com.zimbra.solr.CoreRestoreHandler">
   
   </requestHandler>
+  
+  <requestHandler name="/commitcount" class="com.zimbra.solr.CommitCountHandler">
+  
+  </requestHandler>
+  
   <!-- for back compat with clients using /update/json and /update/csv -->  
   <requestHandler name="/update/json" class="solr.UpdateRequestHandler">
         <lst name="defaults">

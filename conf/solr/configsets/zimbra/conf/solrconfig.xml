@@ -178,7 +178,7 @@
      <filter class="solr.LimitTokenCountFilterFactory" maxTokenCount="10000"/>
     -->
     <!-- Maximum time to wait for a write lock (ms) for an IndexWriter. Default: 1000 -->
-    <!-- <writeLockTimeout>1000</writeLockTimeout>  -->
+    <writeLockTimeout>10000</writeLockTimeout>
 
     <!-- The maximum number of simultaneous threads that may be
          indexing documents at once in IndexWriter; if more than this
@@ -256,7 +256,7 @@
          More details on the nuances of each LockFactory...
          http://wiki.apache.org/lucene-java/AvailableLockFactories
     -->
-    <lockType>${solr.lock.type:native}</lockType>
+    <lockType>${solr.lock.type:simple}</lockType>
 
     <!-- Unlock On Startup
 
@@ -426,7 +426,7 @@
          <arr name="env"> <str>MYVAR=val1</str> </arr>
        </listener>
       -->
-
+       <listener event="postCommit" class="com.zimbra.solr.CommitEventListener" />
   </updateHandler>
   
   <!-- IndexReaderFactory
@@ -517,20 +517,20 @@
            autowarmCount - the number of entries to prepopulate from
                and old cache.  
       -->
-    <filterCache class="solr.FastLRUCache"
+    <!-- filterCache class="solr.FastLRUCache"
                  size="512"
                  initialSize="512"
-                 autowarmCount="0"/>
+                 autowarmCount="0"/ -->
 
     <!-- Query Result Cache
          
          Caches results of searches - ordered lists of document ids
          (DocList) based on a query, a sort, and the range of documents requested.  
       -->
-    <queryResultCache class="solr.LRUCache"
+    <!-- queryResultCache class="solr.LRUCache"
                      size="512"
                      initialSize="512"
-                     autowarmCount="0"/>
+                     autowarmCount="0"/ -->
    
     <!-- Document Cache
 
@@ -1046,6 +1046,9 @@
   </requestHandler>
 
   <requestHandler name="/restore" class="com.zimbra.solr.CoreRestoreHandler">
+  
+  </requestHandler>
+  <requestHandler name="/commitcount" class="com.zimbra.solr.CommitCountHandler">
   
   </requestHandler>
   <!-- for back compat with clients using /update/json and /update/csv -->  
