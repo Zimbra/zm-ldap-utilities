@@ -379,11 +379,13 @@
 
          If the updateLog is enabled, then it's highly recommended to
          have some sort of hard autoCommit to limit the log size.
+         
+         We disable Auto Commit and Soft Commit in unit test environment, because we use manual commits after each request when running automated tests. 
       -->
-     <autoCommit> 
+     <!-- autoCommit> 
        <maxTime>${solr.autoCommit.maxTime:15000}</maxTime> 
        <openSearcher>true</openSearcher> 
-     </autoCommit>
+     </autoCommit-->
 
     <!-- softAutoCommit is like autoCommit except it causes a
          'soft' commit which only ensures that changes are visible
@@ -391,9 +393,9 @@
          faster and more near-realtime friendly than a hard commit.
       -->
 
-     <autoSoftCommit> 
+     <!-- autoSoftCommit> 
        <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime> 
-     </autoSoftCommit>
+     </autoSoftCommit -->
 
     <!-- Update Related Event Listeners
          
