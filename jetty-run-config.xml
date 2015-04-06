@@ -395,6 +395,38 @@
 		</Arg>
 	</Call>
 
+    <Call id="redologConnector" name="addConnector">
+        <Arg>
+            <New id="redolog" class="org.eclipse.jetty.server.ServerConnector">
+                <Arg name="server">
+                    <Ref refid="Server" />
+                </Arg>
+                <Arg name="factories">
+                    <Array type="org.eclipse.jetty.server.ConnectionFactory">
+                        <Item>
+                            <New class="org.eclipse.jetty.server.SslConnectionFactory">
+                                <Arg name="next">http/1.1</Arg>
+                                <Arg name="sslContextFactory">
+                                    <Ref refid="zimbraSslContextFactory" />
+                                </Arg>
+                            </New>
+                        </Item>
+                        <Item>
+                            <New class="org.eclipse.jetty.server.HttpConnectionFactory">
+                                <Arg name="config">
+                                    <Ref refid="httpConfig" />
+                                </Arg>
+                            </New>
+                        </Item>
+                    </Array>
+                </Arg>
+                <Set name="port">7994</Set>
+                <Set name="idleTimeout">60000</Set>
+                <Set name="name">RedologConnector</Set>
+            </New>
+        </Arg>
+    </Call>
+
 	<Call id="solrConnector" name="addConnector">
 		<Arg>
 			<New id="solr" class="org.eclipse.jetty.server.ServerConnector">
