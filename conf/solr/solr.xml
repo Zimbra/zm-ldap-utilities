@@ -28,7 +28,7 @@
 
 <solr>
   <str name="configSetBaseDir">/opt/zimbra/solr/configsets</str>	
-  <str name="sharedLib">/opt/zimbra/solr/server/lib/custom</str>
+  <str name="sharedLib">/opt/zimbra/solr/lib/custom</str>
   <solrcloud>
     <str name="host">${host:}</str>
     <int name="hostPort">${jetty.port:7983}</int>
