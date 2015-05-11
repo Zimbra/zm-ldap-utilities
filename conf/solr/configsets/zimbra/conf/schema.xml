@@ -353,12 +353,14 @@
 
     <fieldType name="zmaddress_sw" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer type="index">
+            <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-halfwidth-kana-voiced.txt"/>
             <tokenizer class="com.zimbra.solr.ZimbraAddressTokenizerFactory"/> 
             <filter class="solr.StopFilterFactory"/>
             <filter class="solr.ReversedWildcardFilterFactory" withOriginal="true"
            maxPosAsterisk="3" maxPosQuestion="2" />            
       </analyzer>
       <analyzer type="query">
+            <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-halfwidth-kana-voiced.txt"/>
             <tokenizer class="com.zimbra.solr.ZimbraAddressTokenizerFactory"/> 
             <filter class="solr.StopFilterFactory"/>
       </analyzer>
@@ -366,6 +368,7 @@
 
     <fieldType name="zmtext" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer type="index">
+        <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-halfwidth-kana-voiced.txt"/>
         <charFilter class="com.zimbra.solr.ZimbraCharFilterFactory"/>
         <tokenizer class="com.zimbra.solr.ZimbraStandardTokenizerFactory"/>
         <filter class="solr.StopFilterFactory"/>
@@ -374,6 +377,7 @@
            maxPosAsterisk="3" maxPosQuestion="2" />
       </analyzer>
       <analyzer type="query">
+        <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-halfwidth-kana-voiced.txt"/>
         <charFilter class="com.zimbra.solr.ZimbraCharFilterFactory"/>
         <tokenizer class="com.zimbra.solr.ZimbraStandardTokenizerFactory"/>
         <filter class="solr.StopFilterFactory"/>
@@ -383,12 +387,14 @@
 
     <fieldType name="zmtext_nr" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
       <analyzer type="index">
+        <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-halfwidth-kana-voiced.txt"/>
         <charFilter class="com.zimbra.solr.ZimbraCharFilterFactory"/>
         <tokenizer class="com.zimbra.solr.ZimbraStandardTokenizerFactory"/>
         <filter class="solr.StopFilterFactory"/>
         <filter class="com.zimbra.solr.ZimbraClassicTokenFilterFactory"/>
       </analyzer>
       <analyzer type="query">
+        <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-halfwidth-kana-voiced.txt"/>
         <charFilter class="com.zimbra.solr.ZimbraCharFilterFactory"/>
         <tokenizer class="com.zimbra.solr.ZimbraStandardTokenizerFactory"/>
         <filter class="solr.StopFilterFactory"/>
@@ -404,6 +410,7 @@
 
     <fieldType name="zmcontact" class="solr.TextField" positionIncrementGap="100">
       <analyzer>
+            <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-halfwidth-kana-voiced.txt"/>
             <tokenizer class="com.zimbra.solr.ZimbraAddrCharTokenizerFactory"/>          
             <filter class="com.zimbra.solr.ZimbraContactTokenFilterFactory"/>
       </analyzer>
