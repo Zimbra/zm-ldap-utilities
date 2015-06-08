@@ -1042,15 +1042,15 @@
        -->
   </requestHandler>
 
-  <requestHandler name="/restore" class="com.zimbra.solr.CoreRestoreHandler">
-  
+  <requestHandler name="/zbnr" class="com.zimbra.solr.ZimbraBnRHandler">
+
   </requestHandler>
-  
+
   <requestHandler name="/commitcount" class="com.zimbra.solr.CommitCountHandler">
-  
+
   </requestHandler>
-  
-  <!-- for back compat with clients using /update/json and /update/csv -->  
+
+  <!-- for back compat with clients using /update/json and /update/csv -->
   <requestHandler name="/update/json" class="solr.UpdateRequestHandler">
         <lst name="defaults">
          <str name="stream.contentType">application/json</str>
