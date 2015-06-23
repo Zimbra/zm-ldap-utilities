@@ -1042,9 +1042,9 @@
        -->
   </requestHandler>
 
-  <requestHandler name="/zbnr" class="com.zimbra.solr.ZimbraBnRHandler">
+  <!--requestHandler name="/zbnr" class="com.zimbra.solr.ZimbraBnRHandler">
 
-  </requestHandler>
+  </requestHandler-->
 
   <requestHandler name="/commitcount" class="com.zimbra.solr.CommitCountHandler">
 
