@@ -50,6 +50,7 @@ keymap = {
 	"ldap_accesslog_envflags"		:	("olcDbEnvFlags",	"olcDatabase={2}mdb,cn=config", True),
 
 	"ldap_overlay_syncprov_checkpoint"	:	("olcSpCheckpoint",	"olcOverlay={0}syncprov,olcDatabase={3}mdb,cn=config", True),
+	"ldap_overlay_syncprov_sessionlog"	:	("olcSpSessionlog",	"olcOverlay={0}syncprov,olcDatabase={3}mdb,cn=config", True),
 
 	"ldap_overlay_accesslog_logpurge"	:	("olcAccessLogPurge",	"olcOverlay={1}accesslog,olcDatabase={3}mdb,cn=config", True)
 }
