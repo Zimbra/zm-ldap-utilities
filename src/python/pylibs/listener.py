@@ -66,3 +66,11 @@ class ThreadedStreamServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
 
 	def shutdown(self):
 		Log.logMsg(5, "Removing socket %s" % self.server_address)
+
+class ThreadedStreamServerIPv6(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
+
+	allow_reuse_address = True
+	address_family = socket.AF_INET6
+
+	def shutdown(self):
+		Log.logMsg(5, "Removing socket %s" % self.server_address)
