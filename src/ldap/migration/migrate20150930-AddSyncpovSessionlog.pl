@@ -20,7 +20,7 @@ use lib '/opt/zimbra/zimbramon/lib';
 use Net::LDAP;
 use XML::Simple;
 
-if ( !-d "/opt/zimbra/openldap/etc" ) {
+if ( !-d "/opt/zimbra/common/etc/openldap/schema" ) {
     warn "ERROR: openldap does not appear to be installed - exiting\n";
     exit(1);
 }
