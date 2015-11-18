@@ -174,16 +174,9 @@ $mailfrom_to_quarantine = ''; # null return path; uses original sender if undef
 # when enabling addr extensions do also Postfix/main.cf: recipient_delimiter=+
 
 $path = '/opt/zimbra/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/usr/bin:/bin';
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%$dspam = 'dspam';
 
 @spam_scanners = (
     ['SpamAssassin', 'Amavis::SpamControl::SpamAssassin' ],
-
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%  ['DSPAM', 'Amavis::SpamControl::ExtProg', $dspam,
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%    [ qw(--stdout --classify --deliver=innocent,spam --mode=tum
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%         --feature=noise --user), $daemon_user ],
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%         mail_body_size_limit => 64000, score_factor => 1,
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%    ],
 );
 
 $MAXLEVELS = 14;
