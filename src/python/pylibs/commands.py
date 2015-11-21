@@ -2,11 +2,11 @@
 # ***** BEGIN LICENSE BLOCK *****
 # Zimbra Collaboration Suite Server
 # Copyright (C) 2010, 2011, 2012, 2013, 2014 Zimbra, Inc.
-# 
+#
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software Foundation,
 # version 2 of the License.
-# 
+#
 # This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 # without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
@@ -31,11 +31,10 @@ from com.zimbra.cs.httpclient import URLUtil
 from com.zimbra.cs.util import ProxyConfGen
 
 exe = {
-	"POSTCONF"      : "postfix/sbin/postconf -e",
-	"POSTCONFD"     : "postfix/sbin/postconf -X",
+	"POSTCONF"      : "common/sbin/postconf -e",
+	"POSTCONFD"     : "common/sbin/postconf -X",
 	"ZMPROV"        : "bin/zmprov -l",
 	"ZMLOCALCONFIG" : "bin/zmlocalconfig",
-	'PERDITION'     : "bin/zmperditionctl",
 	'PROXY'         : "bin/zmproxyctl",
 	'STATS'         : "bin/zmstatctl",
 	'ARCHIVING'     : "bin/zmamavisdctl",
@@ -240,7 +239,7 @@ def gamcs(sArgs=None, aArgs=None):
 	rc = 0
 
 	try:
-		# Looks like we get ldap by default, 
+		# Looks like we get ldap by default,
 		# unless we create an instance and call setInstance ourselves
 		P = Command.P
 		o = []
@@ -259,7 +258,7 @@ def getserver(sArgs=None, aArgs=None):
 	rc = 0
 
 	try:
-		# Looks like we get ldap by default, 
+		# Looks like we get ldap by default,
 		# unless we create an instance and call setInstance ourselves
 		P = Command.P
 		output = P.getLocalServer().getAttrs(True).entrySet()
@@ -274,7 +273,7 @@ def getglobal(sArgs=None, aArgs=None):
 	rc = 0
 
 	try:
-		# Looks like we get ldap by default, 
+		# Looks like we get ldap by default,
 		# unless we create an instance and call setInstance ourselves
 		P = Command.P
 		output = P.getConfig().getAttrs(True).entrySet()
@@ -364,11 +363,6 @@ commands = {
 		name = "proxygen",
 		func = proxygen,
 	),
-	"perdition" : Command(
-		desc = "perdition",
-		name = "perdition",
-		cmd  = exe["PERDITION"] + " %s",
-	),
 	"proxy" : Command(
 		desc = "proxy",
 		name = "proxy",
@@ -435,25 +429,25 @@ commands = {
 		cmd  = exe["MAILBOXD"] + " %s",
 	),
 	"zimbra" : Command(
-        desc = "zimbra",
-        name = "zimbra",
-        cmd  = exe["ZIMBRA"] + " %s",
-    ),
-    "zimbraadmin" : Command(
-        desc = "zimbraadmin",
-        name = "zimbraadmin",
-        cmd  = exe["ZIMBRAADMIN"] + " %s",
-    ),
-    "service" : Command(
-        desc = "service",
-        name = "service",
-        cmd  = exe["SERVICE"] + " %s",
-    ),
-    "zimlet" : Command(
-        desc = "zimlet",
-        name = "zimlet",
-        cmd  = exe["ZIMLET"] + " %s",
-    ),
+		desc = "zimbra",
+		name = "zimbra",
+		cmd  = exe["ZIMBRA"] + " %s",
+		),
+	"zimbraadmin" : Command(
+		desc = "zimbraadmin",
+		name = "zimbraadmin",
+		cmd  = exe["ZIMBRAADMIN"] + " %s",
+	),
+	"service" : Command(
+		desc = "service",
+		name = "service",
+		cmd  = exe["SERVICE"] + " %s",
+	),
+	"zimlet" : Command(
+		desc = "zimlet",
+		name = "zimlet",
+		cmd  = exe["ZIMLET"] + " %s",
+	),
 	"spell" : Command(
 		desc = "spell",
 		name = "spell",
