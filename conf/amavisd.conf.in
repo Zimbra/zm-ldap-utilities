@@ -14,7 +14,7 @@ use strict;
 # $bypass_decode_parts = 1;         # controls running of decoders&dearchivers
 
 # Mandatory Signatures
-%%uncomment VAR:zimbraDomainMandatoryMailSignatureEnabled%%$altermime='/opt/zimbra/common/bin/altermime';
+%%uncomment VAR:zimbraDomainMandatoryMailSignatureEnabled%%$altermime='/opt/zimbra/altermime/bin/altermime';
 %%uncomment VAR:zimbraDomainMandatoryMailSignatureEnabled%%@altermime_args_disclaimer = qw(--verbose --disclaimer-b64=/opt/zimbra/data/altermime/_OPTION_.b64 --disclaimer=/opt/zimbra/data/altermime/_OPTION_.txt --disclaimer-html=/opt/zimbra/data/altermime/_OPTION_.html );
 %%uncomment VAR:zimbraDomainMandatoryMailSignatureEnabled%%$defang_maps_by_ccat{+CC_CATCHALL} = ['disclaimer'];
 %%uncomment VAR:zimbraAmavisOutboundDisclaimersOnly%%$outbound_disclaimers_only=1;
@@ -174,9 +174,16 @@ $mailfrom_to_quarantine = ''; # null return path; uses original sender if undef
 # when enabling addr extensions do also Postfix/main.cf: recipient_delimiter=+
 
 $path = '/opt/zimbra/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/usr/bin:/bin';
+%%uncomment VAR:zimbraAmavisDSPAMEnabled%%$dspam = 'dspam';
 
 @spam_scanners = (
     ['SpamAssassin', 'Amavis::SpamControl::SpamAssassin' ],
+
+%%uncomment VAR:zimbraAmavisDSPAMEnabled%%  ['DSPAM', 'Amavis::SpamControl::ExtProg', $dspam,
+%%uncomment VAR:zimbraAmavisDSPAMEnabled%%    [ qw(--stdout --classify --deliver=innocent,spam --mode=tum
+%%uncomment VAR:zimbraAmavisDSPAMEnabled%%         --feature=noise --user), $daemon_user ],
+%%uncomment VAR:zimbraAmavisDSPAMEnabled%%         mail_body_size_limit => 64000, score_factor => 1,
+%%uncomment VAR:zimbraAmavisDSPAMEnabled%%    ],
 );
 
 $MAXLEVELS = 14;
