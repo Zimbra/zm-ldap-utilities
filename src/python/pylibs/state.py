@@ -998,11 +998,11 @@ class State:
 		line = re.sub(r"@@([^@]+)@@", self.xformLocalConfig, line)
 
 		# If the line begins and ends with %%, then we are asking a special action be done
-		# Howewver, before we do that action, we need to do variable substitution in the line
+		# However, before we do that action, we need to do variable substitution in the line
 		# and then evaluate the action
 		line = line.rstrip()
 
-		if(line.startswith("%%") and line.endswith("%%") and line.count('%') > 4):
+		if(line.startswith("%%contains") and line.endswith("%%") and line.count('%') > 4):
 			line = re.sub('^%%','',line)
 			line = re.sub('%%$','',line)
 			line = re.sub(r"%%([^%]+)%%", self.xformConfigVariable, line)
