@@ -88,6 +88,7 @@ olcDbIndex: DKIMIdentity eq
 olcDbIndex: DKIMSelector eq
 olcDbMode: 0600
 olcDbMaxsize: 85899345920
+olcDbRtxnSize: 0
 olcDbSearchStack: 16
 structuralObjectClass: olcMdbConfig
 entryUUID: 152ab0a8-333e-102d-8700-d562901af228
