@@ -68,7 +68,7 @@ $nanny_details_level = 2;    # nanny verbosity: 1: traditional, 2: detailed
 $enable_dkim_verification = %%binary VAR:zimbraAmavisEnableDKIMVerification%%;  # enable DKIM signatures verification
 $enable_dkim_signing = 0;    # load DKIM signing code, keys defined by dkim_key
 
-@local_domains_maps = ( [".$mydomain"] );  # list of all local domains
+@local_domains_maps = undef; # Not necessary when LDAP is used
 
 #@mynetworks = qw( 127.0.0.0/8 [::1] [FE80::]/10 [FEC0::]/10
 #                  10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 );
@@ -174,16 +174,9 @@ $mailfrom_to_quarantine = ''; # null return path; uses original sender if undef
 # when enabling addr extensions do also Postfix/main.cf: recipient_delimiter=+
 
 $path = '/opt/zimbra/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/usr/bin:/bin';
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%$dspam = 'dspam';
 
 @spam_scanners = (
     ['SpamAssassin', 'Amavis::SpamControl::SpamAssassin' ],
-
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%  ['DSPAM', 'Amavis::SpamControl::ExtProg', $dspam,
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%    [ qw(--stdout --classify --deliver=innocent,spam --mode=tum
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%         --feature=noise --user), $daemon_user ],
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%         mail_body_size_limit => 64000, score_factor => 1,
-%%uncomment VAR:zimbraAmavisDSPAMEnabled%%    ],
 );
 
 $MAXLEVELS = 14;
