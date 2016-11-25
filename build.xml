@@ -1,0 +1,284 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" name="zm-store" default="jar">
+  <import file="../zm-zcs/ant-global.xml"/>
+  <property name="service.webapp.dir" location="${jetty.webapps.dir}/service"/>
+  <property name="zimbra.webapp.dir" location="${jetty.webapps.dir}/zimbra"/>
+  <property name="zimbra-admin.webapp.dir" location="${jetty.webapps.dir}/zimbraAdmin"/>
+  <property name="config.dir" location="conf"/>
+  <property name="warfilename" value="service.war"/>
+  <property name="warfile" location="${build.dir}/${warfilename}"/>
+  <condition property="production.suffix" value=".production" else="">
+    <isset property="is-production"/>
+  </condition>
+  <condition property="war.web.xml" value="${config.dir}/web.xml${production.suffix}">
+    <not>
+      <isset property="war.web.xml"/>
+    </not>
+  </condition>
+  <!-- properties used for generating and testing LDAP changes -->
+  <property name="ldap.config.dir" location="conf/ldap"/>
+  <property name="slapd.config.dir" value="${ldap.config.dir}/config"/>
+  <condition property="slapd.config.src" value="${slapd.config.dir}/cn=config.ldif">
+    <isset property="is-production"/>
+  </condition>
+  <condition property="slapd.config.src" value="${slapd.config.dir}/cn=config.ldif.dev">
+    <not>
+      <isset property="is-production"/>
+    </not>
+  </condition>
+	
+	
+  <property name="slapd.conf.src" value="${ldap.config.dir}/slapd.conf${production.suffix}"/>
+  <property name="slapd.conf.dir" value="conf"/>
+  <property name="slapd.etc.dir" value="common/etc/openldap"/>
+  <property name="ldapmodify" value="${zimbra.home.dir}/common/bin/ldapmodify"/>
+  <property name="ldapdelete" value="${zimbra.home.dir}/common/bin/ldapdelete"/>
+  <!-- classpath for running utilities -->
+  <path id="run.class.path">
+    <path refid="class.path"/>
+    <pathelement location="${build.classes.dir}"/>
+  </path>
+  <target name="stop-webserver">
+    <exec executable="zmmailboxdctl">
+      <arg value="stop"/>
+    </exec>
+  </target>
+  <target name="start-webserver">
+    <exec executable="zmmailboxdctl">
+      <arg value="start"/>
+    </exec>
+  </target>
+  <target name="restart-webserver">
+    <exec executable="zmmailboxdctl">
+      <arg value="restart"/>
+    </exec>
+  </target>
+  <target name="stop-zimbra">
+    <exec executable="zmcontrol">
+      <arg value="stop"/>
+    </exec>
+  </target>
+  <target name="start-zimbra">
+    <exec executable="zmcontrol">
+      <arg value="start"/>
+    </exec>
+  </target>
+  <target name="make-dirs">
+    <!-- take advantage of the fact that mkdir uses File.mkdirs() and creates inbetween dirs -->
+    <echo>Creating dirs under ${base.dir}</echo>
+    <mkdir dir="${base.dir}/${slapd.conf.dir}"/>
+    <mkdir dir="${base.dir}/${slapd.etc.dir}/schema"/>
+    <mkdir dir="${base.dir}/bin"/>
+    <mkdir dir="${base.dir}/conf/msgs"/>
+    <mkdir dir="${base.dir}/db"/>
+    <mkdir dir="${base.dir}/lib/ext"/>
+    <mkdir dir="${base.dir}/lib/jars"/>
+    <mkdir dir="${base.dir}/lib/jars-ant"/>
+    <mkdir dir="${base.dir}/libexec"/>
+  </target>
+  <target name="build-init" description="Creates directories required for compiling">
+    <mkdir dir="${build.classes.dir}"/>
+    <mkdir dir="${build.dir}/data"/>
+    <antcall target="make-dirs">
+      <param name="base.dir" value="${dist.dir}"/>
+    </antcall>
+  </target>
+  <target name="generate-buildinfo" depends="build-init">
+    <mkdir dir="${build.dir}/buildinfo/com/zimbra/cs/util"/>
+    <echo file="${build.dir}/buildinfo/com/zimbra/cs/util/BuildInfoGenerated.java">
+            package com.zimbra.cs.util;
+
+            class BuildInfoGenerated {
+                public static final String MAJORVERSION = "${zimbra.buildinfo.majorversion}";
+                public static final String MINORVERSION = "${zimbra.buildinfo.minorversion}";
+                public static final String MICROVERSION = "${zimbra.buildinfo.microversion}";
+                public static final String RELCLASS = "${zimbra.buildinfo.relclass}";
+                public static final String RELNUM = "${zimbra.buildinfo.relnum}";
+                public static final String BUILDNUM = "${zimbra.buildinfo.buildnum}";
+                public static final String VERSION = "${zimbra.buildinfo.version}";
+                public static final String TYPE = "${zimbra.buildinfo.type}";
+                public static final String RELEASE = "${zimbra.buildinfo.release}";
+                public static final String DATE = "${DSTAMP}-${TSTAMP}";
+                public static final String HOST = "${zimbra.buildinfo.host}";
+            }
+    </echo>
+    <javac includeantruntime="false" destdir="${build.classes.dir}" debug="true" target="${javac.target}" srcdir="${build.dir}/buildinfo"/>
+  </target>
+  <target name="generate-getters" depends="compile,resolve" description="generate methods for attributes in zimbra-attrs.xml">
+    <antcall target="generate-getter">
+      <param name="getter.class" value="account"/>
+      <param name="getter.output" value="ZAttrAccount.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="calendarResource"/>
+      <param name="getter.output" value="ZAttrCalendarResource.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="cos"/>
+      <param name="getter.output" value="ZAttrCos.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="domain"/>
+      <param name="getter.output" value="ZAttrDomain.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="server"/>
+      <param name="getter.output" value="ZAttrServer.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="ucService"/>
+      <param name="getter.output" value="ZAttrUCService.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="globalConfig"/>
+      <param name="getter.output" value="ZAttrConfig.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="distributionList"/>
+      <param name="getter.output" value="ZAttrDistributionList.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="group"/>
+      <param name="getter.output" value="ZAttrDynamicGroup.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="shareLocator"/>
+      <param name="getter.output" value="ZAttrShareLocator.java"/>
+    </antcall>
+    <antcall target="generate-getter">
+      <param name="getter.class" value="alwaysOnCluster"/>
+      <param name="getter.output" value="ZAttrAlwaysOnCluster.java"/>
+    </antcall>
+    <antcall target="generate-provisioning"/>
+  </target>
+  <target name="generate-getter">
+    <ivy:cachepath pathid="class.path"/>
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
+      <arg line="-a generateGetters -c ${getter.class} -i ${config.dir}/attrs -r ${src.java.dir}/com/zimbra/cs/account/${getter.output}"/>
+    </java>
+  </target>
+  <target name="generate-provisioning">
+    <ivy:cachepath pathid="class.path"/>
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
+      <arg line="-a generateProvisioning -i ${config.dir}/attrs -r ${common.src.java.dir}/com/zimbra/common/account/ZAttrProvisioning.java"/>
+    </java>
+  </target>
+  <target name="jar" depends="generate-buildinfo,compile" description="Creates the jar file">
+    <antcall target="zimbra-jar">
+      <param name="implementation.title" value="Zimbra Server"/>
+    </antcall>
+  </target>
+  <target name="clean" description="Deletes classes from build directories">
+    <delete dir="${build.dir}"/>
+  </target>
+  <target name="undeploy">
+    <antcall target="stop-webserver"/>
+    <delete>
+      <fileset dir="${common.jars.dir}" includes="zm-store*.jar,zimbrastore*.jar"/>
+      <fileset dir="${service.webapp.dir}/WEB-INF/lib/" includes="zm-store*.jar,zimbrastore*.jar"/>
+      <fileset dir="${zimbra.webapp.dir}/WEB-INF/lib/" includes="zm-store*.jar,zimbrastore*.jar"/>
+      <fileset dir="${zimbra-admin.webapp.dir}/WEB-INF/lib/" includes="zm-store*.jar,zimbrastore*.jar"/>
+    </delete>
+  </target>
+  <target name="deploy" depends="jar,set-dev-version,undeploy">
+    <copy file="${build.dir}/${jar.file}" tofile="${common.jars.dir}/zimbrastore.jar"/>
+    <!-- have to use zimbrastore.jar until https://bugzilla.zimbra.com/show_bug.cgi?id=106076 is fixed -->
+    <copy file="${build.dir}/${jar.file}" todir="${service.webapp.dir}/WEB-INF/lib/"/>
+    <copy file="${build.dir}/${jar.file}" todir="${zimbra.webapp.dir}/WEB-INF/lib/"/>
+    <copy file="${build.dir}/${jar.file}" todir="${zimbra-admin.webapp.dir}/WEB-INF/lib/"/>
+    <antcall target="start-webserver"/>
+  </target>
+  
+  <target name="copy-war">
+    <delete dir="${jetty.home.dir}/webapps/service"/>
+    <delete file="${jetty.home.dir}/webapps/${warfilename}"/>
+    <copy file="${warfile}" todir="${jetty.home.dir}/webapps"/>
+    <mkdir dir="${jetty.home.dir}/webapps/service"/>
+    <chmod file="${jetty.home.dir}/webapps/service" perm="o+rwx"/>
+    <chmod file="${jetty.home.dir}/webapps/service" perm="g+rx"/>
+    <chmod file="${jetty.home.dir}/webapps/service" perm="o-rwx"/>
+    <unzip dest="${jetty.home.dir}/webapps/service" src="${jetty.home.dir}/webapps/${warfilename}"/>
+    <delete file="${jetty.home.dir}/webapps/${warfilename}"/>
+  </target>
+  
+  <target name="generate-ldap-config" depends="resolve">
+    <dependset>
+      <srcfileset dir="${config.dir}/attrs" includes="*.xml"/>
+      <targetfileset dir="${build.dir}/ldap-config" includes="*"/>
+    </dependset>
+    <delete dir="${build.dir}/attrs"/>
+    <delete dir="${build.dir}/ldap-config"/>
+    <mkdir dir="${build.dir}/attrs"/>
+    <copy todir="${build.dir}/attrs" overwrite="true" preservelastmodified="true">
+      <fileset dir="${config.dir}/attrs" includes="*.xml"/>
+    </copy>
+    <mkdir dir="${build.dir}/ldap-config"/>
+    <mkdir dir="${build.dir}/ldap-config/config"/>
+  	<mkdir dir="${build.dir}/ldap-config/schema"/>
+  	<mkdir dir="${build.dir}/ldap-config/config/cn=config"/>
+    <!-- Zimbra schema for pre OpenLDAP 2.4 - uses zimbra.schema-template, should eventually retire zimbra.schema-template and only use zimbra-ocs.xml -->
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
+      <arg line="-a generateLdapSchema -i ${build.dir}/attrs -t ${ldap.config.dir}/zimbra.schema-template -o ${build.dir}/ldap-config/schema/zimbra.schema"/>
+    </java>
+    <!-- Zimbra schema for OpenLDAP 2.4 - use zimbra-ocs.xml -->
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
+      <arg line="-a generateSchemaLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/config/zimbra.ldif"/>
+    </java>
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
+      <arg line="-a generateGlobalConfigLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/zimbra_globalconfig.ldif"/>
+    </java>
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
+      <arg line="-a generateDefaultCOSLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/zimbra_defaultcos.ldif"/>
+    </java>
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
+      <arg line="-a generateDefaultExternalCOSLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/zimbra_defaultexternalcos.ldif"/>
+    </java>
+  	 <copy todir="${build.dir}/ldap-config" file="${config.dir}/ldap/zimbra.ldif"/>
+     <copy todir="${build.dir}/ldap-config/schema" file="${config.dir}/ldap/zimbra.ldif"/>
+     <copy todir="${build.dir}/ldap-config" file="${config.dir}/ldap/zimbra_mimehandlers.ldif"/>
+     <copy todir="${build.dir}/ldap-config/schema" file="${config.dir}/ldap/amavisd.schema"/>
+     <copy todir="${build.dir}/ldap-config/schema" file="${config.dir}/ldap/amavisd.ldif"/>
+  	 <copy todir="${build.dir}/ldap-config/schema" file="${config.dir}/ldap/opendkim.ldif"/>
+
+     <copy todir="${build.dir}/ldap-config/config" file="${slapd.config.src}"/>
+     <copy todir="${build.dir}/ldap-config/config/cn=config" file="${slapd.config.dir}/cn=config/cn=module{0}.ldif"/>
+     <copy todir="${build.dir}/ldap-config/config/cn=config" file="${slapd.config.dir}/cn=config/cn=schema.ldif"/>
+     <copy todir="${build.dir}/ldap-config/config/cn=config" file="${slapd.config.dir}/cn=config/olcDatabase={0}config.ldif"/>
+     <copy todir="${build.dir}/ldap-config/config/cn=config" file="${slapd.config.dir}/cn=config/olcDatabase={-1}frontend.ldif"/>
+     <copy todir="${build.dir}/ldap-config/config/cn=config" file="${slapd.config.dir}/cn=config/olcDatabase={1}monitor.ldif"/>
+     <copy todir="${build.dir}/ldap-config/config/cn=config/" file="${slapd.config.dir}/cn=config/olcDatabase={2}mdb.ldif"/>
+     <copy todir="${build.dir}/ldap-config/config/cn=config/olcDatabase={2}mdb" file="${slapd.config.dir}/cn=config/olcDatabase={2}mdb/olcOverlay={0}dynlist.ldif"/>
+     <copy todir="${build.dir}/ldap-config/config/cn=config/olcDatabase={2}mdb" file="${slapd.config.dir}/cn=config/olcDatabase={2}mdb/olcOverlay={1}unique.ldif"/>
+     <copy todir="${build.dir}/ldap-config/config/cn=config/olcDatabase={2}mdb" file="${slapd.config.dir}/cn=config/olcDatabase={2}mdb/olcOverlay={2}noopsrch.ldif"/>
+  
+  	 <!--schema -->
+
+  </target>
+  <target name="update-ldap-schema" depends="generate-ldap-config">
+    <antcall target="stop-zimbra"/>
+    <copy todir="${zimbra.home.dir}/conf/attrs" overwrite="true">
+      <fileset dir="${build.dir}/attrs"/>
+    </copy>
+    <!-- copy generated ldif files 
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/" file="${build.dir}/ldap-config/zimbra_globalconfig.ldif" overwrite="true"/>
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/" file="${build.dir}/ldap-config/zimbra_defaultcos.ldif" overwrite="true"/>
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/" file="${build.dir}/ldap-config/zimbra_defaultexternalcos.ldif" overwrite="true"/>
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/schema/" file="${build.dir}/ldap-config/zimbra.schema" overwrite="true"/>
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/schema/" file="${build.dir}/ldap-config/config/zimbra.ldif" overwrite="true"/> -->
+    <!-- apply ldap schema changes -->
+    <exec executable="/opt/zimbra/libexec/zmldapschema"/>
+    <antcall target="start-zimbra"/>
+  </target>
+  <target name="init-unittest" description="Setup the SOAP test files in /opt/zimbra">
+    <copy todir="${zimbra.home.dir}/unittest" overwrite="true">
+	  <fileset dir="data/unittest" includes="**"/>
+	</copy>
+  </target>
+</project>
+
