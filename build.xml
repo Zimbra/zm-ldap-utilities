@@ -32,6 +32,7 @@
   <property name="slapd.etc.dir" value="common/etc/openldap"/>
   <property name="ldapmodify" value="${zimbra.home.dir}/common/bin/ldapmodify"/>
   <property name="ldapdelete" value="${zimbra.home.dir}/common/bin/ldapdelete"/>
+  <property name="build-dist" value="${build.dir}/dist"/>
   <!-- classpath for running utilities -->
   <path id="run.class.path">
     <path refid="class.path"/>
@@ -74,6 +75,7 @@
     <mkdir dir="${base.dir}/lib/jars"/>
     <mkdir dir="${base.dir}/lib/jars-ant"/>
     <mkdir dir="${base.dir}/libexec"/>
+  	<mkdir dir="${build.dir}/dist"/>
   </target>
   <target name="build-init" description="Creates directories required for compiling">
     <mkdir dir="${build.classes.dir}"/>
@@ -275,6 +277,12 @@
     <exec executable="/opt/zimbra/libexec/zmldapschema"/>
     <antcall target="start-zimbra"/>
   </target>
+	
+ <target name="build-dist" depends="generate-ldap-config">
+ 	<copy todir="${build-dist}" overwrite="true">
+ 	      <fileset dir="${build.dir}/ldap-config"/>
+ 	    </copy>
+ </target>
   <target name="init-unittest" description="Setup the SOAP test files in /opt/zimbra">
     <copy todir="${zimbra.home.dir}/unittest" overwrite="true">
 	  <fileset dir="data/unittest" includes="**"/>
