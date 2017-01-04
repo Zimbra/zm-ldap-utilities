@@ -227,7 +227,7 @@
     <!-- Zimbra schema for OpenLDAP 2.4 - use zimbra-ocs.xml -->
     <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
       <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
-      <arg line="-a generateSchemaLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/config/zimbra.ldif"/>
+      <arg line="-a generateSchemaLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/schema/zimbra.ldif"/>
     </java>
     <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
       <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
@@ -242,7 +242,6 @@
       <arg line="-a generateDefaultExternalCOSLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/zimbra_defaultexternalcos.ldif"/>
     </java>
   	 <copy todir="${build.dir}/ldap-config" file="${config.dir}/ldap/zimbra.ldif"/>
-     <copy todir="${build.dir}/ldap-config/schema" file="${config.dir}/ldap/zimbra.ldif"/>
      <copy todir="${build.dir}/ldap-config" file="${config.dir}/ldap/zimbra_mimehandlers.ldif"/>
      <copy todir="${build.dir}/ldap-config/schema" file="${config.dir}/ldap/amavisd.schema"/>
      <copy todir="${build.dir}/ldap-config/schema" file="${config.dir}/ldap/amavisd.ldif"/>
@@ -272,7 +271,7 @@
     <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/" file="${build.dir}/ldap-config/zimbra_defaultcos.ldif" overwrite="true"/>
     <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/" file="${build.dir}/ldap-config/zimbra_defaultexternalcos.ldif" overwrite="true"/>
     <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/schema/" file="${build.dir}/ldap-config/zimbra.schema" overwrite="true"/>
-    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/schema/" file="${build.dir}/ldap-config/config/zimbra.ldif" overwrite="true"/> -->
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/schema/" file="${build.dir}/ldap-config/schema/zimbra.ldif" overwrite="true"/> -->
     <!-- apply ldap schema changes -->
     <exec executable="/opt/zimbra/libexec/zmldapschema"/>
     <antcall target="start-zimbra"/>
