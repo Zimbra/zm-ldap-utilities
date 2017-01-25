@@ -3,6 +3,7 @@
   <property name="service.webapp.dir" location="${jetty.webapps.dir}/service"/>
   <property name="zimbra.webapp.dir" location="${jetty.webapps.dir}/zimbra"/>
   <property name="zimbra-admin.webapp.dir" location="${jetty.webapps.dir}/zimbraAdmin"/>
+  <property name="attr.config.dir" location="../zm-store/conf"/>
   <property name="config.dir" location="conf"/>
   <property name="warfilename" value="service.war"/>
   <property name="warfile" location="${build.dir}/${warfilename}"/>
@@ -156,14 +157,14 @@
     <ivy:cachepath pathid="class.path"/>
     <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
       <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
-      <arg line="-a generateGetters -c ${getter.class} -i ${config.dir}/attrs -r ${src.java.dir}/com/zimbra/cs/account/${getter.output}"/>
+      <arg line="-a generateGetters -c ${getter.class} -i ${attr.config.dir}/attrs -r ${src.java.dir}/com/zimbra/cs/account/${getter.output}"/>
     </java>
   </target>
   <target name="generate-provisioning">
     <ivy:cachepath pathid="class.path"/>
     <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" classpathref="run.class.path" failonerror="true">
       <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}"/>
-      <arg line="-a generateProvisioning -i ${config.dir}/attrs -r ${common.src.java.dir}/com/zimbra/common/account/ZAttrProvisioning.java"/>
+      <arg line="-a generateProvisioning -i ${attr.config.dir}/attrs -r ${common.src.java.dir}/com/zimbra/common/account/ZAttrProvisioning.java"/>
     </java>
   </target>
   <target name="jar" depends="generate-buildinfo,compile" description="Creates the jar file">
@@ -206,14 +207,14 @@
   
   <target name="generate-ldap-config" depends="resolve">
     <dependset>
-      <srcfileset dir="${config.dir}/attrs" includes="*.xml"/>
+      <srcfileset dir="${attr.config.dir}/attrs" includes="*.xml"/>
       <targetfileset dir="${build.dir}/ldap-config" includes="*"/>
     </dependset>
     <delete dir="${build.dir}/attrs"/>
     <delete dir="${build.dir}/ldap-config"/>
     <mkdir dir="${build.dir}/attrs"/>
     <copy todir="${build.dir}/attrs" overwrite="true" preservelastmodified="true">
-      <fileset dir="${config.dir}/attrs" includes="*.xml"/>
+      <fileset dir="${attr.config.dir}/attrs" includes="*.xml"/>
     </copy>
     <mkdir dir="${build.dir}/ldap-config"/>
     <mkdir dir="${build.dir}/ldap-config/config"/>
