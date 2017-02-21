@@ -3,7 +3,7 @@
   <property name="service.webapp.dir" location="${jetty.webapps.dir}/service"/>
   <property name="zimbra.webapp.dir" location="${jetty.webapps.dir}/zimbra"/>
   <property name="zimbra-admin.webapp.dir" location="${jetty.webapps.dir}/zimbraAdmin"/>
-  <property name="attr.config.dir" location="../zm-store/conf"/>
+  <property name="attr.config.dir" location="../zm-mailbox/store/conf"/>
   <property name="config.dir" location="conf"/>
   <property name="warfilename" value="service.war"/>
   <property name="warfile" location="${build.dir}/${warfilename}"/>
