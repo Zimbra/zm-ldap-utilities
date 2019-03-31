@@ -29,7 +29,7 @@ $c{zmlocalconfig}="/opt/zimbra/bin/zmlocalconfig";
 my $ldap_starttls_supported=getLocalConfig("ldap_starttls_supported");
 my $ldap_master=getLocalConfig("ldap_master_url");
 my $ldap_urls=getLocalConfig("ldap_url");
-my $ldap_pass=getLocalConfig("ldap_root_password");
+my $ldap_pass=getLocalConfig("ldap_master_root_password") || getLocalConfig("ldap_root_password");
 my ($mesgp, $entry);
 
 my @masters = split / /, $ldap_master;
@@ -60,7 +60,7 @@ foreach my $master (@masters) {
                  ) or die "start_tls: $@";
         if($mesgp->code) {
           $mstatus{$master}[0]=3;
-          $mstatus{$master}[1]="Could not execute StartTLS";
+          $mstatus{$master}[1]="Could not execute StartTLS ($master)";
         }
       }
     }
@@ -71,7 +71,7 @@ foreach my $master (@masters) {
     next;
   }
   $mesgp=$ldapp->bind("cn=config", password => $ldap_pass);
-  $mesgp->code && die "Unable to bind to master\n";
+  $mesgp->code && die "Unable to bind to master ($master): " . (($ldap_pass) ? $mesgp->error : "Please set ldap_master_root_password") . "\n";
  
   $mesgp = $ldapp->search(
              base    =>  'cn=config',
@@ -102,7 +102,7 @@ foreach my $master (@masters) {
   
   if (!@csns) {
     $mstatus{$master}[0]=5;
-    $mstatus{$master}[1]="Not a replicated master\n";
+    $mstatus{$master}[1]="Not a replicated master ($master)\n";
   }
   $mstatus{$master}[0]=0;
   $mstatus{$master}[1]="CSNs Retrieved";
