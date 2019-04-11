@@ -26,14 +26,14 @@ olcAccess: {7}to filter="(!(zimbraHideInGal=TRUE))"  attrs=cn,co,company,dc,di
  Code,sn,st,street,streetAddress,telephoneNumber,title,uid,homePhone,pager,mob
  ile,userCertificate  by dn.children="cn=admins,cn=zimbra" write  by dn.base="
  uid=zmpostfix,cn=appaccts,cn=zimbra" read  by users read  by * none
-olcAccess: {8}to attrs=zimbraId,zimbraMailAddress,zimbraMailAlias,zimbraMailCa
- nonicalAddress,zimbraMailCatchAllAddress,zimbraMailCatchAllCanonicalAddress,z
- imbraMailCatchAllForwardingAddress,zimbraMailDeliveryAddress,zimbraMailForwar
- dingAddress,zimbraPrefMailForwardingAddress,zimbraMailHost,zimbraMailStatus,z
- imbraMailTransport,zimbraDomainName,zimbraDomainType,zimbraPrefMailLocalDeliv
- eryDisabled,member,memberURL,zimbraMemberOf  by dn.children="cn=admins,cn=zim
- bra" write  by dn.base="uid=zmpostfix,cn=appaccts,cn=zimbra" read  by dn.base
- ="uid=zmamavis,cn=appaccts,cn=zimbra" read  by * none
+olcAccess: {8}to attrs=zimbraId,zimbraMailAddress,zimbraMailAlias,zimbraMail
+ CanonicalAddress,zimbraOldMailAddress,zimbraMailCatchAllAddress,zimbraMailC
+ atchAllCanonicalAddress,zimbraMailCatchAllForwardingAddress,zimbraMailDeliveryAddress,zimbraMail
+ ForwardingAddress,zimbraPrefMailForwardingAddress,zimbraMailHost,zimbraMail
+ Status,zimbraMailTransport,zimbraDomainName,zimbraDomainType,zimbraPrefMail
+ LocalDeliveryDisabled,member,memberURL,zimbraMemberOf  by dn.children="cn=a
+ dmins,cn=zimbra" write  by dn.base="uid=zmpostfix,cn=appaccts,cn=zimbra" re
+ ad  by dn.base="uid=zmamavis,cn=appaccts,cn=zimbra" read  by * none
 olcAccess: {9}to dn.subtree="cn=groups,cn=zimbra" attrs=zimbraMailAlias,member
  ,zimbraMailStatus,entry  by dn.children="cn=admins,cn=zimbra" write  by dn.ba
  se="uid=zmpostfix,cn=appaccts,cn=zimbra" read
@@ -71,6 +71,7 @@ olcDbIndex: zimbraShareInfo sub
 olcDbIndex: zimbraSharedItem eq,sub
 olcDbIndex: zimbraMailTransport eq
 olcDbIndex: zimbraMailAlias eq,sub
+olcDbIndex: zimbraOldMailAddress eq,sub
 olcDbIndex: zimbraACE sub
 olcDbIndex: zimbraDomainName eq,sub
 olcDbIndex: mail pres,eq,sub
