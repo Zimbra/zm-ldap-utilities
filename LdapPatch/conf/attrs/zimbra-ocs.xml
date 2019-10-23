@@ -30,7 +30,6 @@
     telephoneNumber - phone
   </comment>
 </objectclass>
-
 <objectclass id="3" name="zimbraCOS" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Class of Service data</desc>
@@ -41,7 +40,6 @@
     entry.
   </comment>
 </objectclass>
-
 <objectclass id="4" name="zimbraDomain" type="AUXILIARY">
   <sup>zimbraMailRecipient</sup>
   <desc>Domain object</desc>
@@ -53,7 +51,6 @@
     added here.
   </comment>
 </objectclass>
-
 <objectclass id="5" name="zimbraSecurityGroup" type="AUXILIARY">
   <sup>top</sup>
   <desc>Security Group</desc>
@@ -65,7 +62,6 @@
     list.
   </comment>
 </objectclass>
-
 <objectclass id="6" name="zimbraDistributionList" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Distribution List object</desc>
@@ -76,7 +72,6 @@
     attrs.
   </comment>
 </objectclass>
-    
 <objectclass id="7" name="zimbraMailRecipient" type="AUXILIARY">
   <sup>top</sup>
   <desc>Mail recipient object</desc>
@@ -86,7 +81,6 @@
     gets expanded into one or more internal/external addresses.
   </comment>
 </objectclass>
-
 <objectclass id="8" name="zimbraServer" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Server in the cluster</desc>
@@ -98,7 +92,6 @@
     master/slave, etc.
   </comment>
 </objectclass>
-
 <objectclass id="9" name="zimbraGlobalConfig" type="AUXILIARY">
   <sup>top</sup>
   <desc>global config</desc>
@@ -107,7 +100,6 @@
     configuration attrs.
   </comment>
 </objectclass>
-
 <objectclass id="11" name="zimbraAlias" type="STRUCTURAL">
   <sup>top</sup>
   <desc>An alias to another zimbra object</desc>
@@ -115,7 +107,6 @@
     zimbraAlias is used to privision aliases
   </comment>
 </objectclass>
-
 <objectclass id="12" name="zimbraMimeEntry" type="STRUCTURAL">
   <sup>top</sup>
   <desc>MIME type info</desc>
@@ -131,7 +122,6 @@
     zimbraObjectEntry is used to represent status about object types
   </comment>
 </objectclass>
-    
 <objectclass id="14" name="zimbraTimeZone" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Time Zone info</desc>
@@ -140,7 +130,6 @@
     time rules.  Used in calendar.
   </comment>
 </objectclass>
-    
 <objectclass id="15" name="zimbraZimletEntry" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Zimlet info</desc>
@@ -148,7 +137,6 @@
     zimbraZimletEntry is used to represent Zimlets
   </comment>
 </objectclass>
-
 <objectclass id="16" name="zimbraCalendarResource" type="AUXILIARY">
   <sup>top</sup>
   <desc>Calendar resource object</desc>
@@ -157,7 +145,6 @@
     objectclass should be mixed in to a zimbraAccount entry.
   </comment>
 </objectclass>
-
 <objectclass id="17" name="zimbraIdentity" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Account Email Identity information</desc>
@@ -166,7 +153,6 @@
     Email "identities"
   </comment>
 </objectclass>
-
 <objectclass id="18" name="zimbraDataSource" type="STRUCTURAL">
   <sup>top</sup>
   <desc>base class for data source objects</desc>
@@ -174,7 +160,6 @@
     zimbraDataSource is the base class for data source objects
   </comment>
 </objectclass>
-
 <objectclass id="19" name="zimbraPop3DataSource" type="STRUCTURAL">
   <sup>zimbraDataSource</sup>
   <desc>POP3 data source object</desc>
@@ -182,7 +167,6 @@
     zimbraPop3DataSource is the base class for POP3 data source objects
   </comment>
 </objectclass>
-
 <objectclass id="20" name="zimbraImapDataSource" type="STRUCTURAL">
   <sup>zimbraDataSource</sup>
   <desc>IMAP data source object</desc>
@@ -190,7 +174,6 @@
     zimbraImapDataSource is the base class for IMAP data source objects
   </comment>
 </objectclass>
-
 <objectclass id="21" name="zimbraSignature" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Account Email Signature information</desc>
@@ -199,7 +182,6 @@
     Email "signatures"
   </comment>
 </objectclass>
-
 <objectclass id="22" name="zimbraXMPPComponent" type="STRUCTURAL">
   <sup>top</sup>
   <desc>XMPP Component Configuration Record</desc>
@@ -208,7 +190,6 @@
     rooms, file transfer servies, etc
   </comment>
 </objectclass>
-
 <objectclass id="23" name="zimbraAclTarget" type="STRUCTURAL">
   <sup>top</sup>
   <desc>acl target</desc>
@@ -216,7 +197,6 @@
     target entries on which rights(acl) can be granted
   </comment>
 </objectclass>
-
 <objectclass id="24" name="zimbraRssDataSource" type="STRUCTURAL">
   <sup>zimbraDataSource</sup>
   <desc>RSS data source object</desc>
@@ -224,7 +204,6 @@
     Represents an RSS data source.
   </comment>
 </objectclass>
-
 <objectclass id="25" name="zimbraLiveDataSource" type="STRUCTURAL">
   <sup>zimbraDataSource</sup>
   <desc>Hotmail data source object</desc>
@@ -232,7 +211,6 @@
     Represents a Hotmail data source.
   </comment>
 </objectclass>
-
 <objectclass id="26" name="zimbraGalDataSource" type="STRUCTURAL">
   <sup>zimbraDataSource</sup>
   <desc>GAL data source object</desc>
@@ -240,7 +218,6 @@
     Represents a GAL data source.
   </comment>
 </objectclass>
-
 <objectclass id="27" name="zimbraGroup" type="AUXILIARY">
   <sup>top</sup>
   <desc>hold attributes for dynamic groups</desc>
@@ -248,7 +225,6 @@
     hold attributes for dynamic groups
   </comment>
 </objectclass>
-
 <objectclass id="28" name="zimbraGroupDynamicUnit" type="AUXILIARY">
   <sup>top</sup>
   <desc>hold attributes for the dynamic entry of dynamic groups.</desc>
@@ -256,7 +232,6 @@
     Dynamic entry of a dynamic group is for members provisioned on the system.
   </comment>
 </objectclass>
-
 <objectclass id="29" name="zimbraGroupStaticUnit" type="STRUCTURAL">
   <sup>top</sup>
   <desc>hold attributes for the static entry of dynamic groups.</desc>
@@ -264,7 +239,6 @@
     Static entry of a dynamic group is for members not provisioned on the system.
   </comment>
 </objectclass>
-
 <objectclass id="30" name="zimbraShareLocator" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Share locator</desc>
@@ -274,7 +248,6 @@
     the share users to update their mountpoint definition.
   </comment>
 </objectclass>
-
 <objectclass id="31" name="zimbraUCService" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Unified Communication service in the cluster</desc>
@@ -284,7 +257,6 @@
     Zimbra extensions to load for the service, etc.
   </comment>
 </objectclass>
-
 <objectclass id="32" name="zimbraAlwaysOnCluster" type="STRUCTURAL">
   <sup>top</sup>
   <desc>AlwaysOn Cluster</desc>
@@ -292,7 +264,6 @@
     zimbraAlwaysOnCluster is used to represent a alwaysOn cluster.
   </comment>
 </objectclass>
-
 <objectclass id="33" name="zimbraHabGroup" type="AUXILIARY">
   <sup>top</sup>
   <desc>hold attributes for the group in hierarchical address book</desc>
@@ -300,7 +271,6 @@
     zimbraHABGroup represents a group in organization hierarchical address book.
   </comment>
 </objectclass>
-
 <objectclass id="34" name="zimbraAddressList" type="STRUCTURAL">
   <sup>top</sup>
   <desc>Address List</desc>
@@ -308,5 +278,4 @@
     zimbraAddressList is used to represent an address list.
   </comment>
 </objectclass>
-
 </objectclasses>

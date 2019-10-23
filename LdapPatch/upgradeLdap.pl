@@ -5,7 +5,7 @@ use strict;
 use Cwd;
 use Time::localtime qw(ctime);
 
-my $newinstall  = 0;
+my $newinstall = 0;
 our $platform = qx(/opt/zimbra/libexec/get_plat_tag.sh);
 chomp $platform;
 
@@ -31,7 +31,7 @@ if ($pwuid eq "zimbra") {
 
 our %options = ();
 
-if(isInstalled("zimbra-ldap")) {
+if (isInstalled("zimbra-ldap")) {
   installLdapSchema();
 }
 
