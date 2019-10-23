@@ -1,0 +1,94 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:antcontrib="antlib:net.sf.antcontrib" name="LdapPatch" default="generate-ldap-config">
+  <dirname property="zimbra.root.dir" file="${ant.file.build-common}/../../"/>
+  <property name="config.dir" location="conf" />
+  <property name="build.dir" location="build" />
+
+  <!-- properties used for generating and testing LDAP changes -->
+  <property name="ldap.config.dir" location="${zimbra.root.dir}/zm-ldap-utilities/conf/ldap" />
+  <property name="slapd.etc.dir" value="common/etc/openldap" />
+  <property name="zimbra.home.dir" location="/opt/zimbra" />
+  
+  <!-- classpath for running utilities -->
+  <path id="project.class.path">
+    <fileset dir="/opt/zimbra/lib/jars" includes="zimbracommon.jar" />
+    <fileset dir="/opt/zimbra/lib/jars" includes="zimbrastore.jar" />
+    <fileset dir="/opt/zimbra/lib/jars" includes="zimbraclient.jar" />
+    <fileset dir="/opt/zimbra/lib/jars" includes="commons-cli-*.jar" />
+    <fileset dir="/opt/zimbra/lib/jars" includes="log4j-*.jar" />
+    <fileset dir="/opt/zimbra/lib/jars" includes="guava-*.jar" />
+    <fileset dir="/opt/zimbra/lib/jars" includes="httpclient-*.jar" />
+    <fileset dir="/opt/zimbra/lib/jars" includes="dom4j-*.jar" />
+    <fileset dir="/opt/zimbra/lib/jars" includes="httpcore-*.jar" />
+    <fileset dir="/opt/zimbra/lib/jars" includes="mail-*.jar" />
+  </path>
+  
+  <target name="start-zimbra">
+    <exec executable="zmcontrol">
+      <arg value="start"/>
+    </exec>
+  </target>
+  <target name="stop-zimbra">
+    <exec executable="zmcontrol">
+      <arg value="stop"/>
+    </exec>
+  </target>
+
+  <target name="generate-ldap-config">
+    <dependset>
+      <srcfileset dir="${config.dir}/attrs" includes="*.xml" />
+      <targetfileset dir="${build.dir}/ldap-config" includes="*" />
+    </dependset>
+    <delete dir="${build.dir}/attrs" />
+    <delete dir="${build.dir}/ldap-config" />
+    <mkdir dir="${build.dir}/attrs" />
+    <copy todir="${build.dir}/attrs" overwrite="true" preservelastmodified="true">
+      <fileset dir="${config.dir}/attrs" includes="*.xml" />
+    </copy>
+    <mkdir dir="${build.dir}/ldap-config" />
+    <mkdir dir="${build.dir}/ldap-config/config" />
+    <!-- Zimbra schema for pre OpenLDAP 2.4 - uses zimbra.schema-template, should eventually retire zimbra.schema-template and only use zimbra-ocs.xml -->
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}" />
+      <classpath refid="project.class.path" />
+      <arg line="-a generateLdapSchema -i ${build.dir}/attrs -t ${ldap.config.dir}/zimbra.schema-template -o ${build.dir}/ldap-config/zimbra.schema" />
+    </java>
+    <!-- Zimbra schema for OpenLDAP 2.4 - use zimbra-ocs.xml -->
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}" />
+      <classpath refid="project.class.path" />
+      <arg line="-a generateSchemaLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/config/zimbra.ldif" />
+    </java>
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}" />
+      <classpath refid="project.class.path" />
+      <arg line="-a generateGlobalConfigLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/zimbra_globalconfig.ldif" />
+    </java>
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}" />
+      <classpath refid="project.class.path" />
+      <arg line="-a generateDefaultCOSLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/zimbra_defaultcos.ldif" />
+    </java>
+    <java classname="com.zimbra.cs.account.AttributeManagerUtil" fork="true" failonerror="true">
+      <sysproperty key="zimbra.version" value="${zimbra.buildinfo.all}" />
+      <classpath refid="project.class.path" />
+      <arg line="-a generateDefaultExternalCOSLdif -i ${build.dir}/attrs -o ${build.dir}/ldap-config/zimbra_defaultexternalcos.ldif" />
+    </java>
+  </target>
+
+  <target name="update-ldap-schema" depends="generate-ldap-config">
+    <antcall target="stop-zimbra" />
+    <copy todir="${zimbra.home.dir}/conf/attrs" overwrite="true">
+      <fileset dir="${build.dir}/attrs" />
+    </copy>
+    <!-- copy generated ldif files -->
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/" file="${build.dir}/ldap-config/zimbra_globalconfig.ldif" overwrite="true" />
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/" file="${build.dir}/ldap-config/zimbra_defaultcos.ldif" overwrite="true" />
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/" file="${build.dir}/ldap-config/zimbra_defaultexternalcos.ldif" overwrite="true" />
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/schema/" file="${build.dir}/ldap-config/zimbra.schema" overwrite="true" />
+    <copy todir="${zimbra.home.dir}/${slapd.etc.dir}/zimbra/schema/" file="${build.dir}/ldap-config/config/zimbra.ldif" overwrite="true" />
+    <!-- apply ldap schema changes -->
+    <exec executable="/opt/zimbra/libexec/zmldapschema" />
+    <antcall target="start-zimbra"/>
+  </target>
+
+</project>
