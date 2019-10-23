@@ -5,7 +5,6 @@ use strict;
 use Cwd;
 use Time::localtime qw(ctime);
 
-my $newinstall = 0;
 our $platform = qx(/opt/zimbra/libexec/get_plat_tag.sh);
 chomp $platform;
 
@@ -39,9 +38,9 @@ sub installLdapSchema {
   main::runAsZimbra("/opt/zimbra/libexec/zmldapschema 2>/dev/null");
 }
 
-if (!$newinstall) {
-  my $rc = runAsZimbra ("/opt/zimbra/libexec/zmldapupdateldif");
-}
+
+my $rc = runAsZimbra ("/opt/zimbra/libexec/zmldapupdateldif");
+
 
 sub isInstalled {
   my $pkg = shift;
