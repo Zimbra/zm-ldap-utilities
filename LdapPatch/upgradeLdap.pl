@@ -59,10 +59,8 @@ sub isInstalled {
     $pkgQuery = "dpkg -s $pkg | egrep '^Status: ' | grep 'not-installed'";
     $rc = 0xffff & system ("$pkgQuery > /dev/null 2>&1");
     $rc >>= 8;
-    return ($rc == $good);
-  } else {
-    return ($rc == $good);
   }
+  return ($rc == $good);
 }
 
 sub runAsZimbra {
