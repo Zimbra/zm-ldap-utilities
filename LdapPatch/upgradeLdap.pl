@@ -38,9 +38,7 @@ sub installLdapSchema {
   main::runAsZimbra("/opt/zimbra/libexec/zmldapschema 2>/dev/null");
 }
 
-
 my $rc = runAsZimbra ("/opt/zimbra/libexec/zmldapupdateldif");
-
 
 sub isInstalled {
   my $pkg = shift;
