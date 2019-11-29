@@ -12,7 +12,7 @@
   <dependency org="zimbra" name="zm-store" rev="latest.integration"/>
   <dependency org="commons-cli" name="commons-cli" rev="1.2"/>
   <dependency org="log4j" name="log4j" rev="1.2.16" />
-  <dependency org="com.google.guava" name="guava" rev="23.0" />
+  <dependency org="com.google.guava" name="guava" rev="${com.google.guava.version}" />
   <dependency org="org.apache.httpcomponents" name="httpclient" rev="${httpclient.version}"/>
   <dependency org="org.apache.httpcomponents" name="httpcore" rev="${httpclient.httpcore.version}"/>
   <dependency org="dom4j" name="dom4j" rev="1.5.2" />
