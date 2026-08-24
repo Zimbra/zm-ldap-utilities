@@ -176,7 +176,10 @@ SECTION mta DEPENDS amavis
 	POSTCONF smtpd_tls_CAfile			VAR zimbraMtaSmtpdTlsCAfile
 	POSTCONF smtpd_tls_CApath			VAR zimbraMtaSmtpdTlsCApath
 	POSTCONF smtpd_tls_ccert_verifydepth		VAR zimbraMtaSmtpdTlsCcertVerifydepth
+
 	POSTCONF smtpd_tls_cert_file			/opt/zimbra/conf/smtpd.crt
+	POSTCONF smtpd_tls_eccert_file			VAR zimbraMtaSmtpdTlsEccertFile
+	POSTCONF smtpd_tls_eckey_file			VAR zimbraMtaSmtpdTlsEckeyFile
 	POSTCONF smtpd_tls_ciphers			VAR zimbraMtaSmtpdTlsCiphers
 	POSTCONF smtpd_tls_dh1024_param_file		MAPLOCAL zimbraSSLDHParam
 	POSTCONF smtpd_tls_exclude_ciphers		VAR zimbraMtaSmtpdTlsExcludeCiphers
